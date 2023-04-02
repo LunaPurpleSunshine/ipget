@@ -49,7 +49,7 @@ jobs:
 
       - name: Build test image
         id: docker_build
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: false
@@ -75,7 +75,7 @@ jobs:
 
       - name: Push with metadata tags
         id: docker_tag_semver
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: .
           push: true
@@ -88,7 +88,7 @@ jobs:
 
       - name: Push with alpha/beta/rc Tags
         id: docker_tag_dev
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         if: contains(github.ref_name, '-alpha.') || contains(github.ref_name, '-beta.')
         with:
           context: .
