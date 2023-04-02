@@ -3,9 +3,6 @@ on:
   pull_request:
     types:
      - synchronize
-    paths:
-      - src/*
-      - tests/*
   push:
     branches:
       - master
