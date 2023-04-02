@@ -83,7 +83,7 @@ jobs:
             ${{ steps.meta.outputs.labels }}
             "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}"
             "org.opencontainers.image.description=Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io"
-            "org.opencontainers.image.licenses=BSD-3-Clause"
+            "org.opencontainers.image.licenses=MIT"
           tags: ${{ steps.meta.outputs.tags }}
 
       - name: Push with alpha/beta/rc Tags
