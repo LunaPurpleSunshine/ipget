@@ -46,12 +46,6 @@ class TestHealthCheckConfig:
         monkeypatch.delenv("IPGET_HEALTHCHECK_SERVER")
         assert HealthCheck()._server == "https://hc-ping.com"
 
-    def test_invalid_uuid(self, monkeypatch: MonkeyPatch):
-        monkeypatch.setenv("IPGET_HEALTHCHECK_UUID", "invalid-uuid")
-        hc = HealthCheck()
-        response = hc.success(payload={"test": "invalid uuid"})
-        assert isinstance(response, HTTPError)
-
     def test_get_rid(self, mock_healthcheck_response):
         hc = HealthCheck()
         assert isinstance(hc.get_rid(), UUID)

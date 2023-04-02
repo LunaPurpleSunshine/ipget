@@ -77,12 +77,8 @@ class HealthCheck:
                 timeout=timeout,
                 data=self._encode_payload_data(post_data),
             )
-        except HTTPError as e:
-            log.exception(f"Ping of type: {ping_type} failed: {e}")
-            return e
-        except socket.error as e:
-            ping_type = str.title(str(ping_type))
-            log.exception(f"Ping of type: {ping_type} failed: {e}")
+        except (HTTPError, socket.error) as e:
+            log.exception(f"Ping to '{url}' of type: {ping_type} failed:\n{e}")
             return None
 
     def success(
