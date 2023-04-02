@@ -4,8 +4,7 @@ on:
     types:
      - synchronize
     paths:
-      - src/*
-      - tests/*
+      - '**.py'
   push:
     branches:
       - master
