@@ -5,6 +5,7 @@ on:
      - opened
      - reopened
      - edited
+     - synchronize
 
 jobs:
   check-not-wip:
