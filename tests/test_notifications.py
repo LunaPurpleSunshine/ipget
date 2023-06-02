@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from ipaddress import IPv4Address
 from os import environ
 
 import pytest
@@ -13,7 +14,9 @@ class TestDiscord:
     def test_notify_changed_no_previous(self, mock_discord_response):
         # sourcery skip: class-extract-method
         discord = Discord()
-        response = discord.notify_success(previous_ip=None, current_ip="10.10.10.42")
+        response = discord.notify_success(
+            previous_ip=None, current_ip=IPv4Address("10.10.10.42")
+        )
         assert response == 200
         assert isinstance(discord._webhook.content, str)
         assert "Error retrieving previous IP address" in discord._webhook.content
@@ -21,7 +24,7 @@ class TestDiscord:
     def test_notify_changed_previous_unknown(self, mock_discord_response):
         discord = Discord()
         response = discord.notify_success(
-            previous_ip="Unknown", current_ip="10.10.10.42"
+            previous_ip="Unknown", current_ip=IPv4Address("10.10.10.42")
         )
         assert response == 200
         assert isinstance(discord._webhook.content, str)
@@ -30,7 +33,8 @@ class TestDiscord:
     def test_notify_changed(self, mock_discord_response):
         discord = Discord()
         response = discord.notify_success(
-            previous_ip="192.168.1.42", current_ip="10.10.10.42"
+            previous_ip=IPv4Address("192.168.1.42"),
+            current_ip=IPv4Address("10.10.10.42"),
         )
         assert response == 200
         assert isinstance(discord._webhook.content, str)
