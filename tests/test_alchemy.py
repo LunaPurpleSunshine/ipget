@@ -1,6 +1,6 @@
 from datetime import datetime
-from os import environ
 from ipaddress import IPv4Address
+from os import environ
 
 import pytest
 from pytest import MonkeyPatch
