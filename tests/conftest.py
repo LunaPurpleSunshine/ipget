@@ -1,7 +1,7 @@
 import urllib.request as req
 from datetime import datetime, timezone
-from random import randint
 from ipaddress import IPv4Address
+from random import randint
 
 import pytest
 from discord_webhook import DiscordWebhook
