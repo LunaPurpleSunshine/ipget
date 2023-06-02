@@ -1,6 +1,7 @@
 import logging
 import urllib.request
 from datetime import datetime, timezone
+from ipaddress import IPv4Address, IPv6Address, ip_address
 from logging.handlers import TimedRotatingFileHandler
 from os import environ
 from pathlib import Path
@@ -39,10 +40,11 @@ def setup_logging():
     )
 
 
-def get_current_ip() -> str:
+def get_current_ip() -> IPv4Address | IPv6Address:
     "Returns the current public ip address"
     log.debug("Retrieving current IP from https://ident.me")
-    return urllib.request.urlopen("https://ident.me").read().decode("utf8")
+    ip_str = urllib.request.urlopen("https://ident.me").read().decode("utf8")
+    return ip_address(ip_str)
 
 
 def main() -> int:

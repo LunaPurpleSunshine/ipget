@@ -1,5 +1,6 @@
 from datetime import datetime
 from os import environ
+from ipaddress import IPv4Address
 
 import pytest
 from pytest import MonkeyPatch
@@ -42,7 +43,7 @@ class TestGetDatabase:
     reason="MySQL requirements not given in .env",
 )
 class TestMySQL:
-    def test_write_data(self, ip_data_static: tuple[datetime, str]):
+    def test_write_data(self, ip_data_static: tuple[datetime, IPv4Address]):
         db = MySQL()
         db.write_data(*ip_data_static)
 
@@ -51,7 +52,7 @@ class TestMySQL:
         with pytest.raises(ConfigurationError):
             MySQL()
 
-    def test_get_last(self, ip_data_random: tuple[datetime, str]):
+    def test_get_last(self, ip_data_random: tuple[datetime, IPv4Address]):
         db = MySQL()
         new_id = db.write_data(*ip_data_random)
         last = db.get_last()
@@ -64,15 +65,14 @@ class TestMySQL:
 
 class TestSQLite:
     def test_write_data(
-        self, ip_data_static: tuple[datetime, str], sqlite_in_memory: SQLite
+        self, ip_data_static: tuple[datetime, IPv4Address], sqlite_in_memory: SQLite
     ):
         new_id = sqlite_in_memory.write_data(*ip_data_static)
         assert isinstance(new_id, int)
         assert new_id > -1
 
     def test_missing_env_var(self, monkeypatch: MonkeyPatch):
-        if environ.get("IPGET_SQLITE_DATABASE"):
-            monkeypatch.delenv("IPGET_SQLITE_DATABASE")
+        monkeypatch.delenv("IPGET_SQLITE_DATABASE", raising=False)
         monkeypatch.setattr(SQLite, "create_engine", return_none)
         monkeypatch.setattr(SQLite, "create_table", return_none)
         assert SQLite().database_name == "public_ip.db"
@@ -82,7 +82,7 @@ class TestSQLite:
         assert SQLite().database_name == ":memory:"
 
     def test_get_last(
-        self, ip_data_random: tuple[datetime, str], sqlite_in_memory: SQLite
+        self, ip_data_random: tuple[datetime, IPv4Address], sqlite_in_memory: SQLite
     ):
         db = sqlite_in_memory
         new_id = db.write_data(*ip_data_random)

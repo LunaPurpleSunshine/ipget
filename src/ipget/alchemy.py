@@ -1,6 +1,8 @@
 import logging
 from abc import ABC, abstractmethod
 from datetime import datetime
+from ipaddress import IPv4Address, IPv6Address
+from ipaddress import ip_address as IPAddress
 from os import environ
 from pathlib import Path
 
@@ -39,8 +41,8 @@ class AlchemyDB(ABC):
     def create_engine(self) -> db.Engine:
         ...
 
-    def write_data(self, datetime: datetime, ip: str) -> int:
-        values = IPInfo(time=datetime, ip_address=ip)
+    def write_data(self, datetime: datetime, ip: IPv4Address | IPv6Address) -> int:
+        values = IPInfo(time=datetime, ip_address=str(ip))
         log.info(f"Adding row to table '{self.table_name}' in '{self.database_name}'")
         return self.commit_row(values)
 
@@ -63,7 +65,7 @@ class AlchemyDB(ABC):
             log.info(f"Committed new row to database with ID {new_row_ID}")
         return new_row_ID
 
-    def get_last(self) -> tuple[int, datetime, str] | None:
+    def get_last(self) -> tuple[int, datetime, IPv4Address | IPv6Address] | None:
         log.debug("Retrieving most recent IP from database")
         with Session(self.engine) as session:
             with session.begin():
@@ -73,7 +75,7 @@ class AlchemyDB(ABC):
                 return (
                     None
                     if result is None
-                    else (result.ID, result.time, result.ip_address)
+                    else (result.ID, result.time, IPAddress(result.ip_address))
                 )
 
 

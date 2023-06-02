@@ -1,6 +1,8 @@
 import logging
 from http.client import responses
+from ipaddress import IPv4Address, IPv6Address
 from os import environ
+from typing import Literal
 
 from discord_webhook import DiscordWebhook
 from requests import Response
@@ -30,7 +32,11 @@ class Discord:
         )
         return response
 
-    def notify_success(self, previous_ip: str | None, current_ip: str) -> int:
+    def notify_success(
+        self,
+        previous_ip: IPv4Address | IPv6Address | Literal["Unknown"] | None,
+        current_ip: IPv4Address | IPv6Address,
+    ) -> int:
         "Sends notification if the public ip has changed"
         log.debug("Sending message to Discord webhook")
         error = f"Error retrieving previous IP address\nCurrent IP: {current_ip}"
