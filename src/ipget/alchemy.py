@@ -110,10 +110,6 @@ class MySQL(AlchemyDB):
         host = f"{self._host}:{self._port}"
         database = self._database
         url = f"{dialect}://{user_pass}@{host}/{database}"
-        secure_url = url.replace(user_pass, "REDACTED_USER:REDACTED_PASSWORD")
-        # Ignore type error as if _username or _password were None,
-        # then __init__ would already have raised a ConfigurationError
-        log.debug(f"SQLAlchemy url: '{secure_url}'")
         return db.create_engine(url)
 
 
