@@ -37,6 +37,9 @@ A docker compose file containing SQLite and MySQL examples is available [here](d
 | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `IPGET_LOG_LEVEL`    | `INFO`  | Log level. Passed directly to the python logging module's [`Logger.setlevel`](https://docs.python.org/3.7/library/logging.html#logging.Logger.setLevel) |
 
+>⚠️ **WARNING**:
+Healthcheck urls (see [Healthchecks](#healthchecks)), including un-redacted uuids, etc. will be included in `DEBUG` level logging output.
+
 ### Database
 
 | Environment Variable | Default | Description                                                  |
@@ -55,9 +58,11 @@ A docker compose file containing SQLite and MySQL examples is available [here](d
 
 #### SQLite
 
+It is generally not necessary to modify environment variable configuration for SQLite. These values are intended for use in development **only** e.g. setting the path to `:memory:`, for testing, when deploying the container, the path should be configured via docker volume mappings.
+
 | Environment Variable    | Default             | Description                                                                                                                                                                                                                    |
 | ----------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `IPGET_SQLITE_DATABASE` | `/app/public_ip.db` | Path to the sqlite database file **within the container**. This path should be mapped through docker to place the file in the desired location, if it is not mapped, then the database file will be lost on container restart! |
+| `IPGET_SQLITE_DATABASE` | `/app/public_ip.db` | Path to the sqlite database file **within the container**. This path should be mapped via Docker to a persistent location, if it is not, then the database file **will be lost** on container restart! |
 
 ### Healthchecks
 
