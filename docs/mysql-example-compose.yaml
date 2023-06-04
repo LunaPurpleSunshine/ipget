@@ -1,0 +1,20 @@
+version: '3.3'
+services:
+    # MySQL/MariaDB setup
+    ipget:
+        image: ghcr.io/lunapurplesunshine/ipget
+        environment:
+            # Required: Choose database type MySQL
+            IPGET_DB_TYPE: MySQL
+            # Required configurations for MySQL
+            IPGET_MYSQL_USERNAME: ipget_user
+            IPGET_MYSQL_PASSWORD: password1
+            IPGET_MYSQL_HOST: mariadb.example.com
+            IPGET_MYSQL_PORT: 3306
+            IPGET_MYSQL_DATABASE: ipget_db
+            # Optional: Set log level, defaults to INFO
+            IPGET_LOG_LEVEL: WARNING
+
+        # Optional: Map log files
+        volumes:
+            - ./ipget/logs:/app/logs

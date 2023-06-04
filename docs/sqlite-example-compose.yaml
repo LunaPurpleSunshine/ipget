@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+    # SQLite setup
+    ipget:
+        image: ghcr.io/lunapurplesunshine/ipget
+        environment:
+            # Required: Choose database type SQLite
+            IPGET_DB_TYPE: SQLite
+            # Optional: Set log level, defaults to INFO
+            IPGET_LOG_LEVEL: WARNING
+        volumes:
+            # Required: Map database file, or it will not persist
+            - ./ipget/public_ip.db:/app/public_ip.db
+            # Optional: Map log files
+            - ./ipget/logs:/app/logs
