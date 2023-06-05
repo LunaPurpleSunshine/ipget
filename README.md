@@ -5,6 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Python Linting](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-lint.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-lint.yml)
 [![Python Tests](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml)
+[![CodeQL](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml)
 [![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/LunaPurpleSunshine/ipget?sort=semver)](https://github.com/LunaPurpleSunshine/ipget-docker/releases)
 
 ## Table of Contents
@@ -23,19 +24,22 @@
 
 ## About
 
-A simple containerised Python script that gets the system's current public IPv4 address using [ident.me](https://api.ident.me) and records it in a MySQL/SQLite database.
-Optionally, sends a Discord notification via webhook and pings [healthchecks.io](https://healthchecks.io/).
+A simple, containerised Python script, that gets the system's current public IPv4 address using [ident.me](https://api.ident.me) and records it to a MySQL/SQLite database.
+Optionally, sends a Discord notification via webhook, and pings [healthchecks.io](https://healthchecks.io/).
 
 ## Configuration
 
 All configuration is done through environment variables. Most values are required, but some have default values that will be used if the environment variable is not specified.
-A docker compose file containing SQLite and MySQL examples is available [here](docs/example-compose.yaml).
+Docker-compose files containing [SQLite](docs/sqlite-example-compose.yaml) and [MySQL](docs/mysql-example-compose.yaml) examples are available in the [docs](docs).
 
 ### General
 
 | Environment Variable | Default | Description                                                                                                                                             |
 | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `IPGET_LOG_LEVEL`    | `INFO`  | Log level. Passed directly to the python logging module's [`Logger.setlevel`](https://docs.python.org/3.7/library/logging.html#logging.Logger.setLevel) |
+
+>⚠️ **WARNING**:
+Healthcheck urls (see [Healthchecks](#healthchecks)), including un-redacted uuids, etc. will be included in `DEBUG` level logging output.
 
 ### Database
 
@@ -55,9 +59,11 @@ A docker compose file containing SQLite and MySQL examples is available [here](d
 
 #### SQLite
 
+It is generally not necessary to modify environment variable configuration for SQLite. These values are intended for use in development **only** e.g. setting the path to `:memory:`, for testing. When deploying the container, the path should be configured via docker volume mappings.
+
 | Environment Variable    | Default             | Description                                                                                                                                                                                                                    |
 | ----------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `IPGET_SQLITE_DATABASE` | `/app/public_ip.db` | Path to the sqlite database file **within the container**. This path should be mapped through docker to place the file in the desired location, if it is not mapped, then the database file will be lost on container restart! |
+| `IPGET_SQLITE_DATABASE` | `/app/public_ip.db` | Path to the sqlite database file **within the container**. This path should be mapped via Docker to a persistent location, if it is not, then the database file **will be lost** on container restart! |
 
 ### Healthchecks
 
