@@ -13,13 +13,29 @@ log = logging.getLogger(__name__)
 
 
 class Discord:
+    """Class for sending notifications to Discord."""
+
     def __init__(self) -> None:
+        """Initialize the Discord notification object.
+
+        Raises:
+            ConfigurationError: If the IPGET_DISCORD_WEBHOOK
+            environment variable is not set.
+        """
         if webhook_url := environ.get("IPGET_DISCORD_WEBHOOK"):
             self.webhook_url = webhook_url
         else:
             raise ConfigurationError("IPGET_DISCORD_WEBHOOK")
 
-    def _send_basic_message(self, message) -> Response:
+    def _send_basic_message(self, message: str) -> Response:
+        """Send a basic (non-embed) message to the Discord webhook.
+
+        Args:
+            message (str): The message content to be sent.
+
+        Returns:
+            Response: The response object received after executing the webhook.
+        """
         self._webhook = DiscordWebhook(
             url=self.webhook_url,
             content=message,
@@ -37,7 +53,15 @@ class Discord:
         previous_ip: IPv4Address | IPv6Address | Literal["Unknown"] | None,
         current_ip: IPv4Address | IPv6Address,
     ) -> int:
-        "Sends notification if the public ip has changed"
+        """Send a notification to the Discord webhook, if the public IP has changed.
+
+        Args:
+            previous_ip (IPv4Address | IPv6Address | "Unknown"): Previous IP address.
+            current_ip (IPv4Address | IPv6Address): Current IP address value.
+
+        Returns:
+            Response: The response object received after executing the webhook.
+        """
         log.debug("Sending message to Discord webhook")
         error = f"Error retrieving previous IP address\nCurrent IP: {current_ip}"
         success = (
@@ -49,12 +73,30 @@ class Discord:
         return self._send_basic_message(message).status_code
 
     def notify_error(self, errors: list[Exception]) -> int:
+        """Send an error notification to the Discord webhook.
+
+        Args:
+            errors (list[Exception]): A list of Exception objects
+            representing the encountered errors.
+
+        Returns:
+            Response: The response object received after executing the webhook.
+        """
         log.debug("Sending errors to Discord webhook")
         message = "**Encountered Errors:**\n" + "\n".join(str(e) for e in errors)
         return self._send_basic_message(message).status_code
 
 
 def get_discord() -> Discord | None:
+    """Get an instance of the Discord notification object or return None.
+
+    Returns:
+        Discord | None: An instance of the Discord class if the configuration is valid.
+        Otherwise, returns None.
+
+    Raises:
+        ConfigurationError: If the Discord object cannot be created.
+    """
     try:
         return Discord()
     except ConfigurationError as e:
