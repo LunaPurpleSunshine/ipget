@@ -29,7 +29,7 @@
 			]
 		},
 		{
-			"label": "docker_build-code",
+			"label": "docker-build :code",
 			"type": "docker-build",
 			"platform": "python",
 			"dockerBuild": {
@@ -40,7 +40,7 @@
 			"group": "build"
 		},
 		{
-			"label": "Run current :code",
+			"label": "docker-run :code",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
@@ -60,16 +60,153 @@
 			"group": "test"
 		},
 		{
-			"label": "Build & Run Current :code",
+			"label": "test-docker.io:code",
 			"dependsOrder": "sequence",
 			"dependsOn": [
-				"docker_build-code",
-				"Run current :code"
+				"docker-build :code",
+				"docker-run :code"
+			],
+			"group": "test",
+		},
+		{
+			"type": "shell",
+			"label": "format-ruff",
+			"group": "test",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"ruff",
+				"check",
+				"src/",
+				"tests/"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "format-black",
+			"group": "test",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"black",
+				"."
+			]
+		},
+		{
+			"type": "shell",
+			"label": "format-isort",
+			"group": "test",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"isort",
+				".",
+				"--profile",
+				"black"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "pytest-basic",
+			"group": "test",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"pytest",
+				"-rxXs"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "pytest-coverage",
+			"group": "test",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"pytest",
+				"--cov",
+				"-rxXs"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "test-python",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"format-black",
+				"format-isort",
+				"format-ruff",
+				"pytest-coverage",
+			]
+		},
+		{
+			"type": "shell",
+			"label": "Full Test Suite",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"test-python",
+				"test-docker.io:code",
 			],
 			"group": {
 				"kind": "test",
 				"isDefault": true
-			},
+			}
+		},
+		{
+			"type": "shell",
+			"label": "precommit-uninstall",
+			"group": "none",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"pre-commit",
+				"uninstall"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "precommit-install",
+			"group": "none",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"pre-commit",
+				"install"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "precommit-autoupdate",
+			"group": "none",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"pre-commit",
+				"autoupdate"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "precommit update & install",
+			"group": "none",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"precommit-uninstall",
+				"precommit-autoupdate",
+				"precommit-install"
+			]
+		},
+		{
+			"type": "shell",
+			"label": "pipenv update dependencies",
+			"group": "none",
+			"command": "pipenv",
+			"args": [
+				"run",
+				"pipenv",
+				"updated",
+				"--outdated"
+			]
 		},
 	]
 }
