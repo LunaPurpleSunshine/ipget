@@ -12,10 +12,12 @@ categories:
   - title: 'Documentation'
     labels:
       - 'documentation'
+  - title: 'Updated Dependencies'
+    labels:
+      - 'dependencies'
   - title: 'Maintenance'
     labels:
       - 'maintenance'
-      - 'dependencies'
 
 change-template: '- $TITLE (#$NUMBER) by @$AUTHOR'  # @$AUTHOR not used here, names in Contributors section
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
@@ -38,7 +40,6 @@ version-resolver:
 autolabeler:
   - label: 'maintenance'
     files:
-      - 'Pipfile*'
       - '.github/*'
       - '.vscode/*'
     branch:
