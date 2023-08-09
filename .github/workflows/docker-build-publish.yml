@@ -22,6 +22,12 @@ jobs:
     permissions:
       contents: read
       packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
 
     steps:
       - name: lowercase repository name
@@ -32,6 +38,9 @@ jobs:
 
       - name: Checkout the repository
         uses: actions/checkout@v3
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -52,6 +61,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          platforms: linux/amd64
           push: false
           load: true
           labels: ${{ steps.meta.outputs.labels }}
@@ -73,11 +83,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push with metadata tags
+      - name: Build & push all platforms
         id: docker_tag_semver
         uses: docker/build-push-action@v4
         with:
           context: .
+          platforms: ${{ matrix.platform }}
           push: true
           labels: |
             ${{ steps.meta.outputs.labels }}
@@ -86,12 +97,13 @@ jobs:
             "org.opencontainers.image.licenses=MIT"
           tags: ${{ steps.meta.outputs.tags }}
 
-      - name: Push with alpha/beta/rc Tags
+      - name: Push alpha/beta/rc with :dev tag
         id: docker_tag_dev
         uses: docker/build-push-action@v4
         if: contains(github.ref_name, '-alpha.') || contains(github.ref_name, '-beta.')
         with:
           context: .
+          platforms: ${{ matrix.platform }}
           push: true
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ env.REGISTRY }}/${{ steps.imagename.outputs.lowercase }}:dev
