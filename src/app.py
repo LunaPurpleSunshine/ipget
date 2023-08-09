@@ -16,7 +16,7 @@ log = logging.getLogger("ipget")
 
 def setup_logging():
     """Setup file and console logging."""
-    log_dir = Path("/app/logs")
+    log_dir = Path(environ.get("IPGET_LOG_FILE_PATH", "/app/logs"))
     log_dir.mkdir(parents=True, exist_ok=True)
     file_handler = TimedRotatingFileHandler(
         log_dir / "ipget.log",
