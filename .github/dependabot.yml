@@ -7,9 +7,30 @@ version: 2
 updates:
   - package-ecosystem: "pip" # See documentation for possible values
     directory: "/" # Location of package manifests
+    allow:
+      - dependency-type: production
+    labels:
+      - "dependencies:production"
+      - "python"
     schedule:
       interval: "weekly"
       day: "sunday"
+
+  # Python dev dependencies are separate so that they can have a different label
+  # This is then used by release-drafter
+  - package-ecosystem: "pip"
+    directory: "/"
+    allow:
+      - dependency-type: development
+    labels:
+      - "dependencies:development"
+      - "python"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+    groups:
+      development-dependencies:
+        dependency-type: "development"
 
   - package-ecosystem: "github-actions"
     directory: "/"
