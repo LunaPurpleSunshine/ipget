@@ -14,10 +14,11 @@ categories:
       - 'documentation'
   - title: 'Updated Dependencies'
     labels:
-      - 'dependencies'
+      - 'dependencies:production'
   - title: 'Maintenance'
     labels:
       - 'maintenance'
+      - 'dependencies:development'
 
 change-template: '- $TITLE (#$NUMBER) by @$AUTHOR'  # @$AUTHOR not used here, names in Contributors section
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
@@ -25,42 +26,32 @@ change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add
 version-resolver:
   major:
     labels:
-      - 'major'
+      - 'semver:major'
   minor:
     labels:
-      - 'minor'
-      - 'enhancement'
+      - 'semver:minor'
   patch:
     labels:
-      - 'patch'
-      - 'dependencies'
-      - 'bug'
+      - 'semver:patch'
   default: patch
 
 autolabeler:
   - label: 'maintenance'
-    files:
-      - '.github/*'
-      - '.vscode/*'
     branch:
-      - '/maintenance-.+/'
+      - '/chore-.+/'
   - label: 'documentation'
-    files:
-      - '*.md'
-      - 'docs/*'
     branch:
-      - '/docs.+/'
+      - '/docs-.+/'
   - label: 'bug'
     branch:
       - '/fix-.+/'
-    title:
-      - '/fix.+/'
+      - '/bugfix-.+/'
   - label: 'enhancement'
     branch:
       - '/feature-.+/'
       - '/feat-.+/'
 
 template: |
-  ## Changes
+  # Changes
 
   $CHANGES
