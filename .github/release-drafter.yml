@@ -36,6 +36,10 @@ version-resolver:
   default: patch
 
 autolabeler:
+  - label: 'dependencies:development'
+    branch:
+      - '/dependabot\/pip\/development-dependencies-.+/'
+      - '/dependabot\/github_actions/'
   - label: 'maintenance'
     branch:
       - '/chore-.+/'
