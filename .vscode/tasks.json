@@ -4,6 +4,7 @@
 		{
 			"type": "shell",
 			"label": "Generate-requirements.txt",
+			"detail": "Generates requirements.txt with production/deployment requirements ONLY.",
 			"group": "build",
 			"command": "pipenv",
 			"args": [
@@ -17,6 +18,7 @@
 		{
 			"type": "shell",
 			"label": "Generate-dev-requirements.txt",
+			"detail": "Generates development-requirements.txt",
 			"group": "build",
 			"command": "pipenv",
 			"args": [
@@ -30,6 +32,7 @@
 		},
 		{
 			"label": "docker-build :code",
+			"detail": "Builds multi-arch docker container as lunapurplesunshine/ipget:code. Does NOT push.",
 			"type": "docker-build",
 			"platform": "python",
 			"dockerBuild": {
@@ -42,6 +45,7 @@
 		},
 		{
 			"label": "docker-run :code",
+			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local testing in the workspace folder.",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
@@ -62,6 +66,7 @@
 		},
 		{
 			"label": "test-docker.io:code",
+			"detail": "Calls the docker build and run tasks.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"docker-build :code",
@@ -72,6 +77,7 @@
 		{
 			"type": "shell",
 			"label": "format-ruff",
+			"detail": "Lint python coder with ruff.",
 			"group": "test",
 			"command": "pipenv",
 			"args": [
@@ -85,6 +91,7 @@
 		{
 			"type": "shell",
 			"label": "format-black",
+			"detail": "Format python code with black.",
 			"group": "test",
 			"command": "pipenv",
 			"args": [
@@ -96,6 +103,7 @@
 		{
 			"type": "shell",
 			"label": "format-isort",
+			"detail": "Sort python imports with isort.",
 			"group": "test",
 			"command": "pipenv",
 			"args": [
@@ -109,6 +117,7 @@
 		{
 			"type": "shell",
 			"label": "pytest-basic",
+			"detail": "Run pytest python tests.",
 			"group": "test",
 			"command": "pipenv",
 			"args": [
@@ -120,6 +129,7 @@
 		{
 			"type": "shell",
 			"label": "pytest-coverage",
+			"detail": "Run pytest python tests with coverage report.",
 			"group": "test",
 			"command": "pipenv",
 			"args": [
@@ -132,6 +142,7 @@
 		{
 			"type": "shell",
 			"label": "test-python",
+			"detail": "Lint, format and test python code.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"format-black",
@@ -143,6 +154,7 @@
 		{
 			"type": "shell",
 			"label": "Full Test Suite",
+			"detail": "Test python, then build and test docker container.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"test-python",
@@ -156,6 +168,7 @@
 		{
 			"type": "shell",
 			"label": "precommit-uninstall",
+			"detail": "Uninstall pre-commit hooks.",
 			"group": "none",
 			"command": "pipenv",
 			"args": [
@@ -167,6 +180,7 @@
 		{
 			"type": "shell",
 			"label": "precommit-install",
+			"detail": "Install pre-commit hooks.",
 			"group": "none",
 			"command": "pipenv",
 			"args": [
@@ -178,6 +192,7 @@
 		{
 			"type": "shell",
 			"label": "precommit-autoupdate",
+			"detail": "Auto-update pre-commit hooks.",
 			"group": "none",
 			"command": "pipenv",
 			"args": [
@@ -189,6 +204,7 @@
 		{
 			"type": "shell",
 			"label": "precommit update & install",
+			"detail": "Update and reinstall all pre-commmit hooks.",
 			"group": "none",
 			"dependsOrder": "sequence",
 			"dependsOn": [
@@ -200,6 +216,7 @@
 		{
 			"type": "shell",
 			"label": "pipenv update dependencies",
+			"detail": "Update all pipenv python dependencies.",
 			"group": "none",
 			"command": "pipenv",
 			"args": [
