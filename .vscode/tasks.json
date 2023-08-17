@@ -3,7 +3,7 @@
 	"tasks": [
 		{
 			"type": "shell",
-			"label": "Generate-requirements.txt",
+			"label": "Generate requirements.txt-production",
 			"detail": "Generates requirements.txt with production/deployment requirements ONLY.",
 			"group": "build",
 			"command": "pipenv",
@@ -17,7 +17,7 @@
 		},
 		{
 			"type": "shell",
-			"label": "Generate-dev-requirements.txt",
+			"label": "Generate requirements.txt-development",
 			"detail": "Generates development-requirements.txt",
 			"group": "build",
 			"command": "pipenv",
@@ -65,7 +65,7 @@
 			"group": "test"
 		},
 		{
-			"label": "test-docker.io:code",
+			"label": "docker-build and run :code",
 			"detail": "Calls the docker build and run tasks.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
@@ -76,7 +76,7 @@
 		},
 		{
 			"type": "shell",
-			"label": "format-ruff",
+			"label": "python-lint-ruff",
 			"detail": "Lint python coder with ruff.",
 			"group": "test",
 			"command": "pipenv",
@@ -90,7 +90,7 @@
 		},
 		{
 			"type": "shell",
-			"label": "format-black",
+			"label": "python-format-black",
 			"detail": "Format python code with black.",
 			"group": "test",
 			"command": "pipenv",
@@ -102,7 +102,7 @@
 		},
 		{
 			"type": "shell",
-			"label": "format-isort",
+			"label": "python-format-isort",
 			"detail": "Sort python imports with isort.",
 			"group": "test",
 			"command": "pipenv",
@@ -116,7 +116,7 @@
 		},
 		{
 			"type": "shell",
-			"label": "pytest-basic",
+			"label": "python-pytest-basic",
 			"detail": "Run pytest python tests.",
 			"group": "test",
 			"command": "pipenv",
@@ -128,7 +128,7 @@
 		},
 		{
 			"type": "shell",
-			"label": "pytest-coverage",
+			"label": "python-pytest-coverage",
 			"detail": "Run pytest python tests with coverage report.",
 			"group": "test",
 			"command": "pipenv",
@@ -141,24 +141,24 @@
 		},
 		{
 			"type": "shell",
-			"label": "test-python",
+			"label": "python-lint-and-test",
 			"detail": "Lint, format and test python code.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
-				"format-black",
-				"format-isort",
-				"format-ruff",
-				"pytest-coverage",
+				"python-format-black",
+				"python-format-isort",
+				"python-lint-ruff",
+				"python-pytest-coverage",
 			]
 		},
 		{
 			"type": "shell",
 			"label": "Full Test Suite",
-			"detail": "Test python, then build and test docker container.",
+			"detail": "Lint and test python, then build and test docker container.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
-				"test-python",
-				"test-docker.io:code",
+				"python-lint-and-test",
+				"docker-test :code",
 			],
 			"group": {
 				"kind": "test",
