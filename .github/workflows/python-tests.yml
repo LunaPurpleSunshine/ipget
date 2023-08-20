@@ -23,7 +23,7 @@ jobs:
           python-version: 3.11
 
       - name: Run pytest
-        uses: pavelzw/pytest-action@v2.1.2
+        uses: pavelzw/pytest-action@v2.1.3
         with:
           custom-pytest: pipenv run pytest
         env:
