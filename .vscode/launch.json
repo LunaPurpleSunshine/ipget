@@ -13,6 +13,16 @@
             "console": "integratedTerminal",
             "env": {"IPGET_DB_TYPE": "sqlite", "IPGET_SQLITE_DATABASE": ":memory:"},
             "justMyCode": true
+        },
+        {
+            "name": "postgres",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/test-container/test-postgres.env",
+            "program": "${workspaceFolder}/src/app.py",
+            "cwd": "${workspaceFolder}/src",
+            "console": "integratedTerminal",
+            "justMyCode": true
         }
     ]
 }

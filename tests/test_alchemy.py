@@ -1,11 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from ipaddress import IPv4Address
 from os import environ
 
 import pytest
 from pytest import MonkeyPatch
 
-from ipget.alchemy import MySQL, SQLite, get_database
+from ipget.alchemy import MySQL, PostgreSQL, SQLite, get_database
 from ipget.errors import ConfigurationError
 
 MYSQL_REQUIRES = [
@@ -14,6 +14,13 @@ MYSQL_REQUIRES = [
     environ.get("IPGET_MYSQL_HOST"),
     environ.get("IPGET_MYSQL_PORT"),
     environ.get("IPGET_MYSQL_DATABASE"),
+]
+POSTGRESQL_REQUIRES = [
+    environ.get("IPGET_POSTGRESQL_USERNAME"),
+    environ.get("IPGET_POSTGRESQL_PASSWORD"),
+    environ.get("IPGET_POSTGRESQL_HOST"),
+    environ.get("IPGET_POSTGRESQL_PORT"),
+    environ.get("IPGET_POSTGRESQL_DATABASE"),
 ]
 
 
@@ -32,6 +39,16 @@ class TestGetDatabase:
         monkeypatch.setattr(SQLite, "__init__", return_none)
         db = get_database("SQLite")
         assert isinstance(db, SQLite)
+
+    def test_get_postgres(self, monkeypatch: MonkeyPatch):
+        monkeypatch.setattr(PostgreSQL, "__init__", return_none)
+        db = get_database("postgres")
+        assert isinstance(db, PostgreSQL)
+
+    def test_get_postgresql(self, monkeypatch: MonkeyPatch):
+        monkeypatch.setattr(PostgreSQL, "__init__", return_none)
+        db = get_database("PostgreSQL")
+        assert isinstance(db, PostgreSQL)
 
     def test_invalid_db(self):
         with pytest.raises(ConfigurationError):
@@ -61,6 +78,36 @@ class TestMySQL:
         assert last_id == new_id
         assert last_datetime == ip_data_random[0].replace(tzinfo=None)
         assert last_ip == ip_data_random[1]
+
+
+@pytest.mark.skipif(
+    condition=not all(POSTGRESQL_REQUIRES),
+    reason="PostgreSQL requirements not given in .env",
+)
+class TestPostgreSQL:
+    def test_write_data(self, ip_data_static: tuple[datetime, IPv4Address]):
+        db = PostgreSQL()
+        db.write_data(*ip_data_static)
+
+    def test_missing_env_vars(self, monkeypatch: MonkeyPatch):
+        monkeypatch.delenv("IPGET_POSTGRESQL_HOST")
+        with pytest.raises(ConfigurationError):
+            PostgreSQL()
+
+    def test_get_last(self, ip_data_random: tuple[datetime, IPv4Address]):
+        db = PostgreSQL()
+        new_id = db.write_data(*ip_data_random)
+        last = db.get_last()
+        assert last is not None
+
+        given_datetime, given_ip = ip_data_random
+        last_id, last_datetime, last_ip = last
+
+        assert last_id == new_id
+        assert (
+            last_datetime.astimezone(timezone.utc) == given_datetime
+        )  #  .replace(tzinfo=None)
+        assert last_ip == given_ip
 
 
 class TestSQLite:
