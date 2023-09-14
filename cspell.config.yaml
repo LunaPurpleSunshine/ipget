@@ -30,6 +30,7 @@ words:
   - mypy
   - pavelzw
   - pipenv
+  - psycopg
   - pymysql
   - pytest
   - regen
