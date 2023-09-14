@@ -7,7 +7,7 @@ from os import environ
 from pathlib import Path
 
 import sqlalchemy as db
-from sqlalchemy import String
+from sqlalchemy import URL, String
 from sqlalchemy.orm import Mapped, Session, declarative_base, mapped_column
 
 from ipget.errors import ConfigurationError
@@ -190,6 +190,56 @@ class SQLite(AlchemyDB):
         return db.create_engine(url)
 
 
+class PostgreSQL(AlchemyDB):
+    """Concrete class for interacting with a PostgreSQL database."""
+
+    def __init__(self) -> None:
+        """Initialize MySQL using valuse from config."""
+        self._dialect = "postgresql+psycopg2"
+        self._load_config()
+        super().__init__()
+        self.database_name = f"{self._database} on {self._host}:{self._port}"
+
+    def _load_config(self):
+        """Load PostgreSQL configuration values from environment variables.
+
+        Raises:
+            ConfigurationError: If any required setting is missing.
+        """
+        self._username: str | None = environ.get("IPGET_POSTGRESQL_USERNAME")
+        self._password: str | None = environ.get("IPGET_POSTGRESQL_PASSWORD")
+        self._host: str | None = environ.get("IPGET_POSTGRESQL_HOST")
+        self._port: int | None = (
+            int(port) if (port := environ.get("IPGET_POSTGRESQL_PORT")) else None
+        )
+        self._database: str | None = environ.get("IPGET_POSTGRESQL_DATABASE")
+        required_settings = [
+            (self._username, "IPGET_POSTGRESQL_USERNAME"),
+            (self._password, "IPGET_POSTGRESQL_PASSWORD"),
+            (self._host, "IPGET_POSTGRESQL_HOST"),
+            (self._port, "IPGET_POSTGRESQL_PORT"),
+            (self._database, "IPGET_POSTGRESQL_DATABASE"),
+        ]
+        if missing_settings := [e for k, e in required_settings if not k]:
+            raise ConfigurationError(missing_env_var=", ".join(missing_settings))
+
+    def create_engine(self) -> db.Engine:
+        """Create and return the SQLAlchemy engine for PostgreSQL.
+
+        Returns:
+            sqlalchemy.engine: The SQLAlchemy engine object.
+        """
+        log.debug("Creating database engine")
+        url = URL.create(
+            drivername=self._dialect,
+            username=self._username,
+            password=self._password,
+            host=self._host,
+            database=self._database,
+        )
+        return db.create_engine(url)
+
+
 def get_database(type: str = environ.get("IPGET_DB_TYPE", "")) -> AlchemyDB:
     """Get the database instance based on the provided type.
 
@@ -211,6 +261,8 @@ def get_database(type: str = environ.get("IPGET_DB_TYPE", "")) -> AlchemyDB:
                 return MySQL()
             case "sqlite":
                 return SQLite()
+            case "postgres" | "postgresql":
+                return PostgreSQL()
             case _:
                 raise ConfigurationError("IPGET_DB_TYPE")
     except ConfigurationError as e:
