@@ -195,7 +195,7 @@ class PostgreSQL(AlchemyDB):
 
     def __init__(self) -> None:
         """Initialize MySQL using valuse from config."""
-        self._dialect = "postgresql+psycopg2"
+        self._dialect = "postgresql+pg8000"
         self._load_config()
         super().__init__()
         self.database_name = f"{self._database} on {self._host}:{self._port}"

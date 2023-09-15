@@ -8,7 +8,7 @@ sqlalchemy = "*"
 pymysql = "*"
 discord-webhook = "*"
 requests = "*"
-psycopg2 = "*"
+pg8000 = "*"
 
 [dev-packages]
 rope = "*"
