@@ -158,7 +158,7 @@
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"python-lint-and-test",
-				"docker-test :code",
+				"docker-build and run :code",
 			],
 			"group": {
 				"kind": "test",
