@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime
 from ipaddress import IPv4Address
 from os import environ
 
@@ -104,9 +104,7 @@ class TestPostgreSQL:
         last_id, last_datetime, last_ip = last
 
         assert last_id == new_id
-        assert (
-            last_datetime.astimezone(timezone.utc) == given_datetime
-        )  #  .replace(tzinfo=None)
+        assert last_datetime == given_datetime.replace(tzinfo=None)
         assert last_ip == given_ip
 
 
