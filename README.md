@@ -17,6 +17,7 @@
     - [General](#general)
     - [Database](#database)
       - [MySQL](#mysql)
+      - [PostgreSQL](#postgresql)
       - [SQLite](#sqlite)
     - [Healthchecks](#healthchecks)
     - [Discord Notifications](#discord-notifications)
@@ -43,9 +44,9 @@ Healthcheck urls (see [Healthchecks](#healthchecks)), including un-redacted uuid
 
 ### Database
 
-| Environment Variable | Default | Description                                                  |
-| -------------------- | ------- | ------------------------------------------------------------ |
-| `IPGET_DB_TYPE`      | None    | Which database type to use. Must be one of `MySQL`, `SQLite` |
+| Environment Variable | Default | Description                                                                |
+| -------------------- | ------- | -------------------------------------------------------------------------- |
+| `IPGET_DB_TYPE`      | None    | Which database type to use. Must be one of `MySQL`, `SQLite`, `PostgreSQL` |
 
 #### MySQL
 
@@ -57,12 +58,22 @@ Healthcheck urls (see [Healthchecks](#healthchecks)), including un-redacted uuid
 | `IPGET_MYSQL_PORT`     | None    | Port for the database connection             |
 | `IPGET_MYSQL_DATABASE` | None    | Name of the database e.g. public_ip_db       |
 
+#### PostgreSQL
+
+| Environment Variable        | Default | Description                                  |
+| --------------------------- | ------- | -------------------------------------------- |
+| `IPGET_POSTGRESQL_USERNAME` | None    | User to connect to the database              |
+| `IPGET_POSTGRESQL_PASSWORD` | None    | Password for the database user               |
+| `IPGET_POSTGRESQL_HOST`     | None    | Address of the database host e.g. ip_address |
+| `IPGET_POSTGRESQL_PORT`     | None    | Port for the database connection             |
+| `IPGET_POSTGRESQL_DATABASE` | None    | Name of the database e.g. public_ip_db       |
+
 #### SQLite
 
 It is generally not necessary to modify environment variable configuration for SQLite. These values are intended for use in development **only** e.g. setting the path to `:memory:`, for testing. When deploying the container, the path should be configured via docker volume mappings.
 
-| Environment Variable    | Default             | Description                                                                                                                                                                                                                    |
-| ----------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Environment Variable    | Default             | Description                                                                                                                                                                                            |
+| ----------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `IPGET_SQLITE_DATABASE` | `/app/public_ip.db` | Path to the sqlite database file **within the container**. This path should be mapped via Docker to a persistent location, if it is not, then the database file **will be lost** on container restart! |
 
 ### Healthchecks
