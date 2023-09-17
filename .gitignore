@@ -175,3 +175,7 @@ cython_debug/
 
 # Project: IPGET
 test-container/
+test-debug/
+test-dotenv/
+*.db
+*.env
