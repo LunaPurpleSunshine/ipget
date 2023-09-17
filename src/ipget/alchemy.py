@@ -165,7 +165,7 @@ class SQLite(AlchemyDB):
     def _load_config_from_environment(self):
         """Load SQLite file path from environment variable."""
         self.database_path: Path = Path(
-            environ.get("IPGET_SQLITE_DATABASE", "/app/public_ip.db")
+            environ.get("IPGET_DATABASE", "/app/public_ip.db")
         )
 
     def create_engine(self) -> db.Engine:

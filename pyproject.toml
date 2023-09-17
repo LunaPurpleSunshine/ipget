@@ -6,3 +6,4 @@ src_paths = ["src/", "tests/"]
 pythonpath = "src/"
 testpaths = ["tests/"]
 xfail_strict = true
+markers = ["no_test_env"]

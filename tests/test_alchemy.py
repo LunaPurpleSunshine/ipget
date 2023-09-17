@@ -49,6 +49,45 @@ class TestGetDatabase:
             get_database("invalid")
 
 
+class TestSQLite:
+    @pytest.fixture(autouse=True)
+    def get_test_env_vars(self, request, monkeypatch: MonkeyPatch):
+        if request.node.get_closest_marker("no_test_env"):
+            return None
+        database_path = os.getenv("IPGET_TEST_SQLITE_DATABASE", "localhost")
+        monkeypatch.setenv(name="IPGET_DATABASE", value=database_path)
+
+    def test_write_data(
+        self, ip_data_static: tuple[datetime, IPv4Address], sqlite_in_memory: SQLite
+    ):
+        new_id = sqlite_in_memory.write_data(*ip_data_static)
+        assert isinstance(new_id, int)
+        assert new_id > -1
+
+    def test_missing_env_var(self, monkeypatch: MonkeyPatch):
+        monkeypatch.delenv("IPGET_DATABASE", raising=False)
+        monkeypatch.setattr(SQLite, "create_engine", return_none)
+        monkeypatch.setattr(SQLite, "create_table", return_none)
+        assert SQLite().database_path.name == "public_ip.db"
+
+    @pytest.mark.no_test_env
+    def test_in_memory_db(self, monkeypatch: MonkeyPatch):
+        monkeypatch.setenv("IPGET_DATABASE", ":memory:")
+        assert SQLite().database_path.name == ":memory:"
+
+    def test_get_last(
+        self, ip_data_random: tuple[datetime, IPv4Address], sqlite_in_memory: SQLite
+    ):
+        db = sqlite_in_memory
+        new_id = db.write_data(*ip_data_random)
+        last = db.get_last()
+        assert last is not None
+        last_id, last_datetime, last_ip = last
+        assert last_id == new_id
+        assert last_datetime == ip_data_random[0].replace(tzinfo=None)
+        assert last_ip == ip_data_random[1]
+
+
 @pytest.mark.skipif(
     condition=not all(MYSQL_POSTGRES_REQUIRES),
     reason="MySQL requirements not given in .env",
@@ -114,34 +153,3 @@ class TestPostgreSQL:
         assert last_id == new_id
         assert last_datetime == given_datetime.replace(tzinfo=None)
         assert last_ip == given_ip
-
-
-class TestSQLite:
-    def test_write_data(
-        self, ip_data_static: tuple[datetime, IPv4Address], sqlite_in_memory: SQLite
-    ):
-        new_id = sqlite_in_memory.write_data(*ip_data_static)
-        assert isinstance(new_id, int)
-        assert new_id > -1
-
-    def test_missing_env_var(self, monkeypatch: MonkeyPatch):
-        monkeypatch.delenv("IPGET_SQLITE_DATABASE", raising=False)
-        monkeypatch.setattr(SQLite, "create_engine", return_none)
-        monkeypatch.setattr(SQLite, "create_table", return_none)
-        assert SQLite().database_path.name == "public_ip.db"
-
-    def test_in_memory_db(self, monkeypatch: MonkeyPatch):
-        monkeypatch.setenv("IPGET_SQLITE_DATABASE", ":memory:")
-        assert SQLite().database_path.name == ":memory:"
-
-    def test_get_last(
-        self, ip_data_random: tuple[datetime, IPv4Address], sqlite_in_memory: SQLite
-    ):
-        db = sqlite_in_memory
-        new_id = db.write_data(*ip_data_random)
-        last = db.get_last()
-        assert last is not None
-        last_id, last_datetime, last_ip = last
-        assert last_id == new_id
-        assert last_datetime == ip_data_random[0].replace(tzinfo=None)
-        assert last_ip == ip_data_random[1]
