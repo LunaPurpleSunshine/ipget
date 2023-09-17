@@ -109,7 +109,7 @@
                 "sha256:f779d3ad205f108d14e99bb3859aa7dd8e9c68874617c72354d7ecaec2a054ac",
                 "sha256:f87f746ee241d30d6ed93969de31e5ffd09a2961a051e60ae6bddde9ec3583aa"
             ],
-            "markers": "python_full_version >= '3.7.0'",
+            "markers": "python_version >= '3.7'",
             "version": "==3.2.0"
         },
         "discord-webhook": {
@@ -200,11 +200,11 @@
         },
         "pg8000": {
             "hashes": [
-                "sha256:4700e34a01d16c41c923982ff78930e85bbd819aea875f9bc17044eb756125a9",
-                "sha256:c04280e66a1ccfb5166db5c164164c2e1b8f62afaedffd211451a5329ae84a29"
+                "sha256:2fc6bf2d81d7025529e7d161f6b0202a6328e8ac5b665e77be1d72ae5cc1c980",
+                "sha256:3b35dabc7c2f72d403a8bb785ce28f32aeaa9493e7a72de6bce58ac575409bc1"
             ],
             "index": "pypi",
-            "version": "==1.30.1"
+            "version": "==1.30.2"
         },
         "pymysql": {
             "hashes": [
@@ -355,14 +355,6 @@
             "markers": "python_version >= '3.7'",
             "version": "==8.1.7"
         },
-        "colorama": {
-            "hashes": [
-                "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44",
-                "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
-            ],
-            "markers": "sys_platform == 'win32'",
-            "version": "==0.4.6"
-        },
         "coverage": {
             "extras": [
                 "toml"
@@ -441,11 +433,11 @@
         },
         "identify": {
             "hashes": [
-                "sha256:87816de144bf46d161bd5b3e8f5596b16cade3b80be537087334b26bc5c177f3",
-                "sha256:94bb59643083ebd60dc996d043497479ee554381fbc5307763915cda49b0e78f"
+                "sha256:24437fbf6f4d3fe6efd0eb9d67e24dd9106db99af5ceb27996a5f7895f24bf1b",
+                "sha256:d43d52b86b15918c137e3a74fff5224f60385cd0e9c38e99d07c257f02f151a5"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==2.5.28"
+            "version": "==2.5.29"
         },
         "iniconfig": {
             "hashes": [
