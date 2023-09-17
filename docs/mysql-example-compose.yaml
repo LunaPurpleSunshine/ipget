@@ -7,11 +7,11 @@ services:
             # Required: Choose database type MySQL
             IPGET_DB_TYPE: MySQL
             # Required configurations for MySQL
-            IPGET_MYSQL_USERNAME: ipget_user
-            IPGET_MYSQL_PASSWORD: password1
-            IPGET_MYSQL_HOST: mariadb.example.com
-            IPGET_MYSQL_PORT: 3306
-            IPGET_MYSQL_DATABASE: ipget_db
+            IPGET_USERNAME: ipget_user
+            IPGET_PASSWORD: password1
+            IPGET_HOST: mariadb.example.com
+            IPGET_PORT: 3306
+            IPGET_DATABASE: ipget_db
             # Optional: Set log level, defaults to INFO
             IPGET_LOG_LEVEL: WARNING
 
