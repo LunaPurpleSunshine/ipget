@@ -5,20 +5,53 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "sqlite in memory",
+            "name": "sqlite :memory:",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/src/app.py",
             "cwd": "${workspaceFolder}/src",
             "console": "integratedTerminal",
-            "env": {"IPGET_DB_TYPE": "sqlite", "IPGET_SQLITE_DATABASE": ":memory:"},
+            "envFile": "${workspaceFolder}/test-dotenv/test-sqlite-memory.env",
+            "env": {
+                "IPGET_LOG_FILE_PATH": "${workspaceFolder}/test-debug/logs",
+            },
+            "justMyCode": true
+        },
+        {
+            "name": "sqlite file",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/test-dotenv/test-sqlite-file.env",
+            "env": {
+                "IPGET_LOG_FILE_PATH": "${workspaceFolder}/test-debug/logs",
+                "IPGET_SQLITE_DATABASE": "${workspaceFolder}/test-debug/public_ip.db"
+            },
+            "program": "${workspaceFolder}/src/app.py",
+            "cwd": "${workspaceFolder}/src",
+            "console": "integratedTerminal",
             "justMyCode": true
         },
         {
             "name": "postgres",
             "type": "python",
             "request": "launch",
-            "envFile": "${workspaceFolder}/test-container/test-postgres.env",
+            "envFile": "${workspaceFolder}/test-dotenv/test-postgres.env",
+            "env": {
+                "IPGET_LOG_FILE_PATH": "${workspaceFolder}/test-debug/logs"
+            },
+            "program": "${workspaceFolder}/src/app.py",
+            "cwd": "${workspaceFolder}/src",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "mysql",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/test-dotenv/test-mysql.env",
+            "env": {
+                "IPGET_LOG_FILE_PATH": "${workspaceFolder}/test-debug/logs"
+            },
             "program": "${workspaceFolder}/src/app.py",
             "cwd": "${workspaceFolder}/src",
             "console": "integratedTerminal",
