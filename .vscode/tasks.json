@@ -44,15 +44,15 @@
 			"group": "build"
 		},
 		{
-			"label": "docker-run :code",
+			"label": "docker-run :code sqlite in memory",
 			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local testing in the workspace folder.",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
-				"containerName": "ipget-code",
+				"containerName": "ipget-code-sqlite-memory",
 				"remove": true,
 				"envFiles": [
-					"${workspaceFolder}/test-container/test.env",
+					"${workspaceFolder}/test-dotenv/test-sqlite-memory.env",
 				],
 				"volumes": [
 					{
@@ -65,12 +65,87 @@
 			"group": "test"
 		},
 		{
+			"label": "docker-run :code sqlite file",
+			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local sqlite (file) testing in the workspace folder.",
+			"type": "docker-run",
+			"dockerRun": {
+				"image": "lunapurplesunshine/ipget:code",
+				"containerName": "ipget-code-sqlite-file",
+				"remove": true,
+				"envFiles": [
+					"${workspaceFolder}/test-dotenv/test-sqlite-file.env",
+				],
+				"volumes": [
+					{
+						"localPath": "${workspaceFolder}/test-container",
+						"containerPath": "/app",
+						"permissions": "rw"
+					}
+				]
+			},
+			"group": "test"
+		},
+		{
+			"label": "docker-run :code mysql",
+			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local MySQL testing in the workspace folder.",
+			"type": "docker-run",
+			"dockerRun": {
+				"image": "lunapurplesunshine/ipget:code",
+				"containerName": "ipget-code-mysql",
+				"remove": true,
+				"envFiles": [
+					"${workspaceFolder}/test-dotenv/test-mysql.env",
+				],
+				"volumes": [
+					{
+						"localPath": "${workspaceFolder}/test-container/",
+						"containerPath": "/app",
+						"permissions": "rw"
+					}
+				]
+			},
+			"group": "test"
+		},
+		{
+			"label": "docker-run :code postgres",
+			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local PostgreSQL testing in the workspace folder.",
+			"type": "docker-run",
+			"dockerRun": {
+				"image": "lunapurplesunshine/ipget:code",
+				"containerName": "ipget-code-postgres",
+				"remove": true,
+				"envFiles": [
+					"${workspaceFolder}/test-dotenv/test-postgres.env",
+				],
+				"volumes": [
+					{
+						"localPath": "${workspaceFolder}/test-container/",
+						"containerPath": "/app",
+						"permissions": "rw"
+					}
+				]
+			},
+			"group": "test"
+		},
+		{
+			"label": "docker-run ALL",
+			"detail": "Calls the docker build and ALL docker run tasks.",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"docker-run :code sqlite in memory",
+				"docker-run :code sqlite file",
+				"docker-run :code mysql",
+				"docker-run :code postgres",
+			],
+			"group": "test",
+		},
+		{
 			"label": "docker-build and run :code",
-			"detail": "Calls the docker build and run tasks.",
+			"detail": "Calls the docker build and (sqlite :memory:) docker run tasks.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"docker-build :code",
-				"docker-run :code"
+				"docker-run :code sqlite in memory",
 			],
 			"group": "test",
 		},
