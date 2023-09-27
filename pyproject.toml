@@ -7,3 +7,35 @@ pythonpath = "src/"
 testpaths = ["tests/"]
 xfail_strict = true
 markers = ["no_test_env"]
+
+[tool.poetry]
+name = "ipget"
+version = "0.8.1"
+description = "Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io."
+authors = ["Andrew Kinsman <69199502+LunaPurpleSunshine@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+sqlalchemy = "^2"
+pymysql = "*"
+discord-webhook = "*"
+requests = "*"
+pg8000 = "*"
+
+
+[tool.poetry.group.dev.dependencies]
+rope = "*"
+black = "*"
+ruff = "*"
+pytest = "*"
+isort = "*"
+pytest-cov = "*"
+pre-commit = "*"
+pytest-md = "*"
+pytest-emoji = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
