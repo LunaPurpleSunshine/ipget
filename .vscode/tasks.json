@@ -6,12 +6,12 @@
 			"label": "Generate requirements.txt-production",
 			"detail": "Generates requirements.txt with production/deployment requirements ONLY.",
 			"group": "build",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
-				"run",
-				"pipenv",
-				"requirements",
-				">",
+				"export",
+				"-f",
+				"requirements.txt",
+				"--output",
 				"requirements.txt",
 			]
 		},
@@ -20,19 +20,22 @@
 			"label": "Generate requirements.txt-development",
 			"detail": "Generates development-requirements.txt",
 			"group": "build",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
-				"run",
-				"pipenv",
-				"requirements",
-				"--dev",
-				">",
+				"export",
+				"--with",
+				"dev",
+				"-f",
+				"requirements.txt",
+				"--output",
 				"dev-requirements.txt",
 			]
 		},
 		{
 			"label": "docker-build :code",
 			"detail": "Builds multi-arch docker container as lunapurplesunshine/ipget:code. Does NOT push.",
+			"dependsOn": ["Generate requirements.txt-production"],
+			"dependsOrder": "sequence",
 			"type": "docker-build",
 			"platform": "python",
 			"dockerBuild": {
@@ -46,6 +49,8 @@
 		{
 			"label": "docker-run :code sqlite in memory",
 			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local testing in the workspace folder.",
+			"dependsOn":["docker-build :code"],
+			"dependsOrder": "sequence",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
@@ -67,6 +72,8 @@
 		{
 			"label": "docker-run :code sqlite file",
 			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local sqlite (file) testing in the workspace folder.",
+			"dependsOn":["docker-build :code"],
+			"dependsOrder": "sequence",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
@@ -88,6 +95,8 @@
 		{
 			"label": "docker-run :code mysql",
 			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local MySQL testing in the workspace folder.",
+			"dependsOn":["docker-build :code"],
+			"dependsOrder": "sequence",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
@@ -109,6 +118,8 @@
 		{
 			"label": "docker-run :code postgres",
 			"detail": "Runs the docker container lunapurplesunshine/ipget:code for local PostgreSQL testing in the workspace folder.",
+			"dependsOn":["docker-build :code"],
+			"dependsOrder": "sequence",
 			"type": "docker-run",
 			"dockerRun": {
 				"image": "lunapurplesunshine/ipget:code",
@@ -140,21 +151,11 @@
 			"group": "test",
 		},
 		{
-			"label": "docker-build and run :code",
-			"detail": "Calls the docker build and (sqlite :memory:) docker run tasks.",
-			"dependsOrder": "sequence",
-			"dependsOn": [
-				"docker-build :code",
-				"docker-run :code sqlite in memory",
-			],
-			"group": "test",
-		},
-		{
 			"type": "shell",
 			"label": "python-lint-ruff",
 			"detail": "Lint python coder with ruff.",
 			"group": "test",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"ruff",
@@ -168,7 +169,7 @@
 			"label": "python-format-black",
 			"detail": "Format python code with black.",
 			"group": "test",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"black",
@@ -180,7 +181,7 @@
 			"label": "python-format-isort",
 			"detail": "Sort python imports with isort.",
 			"group": "test",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"isort",
@@ -194,7 +195,7 @@
 			"label": "python-pytest-basic",
 			"detail": "Run pytest python tests.",
 			"group": "test",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"pytest",
@@ -206,7 +207,7 @@
 			"label": "python-pytest-coverage",
 			"detail": "Run pytest python tests with coverage report.",
 			"group": "test",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"pytest",
@@ -233,7 +234,7 @@
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"python-lint-and-test",
-				"docker-build and run :code",
+				"docker-run ALL",
 			],
 			"group": {
 				"kind": "test",
@@ -245,7 +246,7 @@
 			"label": "precommit-uninstall",
 			"detail": "Uninstall pre-commit hooks.",
 			"group": "none",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"pre-commit",
@@ -257,7 +258,7 @@
 			"label": "precommit-install",
 			"detail": "Install pre-commit hooks.",
 			"group": "none",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"pre-commit",
@@ -269,7 +270,7 @@
 			"label": "precommit-autoupdate",
 			"detail": "Auto-update pre-commit hooks.",
 			"group": "none",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
 				"run",
 				"pre-commit",
@@ -290,15 +291,12 @@
 		},
 		{
 			"type": "shell",
-			"label": "pipenv update dependencies",
-			"detail": "Update all pipenv python dependencies.",
+			"label": "poetry update & lock dependencies",
+			"detail": "Update all dependencies and update poetry.lock.",
 			"group": "none",
-			"command": "pipenv",
+			"command": "poetry",
 			"args": [
-				"run",
-				"pipenv",
-				"updated",
-				"--outdated"
+				"lock"
 			]
 		},
 	]
