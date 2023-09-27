@@ -6,13 +6,17 @@ ENV LC_ALL C.UTF-8
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONFAULTHANDLER 1
 
+# Install updates
+RUN apk update && apk upgrade --no-cache
+
 FROM base as python-deps
 
-# Install dependencies into .venv
-RUN pip3 install pipenv
-COPY Pipfile .
-COPY Pipfile.lock .
-RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy
+# Install python deps into venv
+ENV VIRTUAL_ENV=/.venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 FROM base as runtime
 
@@ -23,9 +27,10 @@ ENV PYTHONUNBUFFERED=1
 COPY --from=python-deps /.venv /.venv
 ENV PATH="/.venv/bin:$PATH"
 
-# THIS BREAKS LOGGING with permissions errors writing the log file
 # Create and switch to a new user
-# RUN adduser -D -u 5000 appuser # alpine
+# THIS BREAKS LOGGING with permissions errors writing the log file
+# alpine
+# RUN adduser -D -u 5000 appuser
 # WORKDIR /home/appuser
 # USER appuser
 

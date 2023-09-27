@@ -2,7 +2,6 @@
 **
 
 # ... except for dependencies and source
-!Pipfile
-!Pipfile.lock
+!requirements.txt
 !src/
 !docs/
