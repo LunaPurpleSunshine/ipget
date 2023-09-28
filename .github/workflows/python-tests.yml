@@ -46,7 +46,7 @@ jobs:
       - name: Run pytest
         uses: pavelzw/pytest-action@v2.1.3
         with:
-          custom-pytest: pipenv run pytest
+          custom-pytest: poetry run pytest
         env:
           IPGET_HEALTHCHECK_SERVER: ${{secrets.PYTEST_IPGET_HEALTHCHECK_SERVER}}
           IPGET_HEALTHCHECK_UUID: ${{secrets.PYTEST_IPGET_HEALTHCHECK_UUID}}
