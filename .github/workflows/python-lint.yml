@@ -45,8 +45,7 @@ jobs:
       # Run linting, formatting, etc.
       # if: success() || failure() is used to ensure all steps run, even if one fails
       - name: Lint with Ruff
-        uses: jpetrucciani/ruff-check@0.0.239
-        if: success() || failure()
+        run: poetry run ruff check src/ tests/
 
       - name: Format with Black
         uses: cytopia/docker-black@0.11
