@@ -27,7 +27,7 @@ pg8000 = "*"
 [tool.poetry.group.dev.dependencies]
 rope = "*"
 black = "*"
-ruff = "^0.0.250"
+ruff = ">=0.0.250"
 pytest = "*"
 isort = "*"
 pytest-cov = "*"
