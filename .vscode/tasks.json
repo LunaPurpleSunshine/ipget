@@ -9,6 +9,8 @@
 			"command": "poetry",
 			"args": [
 				"export",
+				"--only",
+				"main",
 				"-f",
 				"requirements.txt",
 				"--output",
