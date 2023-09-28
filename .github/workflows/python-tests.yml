@@ -2,10 +2,10 @@ name: Python Tests
 on:
   pull_request:
     types:
-     - opened
-     - reopened
-     - edited
-     - synchronize
+      - opened
+      - reopened
+      - edited
+      - synchronize
   push:
     branches:
       - master
@@ -14,14 +14,35 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     steps:
+      # Get repo, python, and poetry
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install Python, pipenv and Pipfile packages
-        uses: palewire/install-python-pipenv-pipfile@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.6.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      # Load cached venv if cache exists, else install with poetry
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Poetry install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --with dev --no-interaction --no-root
+
+      # Run python tests
       - name: Run pytest
         uses: pavelzw/pytest-action@v2.1.3
         with:

@@ -27,6 +27,7 @@ words:
   - ggshield
   - IPGET
   - isort
+  - jpetrucciani
   - mypy
   - pavelzw
   - pipenv
@@ -35,8 +36,11 @@ words:
   - pytest
   - regen
   - setenv
+  - snok
   - sourcery
   - syphar
+  - venv
   - virtualenv
+  - virtualenvs
 ignoreWords: []
 import: []

@@ -2,10 +2,10 @@ name: Python Linting
 on:
   pull_request:
     types:
-     - opened
-     - reopened
-     - edited
-     - synchronize
+      - opened
+      - reopened
+      - edited
+      - synchronize
   push:
     branches:
       - master
@@ -14,32 +14,47 @@ jobs:
   linting:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      # Get repo, python, and poetry
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Python, pipenv and Pipfile packages
-        uses: palewire/install-python-pipenv-pipfile@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: "3.11"
 
-      - name: pip install ruff
-        # EnriqueSoria/annotate_pr_with_ruff does not use pipenv install
-        run: pip install ruff
-        if: github.event_name == 'pull_request'
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.6.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
 
-      - name: PR annotator with ruff
-        uses: EnriqueSoria/annotate_pr_with_ruff@v0.1.20
-        if: github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Load cached venv if cache exists, else install with poetry
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
 
-      - name: Python Black
+      - name: Poetry install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --with dev --no-interaction --no-root
+
+      # Run linting, formatting, etc.
+      # if: success() || failure() is used to ensure all steps run, even if one fails
+      - name: Lint with Ruff
+        uses: jpetrucciani/ruff-check@0.0.239
+        if: success() || failure()
+
+      - name: Format with Black
         uses: cytopia/docker-black@0.11
         if: success() || failure()
         with:
           path: .
 
-      - name: python-isort
+      - name: Format with isort
         uses: isort/isort-action@v1.1.0
         if: success() || failure()
         with:
