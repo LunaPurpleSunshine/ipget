@@ -24,11 +24,10 @@ discord-webhook = "*"
 requests = "*"
 pg8000 = "*"
 
-
 [tool.poetry.group.dev.dependencies]
 rope = "*"
 black = "*"
-ruff = "*"
+ruff = "^0.0.250"
 pytest = "*"
 isort = "*"
 pytest-cov = "*"
