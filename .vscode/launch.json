@@ -14,6 +14,7 @@
             "envFile": "${workspaceFolder}/test-dotenv/test-sqlite-memory.env",
             "env": {
                 "IPGET_LOG_FILE_PATH": "${workspaceFolder}/test-debug/logs",
+                "IPGET_DATABASE": ":memory:"
             },
             "justMyCode": true
         },
@@ -24,7 +25,7 @@
             "envFile": "${workspaceFolder}/test-dotenv/test-sqlite-file.env",
             "env": {
                 "IPGET_LOG_FILE_PATH": "${workspaceFolder}/test-debug/logs",
-                "IPGET_SQLITE_DATABASE": "${workspaceFolder}/test-debug/public_ip.db"
+                "IPGET_DATABASE": "${workspaceFolder}/test-debug/public_ip.db"
             },
             "program": "${workspaceFolder}/src/app.py",
             "cwd": "${workspaceFolder}/src",
