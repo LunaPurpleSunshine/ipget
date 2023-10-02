@@ -7,6 +7,7 @@ from sys import exit
 
 from ipget.alchemy import get_database
 from ipget.healthchecks import get_healthcheck
+from ipget.helpers import custom_namer
 from ipget.notifications import get_discord
 from ipget.settings import AppSettings, LoggerSettings
 
@@ -24,12 +25,14 @@ def setup_logging() -> None:
         backupCount=4,
         encoding="utf8",
     )
+    file_handler.namer = custom_namer
     file_handler.setFormatter(logging.Formatter(""))
     log.addHandler(file_handler)
     log.critical("")
     file_handler.setFormatter(
         logging.Formatter(
-            "%(asctime)s %(name)-19s[%(lineno)3d]%(levelname)7s: %(message)s"
+            "%(asctime)s %(name)-19s[%(lineno)3d]%(levelname)7s: %(message)s",
+            "%Y-%m-%d %H:%M:%S",
         )
     )
     log_level = log_settings.level
@@ -37,7 +40,10 @@ def setup_logging() -> None:
     console_handler = logging.StreamHandler()
     log.addHandler(console_handler)
     console_handler.setFormatter(
-        logging.Formatter("%(name)-19s[%(lineno)3d] %(levelname)7s: %(message)s")
+        logging.Formatter(
+            "%(asctime)s %(name)-19s[%(lineno)3d] %(levelname)7s: %(message)s",
+            "%H:%M:%S",
+        )
     )
 
 
