@@ -3,9 +3,13 @@ on:
   pull_request:
     types:
       - opened
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_URL: ${{github.event.pull_request.html_url}}
+
 permissions:
   pull-requests: write
-
 
 jobs:
   dependabot-metadata:
@@ -20,10 +24,10 @@ jobs:
 
       - name: Print package ecosystem
         run: echo ${{ steps.metadata.outputs.package-ecosystem }}
-      
+
       - name: Print dependency type
         run: echo ${{ steps.metadata.outputs.dependency-type }}
-    
+
     outputs:
       package-ecosystem: ${{ steps.metadata.outputs.package-ecosystem }}
       dependency-type: ${{ steps.metadata.outputs.dependency-type }}
@@ -36,14 +40,11 @@ jobs:
     steps:
       - name: "Python: dependencies:production"
         if: startsWith(github.head_ref, 'dependabot/pip/development-dependencies') == false
-        run: gh pr edit "$PR_URL" --add-label "dependencies:production"
+        run: gh pr edit "${{env.PR_URL}}" --add-label "dependencies:production"
 
       - name: "Python: dependencies:development"
-        uses: RobinJesba/GitHub-Labeler-Action@v0.1.0
         if: startsWith(github.head_ref, 'dependabot/pip/development-dependencies')
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABELS_TO_ADD: dependencies:development
+        run: gh pr edit "${{env.PR_URL}}" --add-label dependencies:development
 
   dependabot-label-github-actions:
     # GitHub Actions Dependencies
@@ -52,7 +53,4 @@ jobs:
     if: github.actor == 'dependabot[bot]' && needs.dependabot-metadata.outputs.package-ecosystem == 'github-actions'
     steps:
       - name: "GitHub Actions: dependencies:development"
-        uses: RobinJesba/GitHub-Labeler-Action@v0.1.0
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABELS_TO_ADD: dependencies:development
+        run: gh pr edit "${{env.PR_URL}}" --add-labeldependencies:development
