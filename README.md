@@ -1,12 +1,11 @@
 # IPget Docker
 
 ![GitHub](https://img.shields.io/github/license/LunaPurpleSunshine/ipget?label=licence)
+[![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/LunaPurpleSunshine/ipget?sort=semver)](https://github.com/LunaPurpleSunshine/ipget-docker/releases)
 ![Poetry Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FLunaPurpleSunshine%2Fipget%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.python&logoColor=12a8ff&label=python)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Python Linting](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-lint.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-lint.yml)
 [![Python Tests](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml)
 [![CodeQL](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml)
-[![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/LunaPurpleSunshine/ipget?sort=semver)](https://github.com/LunaPurpleSunshine/ipget-docker/releases)
 
 ## Table of Contents
 

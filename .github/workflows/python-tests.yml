@@ -11,7 +11,60 @@ on:
       - master
 
 jobs:
-  
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/GitHubSecurityLab/actions-permissions/tree/main/monitor
+      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+        with:
+          config: ${{ vars.PERMISSIONS_CONFIG }}
+      # Get repo, python, and poetry
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        id: setup-python
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.6.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      # Load cached venv if cache exists, else install with poetry
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v3
+        with:
+          path: .venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Poetry install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        run: poetry install --with dev --no-interaction --no-root
+
+      # Run linting, formatting, etc.
+      # if: success() || failure() is used to ensure all steps run, even if one fails
+      - name: Lint with Ruff
+        run: poetry run ruff check src/ tests/
+
+      - name: Format with Black
+        uses: cytopia/docker-black@0.11
+        if: success() || failure()
+        with:
+          path: .
+
+      - name: Format with isort
+        uses: isort/isort-action@v1.1.0
+        if: success() || failure()
+        with:
+          configuration: "--check-only --diff --profile black"
+
   pytest:
     runs-on: ubuntu-latest
     steps:
