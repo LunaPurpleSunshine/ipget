@@ -54,7 +54,7 @@ jobs:
       - name: Format with Black
         uses: psf/black@stable
         with:
-          options: --check --verbose --diff --color --target-version py311
+          options: --check --diff --color --target-version py311
 
       - name: Format with isort
         if: success() || failure()
