@@ -58,7 +58,7 @@ jobs:
 
       - name: Format with isort
         if: success() || failure()
-        run: poetry run isort --check-only --diff --profile black
+        run: poetry run isort . --check-only --diff --profile black
 
       - name: Lint with Ruff
         if: success() || failure()
