@@ -22,3 +22,8 @@ updates:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
       day: "sunday"
+    # Group all github action together
+    groups:
+      github-actions:
+        patterns:
+          - "*"
