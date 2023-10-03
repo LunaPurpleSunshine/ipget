@@ -1,3 +1,6 @@
+[tool.black]
+target-version = ['py311']
+
 [tool.isort]
 profile = "black"
 src_paths = ["src/", "tests/"]
