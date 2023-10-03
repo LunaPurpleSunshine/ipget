@@ -1,4 +1,4 @@
-name: Pull Request Validation
+name: Dependabot Labeler
 on:
   pull_request:
     types:
@@ -8,17 +8,35 @@ permissions:
 
 
 jobs:
+  dependabot-metadata:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Get Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print package ecosystem
+        run: echo ${{ steps.metadata.outputs.package-ecosystem }}
+      
+      - name: Print dependency type
+        run: echo ${{ steps.metadata.outputs.dependency-type }}
+    
+    outputs:
+      package-ecosystem: ${{ steps.metadata.outputs.package-ecosystem }}
+      dependency-type: ${{ steps.metadata.outputs.dependency-type }}
+
   dependabot-label-python:
+    needs: dependabot-metadata
     # Python Dependencies
-    if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/pip/')
+    if: github.actor == 'dependabot[bot]' && needs.dependabot-metadata.outputs.package-ecosystem == 'pip'
     runs-on: ubuntu-latest
     steps:
       - name: "Python: dependencies:production"
-        uses: RobinJesba/GitHub-Labeler-Action@v0.1.0
         if: startsWith(github.head_ref, 'dependabot/pip/development-dependencies') == false
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LABELS_TO_ADD: dependencies:production
+        run: gh pr edit "$PR_URL" --add-label "dependencies:production"
 
       - name: "Python: dependencies:development"
         uses: RobinJesba/GitHub-Labeler-Action@v0.1.0
@@ -30,7 +48,8 @@ jobs:
   dependabot-label-github-actions:
     # GitHub Actions Dependencies
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]' && startsWith(github.head_ref, 'dependabot/github_actions/')
+    needs: dependabot-metadata
+    if: github.actor == 'dependabot[bot]' && needs.dependabot-metadata.outputs.package-ecosystem == 'github-actions'
     steps:
       - name: "GitHub Actions: dependencies:development"
         uses: RobinJesba/GitHub-Labeler-Action@v0.1.0
