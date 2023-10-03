@@ -4,7 +4,6 @@ import pytest
 from hypothesis import assume, given
 from hypothesis import strategies as st
 
-import custom_strategies as cst
 from ipget.helpers import custom_namer
 
 
@@ -46,7 +45,7 @@ class TestCustomNamer:
 
         assert result == expected_output
 
-    @given(name=cst.everything_except(str))
+    @given(name=st.integers() | st.booleans())
     def test_not_str(self, name):
         with pytest.raises(TypeError):
             custom_namer(name)
