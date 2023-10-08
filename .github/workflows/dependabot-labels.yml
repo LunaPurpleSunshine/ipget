@@ -7,12 +7,16 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PR_URL: ${{github.event.pull_request.html_url}}
+  # Labels
+  LABEL_DEVELOPMENT: "dependencies:development"
+  LABEL_PRODUCTION: "dependencies:production"
+  LABEL_SEMVER_DEFAULT: "semver:patch"
 
 permissions:
   pull-requests: write
 
 jobs:
-  dependabot-metadata:
+  dependabot-labeler:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
@@ -22,35 +26,30 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Print package ecosystem
-        run: echo ${{ steps.metadata.outputs.package-ecosystem }}
+      - name: Print Metadata
+        run: |
+          echo ${{ steps.metadata.outputs.package-ecosystem }}
+          echo ${{ steps.metadata.outputs.dependency-type }}
 
-      - name: Print dependency type
-        run: echo ${{ steps.metadata.outputs.dependency-type }}
+      # Semver Label
+      - name: Add semver:patch label
+        id: label-semver-patch
+        if: steps.metadata.outputs.package-ecosystem == 'pip' && startsWith(github.head_ref, 'dependabot/pip/development-dependencies') == false
+        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_SEMVER_DEFAULT}}"
 
-    outputs:
-      package-ecosystem: ${{ steps.metadata.outputs.package-ecosystem }}
-      dependency-type: ${{ steps.metadata.outputs.dependency-type }}
+      # Python Dependencies
+      - name: Python Production
+        id: label-python-production
+        if: steps.metadata.outputs.package-ecosystem == 'pip' && startsWith(github.head_ref, 'dependabot/pip/development-dependencies') == false
+        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_PRODUCTION}}"
 
-  dependabot-label-python:
-    needs: dependabot-metadata
-    # Python Dependencies
-    if: github.actor == 'dependabot[bot]' && needs.dependabot-metadata.outputs.package-ecosystem == 'pip'
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Python: dependencies:production"
-        if: startsWith(github.head_ref, 'dependabot/pip/development-dependencies') == false
-        run: gh pr edit "${{env.PR_URL}}" --add-label "dependencies:production"
+      - name: Python Development
+        id: label-python-development
+        if: steps.metadata.outputs.package-ecosystem == 'pip' && startsWith(github.head_ref, 'dependabot/pip/development-dependencies')
+        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_DEVELOPMENT}}"
 
-      - name: "Python: dependencies:development"
-        if: startsWith(github.head_ref, 'dependabot/pip/development-dependencies')
-        run: gh pr edit "${{env.PR_URL}}" --add-label dependencies:development
-
-  dependabot-label-github-actions:
-    # GitHub Actions Dependencies
-    runs-on: ubuntu-latest
-    needs: dependabot-metadata
-    if: github.actor == 'dependabot[bot]' && needs.dependabot-metadata.outputs.package-ecosystem == 'github-actions'
-    steps:
-      - name: "GitHub Actions: dependencies:development"
-        run: gh pr edit "${{env.PR_URL}}" --add-labeldependencies:development
+      # GitHub Actions Dependencies
+      - name: GitHub Actions
+        id: label-github-actions
+        if: steps.metadata.outputs.package-ecosystem == 'github-actions'
+        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_DEVELOPMENT}}"
