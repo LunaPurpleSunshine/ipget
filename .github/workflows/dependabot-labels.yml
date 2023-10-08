@@ -34,7 +34,6 @@ jobs:
       # Semver Label
       - name: Add semver:patch label
         id: label-semver-patch
-        if: steps.metadata.outputs.package-ecosystem == 'pip' && startsWith(github.head_ref, 'dependabot/pip/development-dependencies') == false
         run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_SEMVER_DEFAULT}}"
 
       # Python Dependencies
