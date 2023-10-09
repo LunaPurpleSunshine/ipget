@@ -113,7 +113,8 @@
 						"containerPath": "/app",
 						"permissions": "rw"
 					}
-				]
+				],
+				"network": "host"
 			},
 			"group": "test"
 		},
@@ -136,7 +137,8 @@
 						"containerPath": "/app",
 						"permissions": "rw"
 					}
-				]
+				],
+				"network": "host"
 			},
 			"group": "test"
 		},
