@@ -29,7 +29,7 @@ services:
     volumes:
       - mariadb-data:/var/lib/mysql
     environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
       MARIADB_DATABASE: mariadb_test_db
       MARIADB_USER: ipget-mariadb
       MARIADB_PASSWORD: test-super-secure-password1
