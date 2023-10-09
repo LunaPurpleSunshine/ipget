@@ -180,4 +180,4 @@ cython_debug/
 *.db
 *.env
 *requirements.txt
-!docs/devcontainer-test-dotenv/*.env
+!docs/example-test-dotenv/*.env
