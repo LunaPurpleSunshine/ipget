@@ -174,10 +174,10 @@ cython_debug/
 *.vsix
 
 # Project: IPGET
-test-container/
-test-debug/
-test-dotenv/
+/test-container/
+/test-debug/
+/test-dotenv/
 *.db
-.env.test
 *.env
 *requirements.txt
+!docs/devcontainer-test-dotenv/*.env
