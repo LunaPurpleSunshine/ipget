@@ -14,8 +14,11 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-      # - id: no-commit-to-branch
-      #   args: ["--branch", "main", "--branch", "master", "--branch", "release"]
+      - id: fix-encoding-pragma
+        args: ["--remove"]
+      - id: name-tests-test
+        args: ["--pytest-test-first"]
+      - id: no-commit-to-branch
       - id: trailing-whitespace
       - id: check-toml
       - id: check-yaml
@@ -26,12 +29,12 @@ repos:
       - id: absolufy-imports
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.287
+    rev: v0.0.292
     hooks:
       - id: ruff
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 23.9.0
+    rev: 23.9.1
     hooks:
       - id: black
 
@@ -43,7 +46,7 @@ repos:
         args: ["--profile", "black"]
 
   - repo: https://github.com/gitguardian/ggshield
-    rev: v1.18.1
+    rev: v1.19.1
     hooks:
       - id: ggshield
         language_version: python3
