@@ -17,6 +17,7 @@ dictionaryDefinitions: []
 dictionaries: []
 words:
   - absolufy
+  - bierner
   - Buildx
   - cytopia
   - dariocurr
@@ -28,6 +29,7 @@ words:
   - IPGET
   - isort
   - jpetrucciani
+  - mhutchie
   - mypy
   - pavelzw
   - pipenv
@@ -39,10 +41,14 @@ words:
   - setenv
   - snok
   - sourcery
+  - spmeesseman
   - syphar
   - tamasfe
   - venv
   - virtualenv
   - virtualenvs
+  - VisualStudioExptTeam
+  - vscodeintellicode
+  - yzhang
 ignoreWords: []
 import: []

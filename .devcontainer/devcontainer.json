@@ -33,12 +33,21 @@
 		"vscode": {
 			"extensions": [
 				"ms-python.python",
-				"donjayamanne.python-extension-pack",
+				"VisualStudioExptTeam.vscodeintellicode",
+				"KevinRose.vsc-python-indent",
+				"donjayamanne.python-environment-manager",
 				"ms-python.black-formatter",
 				"ms-python.isort",
 				"charliermarsh.ruff",
+				"teledemic.branch-warnings",
+				"mhutchie.git-graph",
+				"DavidAnson.vscode-markdownlint",
+				"yzhang.markdown-all-in-one",
+				"bierner.github-markdown-preview",
 				"streetsidesoftware.code-spell-checker",
-				"tamasfe.even-better-toml"
+				"tamasfe.even-better-toml",
+				"github.vscode-github-actions",
+				"spmeesseman.vscode-taskexplorer"
 			]
 		}
 	}
