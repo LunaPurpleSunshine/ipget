@@ -1,14 +1,12 @@
 name: Build & Publish Docker Image
 
 on:
-  release:
-    types:
-      - published
   push:
     tags:
-      - "v*-alpha.*"
-      - "v*-beta.*"
-      - "v*-rc.*"
+      - "v*.*.*"
+      - "v*.*.*-alpha.*"
+      - "v*.*.*-beta.*"
+      - "v*.*.*-rc.*"
   # Run build manually from the Actions tab, will be tagged with branch name
   workflow_dispatch:
 
