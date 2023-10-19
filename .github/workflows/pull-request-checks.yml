@@ -7,20 +7,12 @@ on:
      - labeled
      - unlabeled
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
+permissions: {}
 
 jobs:  
   check-labels:
     runs-on: ubuntu-latest
     steps:
-      # https://github.com/GitHubSecurityLab/actions-permissions/tree/main/monitor
-      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
-        with:
-          config: ${{ vars.PERMISSIONS_CONFIG }}
-
       - name: Check semver label
         id: semver_label_check
         uses: agilepathway/label-checker@v1.5.9
