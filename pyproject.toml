@@ -42,7 +42,7 @@ pre-commit = "*"
 pytest-md = "*"
 pytest-emoji = "*"
 python-dotenv = "^1.0.0"
-hypothesis = "^6.87.4"
+hypothesis = "^6.88.1"
 
 [build-system]
 requires = ["poetry-core"]
