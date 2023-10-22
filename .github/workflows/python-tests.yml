@@ -96,7 +96,7 @@ jobs:
 
       # Run python tests
       - name: Run pytest
-        uses: pavelzw/pytest-action@v2.1.3
+        uses: pavelzw/pytest-action@v2.2.0
         with:
           custom-pytest: poetry run pytest
           custom-arguments: -r a
