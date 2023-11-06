@@ -19,6 +19,7 @@ categories:
     labels:
       - 'maintenance'
       - 'dependencies:development'
+      - 'github_actions'
 
 change-template: '- $TITLE (#$NUMBER) by @$AUTHOR'  # @$AUTHOR not used here, names in Contributors section
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
