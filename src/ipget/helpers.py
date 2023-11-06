@@ -20,7 +20,7 @@ def custom_namer(name: str) -> str:
     """
     if not isinstance(name, str):
         raise TypeError(name)
-    name_path = Path(name)
+    name_path = Path(name).resolve()
     stem = name_path.stem
     if not all([name, stem, name_path.suffix]):
         raise ValueError(name)
