@@ -1,28 +1,46 @@
-from datetime import datetime
+import datetime
+from pathlib import Path
 
 import pytest
-from hypothesis import assume, given
+from hypothesis import assume, example, given
 from hypothesis import strategies as st
 
 from ipget.helpers import custom_namer
 
 
+@pytest.fixture
+def mock_datetime_now(monkeypatch):
+    class MockDatetime(datetime.datetime):
+        @classmethod
+        def now(cls):
+            return datetime.datetime(1963, 11, 23, 17, 16, 0)
+
+    monkeypatch.setattr(datetime, "datetime", MockDatetime)
+
+
 class TestCustomNamer:
+    def test_actual(self, mock_datetime_now):
+        default_log_file_name = "/app/logs/ipget.log"
+        # test_date = datetime(1963, 11, 23, 17, 16, 0)
+        new_file_name = custom_namer(default_log_file_name)
+        assert new_file_name == "/app/logs/ipget.1963-11-23.log"
+
     @given(
         stem=st.text(min_size=1, alphabet=st.characters(categories=["L", "N", "S"])),
         suffix=st.text(
             min_size=1, max_size=10, alphabet=st.characters(categories=["L", "N", "S"])
         ),
     )
+    @example(stem="ipget", suffix="log")
     def test_expected_input(self, stem: str, suffix: str):
         assume(all([stem, suffix]))
 
         input_name = f"{stem}.{suffix}"
-        expected_output = f"{stem}.{datetime.now().date()}.{suffix}"
+        expected_output = f"{stem}.{datetime.datetime.now().date()}.log"
 
         result = custom_namer(input_name)
 
-        assert result == expected_output
+        assert Path(result).name == expected_output
 
     @given(
         stem=st.text(
@@ -39,11 +57,11 @@ class TestCustomNamer:
         assume(all([stem, suffix]))
 
         input_name = f"{stem}.{suffix}.{suffix}"
-        expected_output = f"{stem}.{suffix}.{datetime.now().date()}.{suffix}"
+        expected_output = f"{stem}.{suffix}.{datetime.datetime.now().date()}.log"
 
         result = custom_namer(input_name)
 
-        assert result == expected_output
+        assert Path(result).name == expected_output
 
     @given(name=st.integers() | st.booleans())
     def test_not_str(self, name):

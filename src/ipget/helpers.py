@@ -1,11 +1,11 @@
+import datetime
 import logging
-from datetime import datetime
 from pathlib import Path
 
 log = logging.getLogger(__name__)
 
 
-def custom_namer(name: str, date: datetime | None = None) -> str:
+def custom_namer(name: str) -> str:
     """Custom namer for a RotatingFileHandler.
     Inserts the date between the stem and the final suffix.
 
@@ -21,8 +21,10 @@ def custom_namer(name: str, date: datetime | None = None) -> str:
     if not isinstance(name, str):
         raise TypeError(name)
     name_path = Path(name).resolve()
-    stem = name_path.stem
-    if not all([name, stem, name_path.suffix]):
+    stem = str(name_path.stem).replace(".log", "")
+    if not all([stem, name_path.suffix]):
         raise ValueError(name)
-    date_str = str(date.date() if date else datetime.now().date())
-    return str(name_path.with_stem(f"{stem}.{date_str}"))
+    log_dir = name_path.parent
+    date = str(datetime.datetime.now().date())
+    # return str(log_dir.joinpath(f"ipget.{date}.log"))
+    return str(log_dir.joinpath(f"{stem}.{date}.log"))
