@@ -5,7 +5,7 @@ from pathlib import Path
 log = logging.getLogger(__name__)
 
 
-def custom_namer(name: str) -> str:
+def custom_namer(name: str, date: datetime | None = None) -> str:
     """Custom namer for a RotatingFileHandler.
     Inserts the date between the stem and the final suffix.
 
@@ -24,5 +24,5 @@ def custom_namer(name: str) -> str:
     stem = name_path.stem
     if not all([name, stem, name_path.suffix]):
         raise ValueError(name)
-    date = str(datetime.now().date())
-    return f"{stem}.{date}{name_path.suffix}"
+    date_str = str(date.date() if date else datetime.now().date())
+    return str(name_path.with_stem(f"{stem}.{date_str}"))
