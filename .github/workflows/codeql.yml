@@ -44,7 +44,7 @@ jobs:
       uses: actions/checkout@v4
     
     # CodeQL requires python dependencies to be installed
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v5
       id: setup-python
       if: matrix.language == 'python'
       with:
