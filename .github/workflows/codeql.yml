@@ -65,7 +65,7 @@ jobs:
     
     - name: Pip install dependencies
       if: matrix.language == 'python'
-      run: pip install -r requirements.txt
+      run: pip install -r requirements.txt --no-deps
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
