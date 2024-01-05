@@ -2,13 +2,12 @@ import logging
 from datetime import datetime, timezone
 from ipaddress import IPv4Address, IPv6Address
 from logging.handlers import TimedRotatingFileHandler
-from sys import exit
 from typing import Literal
 
-from ipget.alchemy import get_database
+from ipget.alchemy import AlchemyDB, get_database
 from ipget.healthchecks import get_healthcheck
 from ipget.helpers import custom_namer
-from ipget.ipget import get_current_ip
+from ipget.ipget import get_current_ip, get_previous_ip
 from ipget.notifications import get_discord
 from ipget.settings import AppSettings, LoggerSettings
 
@@ -52,20 +51,11 @@ def main() -> int:
     setup_logging()
     config = AppSettings()
 
-    db = get_database(mode=config.db_type)
+    db: AlchemyDB = get_database(mode=config.db_type)
 
-    if not db.created_new_table:
-        last = db.get_last()
-        previous_ip: IPv4Address | IPv6Address | Literal["Unknown"] | None = (
-            last[2] if last else None
-        )
-        if previous_ip:
-            log.info(f"Previous IP: {previous_ip}")
-        else:
-            log.warning("Error retrieving previous IP address")
-    else:
-        log.warning("First run on new database, previous IP is unknown")
-        previous_ip = "Unknown"
+    previous_ip: IPv4Address | IPv6Address | Literal[
+        "Unknown"
+    ] | None = get_previous_ip(db)
 
     current_ip = None
     error_list = []
