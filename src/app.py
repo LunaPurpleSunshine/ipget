@@ -1,13 +1,14 @@
 import logging
-import urllib.request
 from datetime import datetime, timezone
-from ipaddress import IPv4Address, IPv6Address, ip_address
+from ipaddress import IPv4Address, IPv6Address
 from logging.handlers import TimedRotatingFileHandler
 from sys import exit
+from typing import Literal
 
 from ipget.alchemy import get_database
 from ipget.healthchecks import get_healthcheck
 from ipget.helpers import custom_namer
+from ipget.ipget import get_current_ip
 from ipget.notifications import get_discord
 from ipget.settings import AppSettings, LoggerSettings
 
@@ -47,13 +48,6 @@ def setup_logging() -> None:
     )
 
 
-def get_current_ip() -> IPv4Address | IPv6Address:
-    "Returns the current public ip address"
-    log.debug("Retrieving current IP from https://ident.me")
-    ip_str = urllib.request.urlopen("https://ident.me").read().decode("utf8")
-    return ip_address(ip_str)
-
-
 def main() -> int:
     setup_logging()
     config = AppSettings()
@@ -62,7 +56,9 @@ def main() -> int:
 
     if not db.created_new_table:
         last = db.get_last()
-        previous_ip = last[2] if last else None
+        previous_ip: IPv4Address | IPv6Address | Literal["Unknown"] | None = (
+            last[2] if last else None
+        )
         if previous_ip:
             log.info(f"Previous IP: {previous_ip}")
         else:
