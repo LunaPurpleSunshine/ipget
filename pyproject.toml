@@ -7,6 +7,9 @@ markers = ["no_test_env"]
 [tool.coverage.run]
 source = ["src/ipget"]
 
+[tool.ruff]
+src = ["src"]
+
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "RUF", "TID252"]
 
