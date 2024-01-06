@@ -1,5 +1,4 @@
 import logging
-from abc import ABC
 from datetime import datetime
 from ipaddress import IPv4Address, IPv6Address
 from ipaddress import ip_address as IPAddress
@@ -31,7 +30,7 @@ class IPInfo(Base):
     ip_address: Mapped[str] = mapped_column(String(80), nullable=True)
 
 
-class AlchemyDB(ABC):
+class AlchemyDB:
     """Abstract base class for interacting with the database using SQLAlchemy."""
 
     def __init__(self) -> None:

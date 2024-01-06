@@ -1,11 +1,11 @@
 from pathlib import Path
 
+import custom_strategies as cst
 import pytest
 from hypothesis import assume, example, given
 from hypothesis import strategies as st
 from pydantic import ValidationError
 
-import custom_strategies as cst
 from ipget.settings import (
     AppSettings,
     GenericDatabaseSettings,
