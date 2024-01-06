@@ -170,28 +170,16 @@
 		},
 		{
 			"type": "shell",
-			"label": "python-format-black",
+			"label": "python-format-ruff",
 			"detail": "Format python code with black.",
 			"group": "test",
 			"command": "poetry",
 			"args": [
 				"run",
-				"black",
-				"."
-			]
-		},
-		{
-			"type": "shell",
-			"label": "python-format-isort",
-			"detail": "Sort python imports with isort.",
-			"group": "test",
-			"command": "poetry",
-			"args": [
-				"run",
-				"isort",
-				".",
-				"--profile",
-				"black"
+				"ruff",
+				"format",
+				"src/",
+				"tests/"
 			]
 		},
 		{
@@ -225,9 +213,8 @@
 			"detail": "Lint, format and test python code.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
-				"python-format-black",
-				"python-format-isort",
 				"python-lint-ruff",
+				"python-format-ruff",
 				"python-pytest-coverage",
 			]
 		},
