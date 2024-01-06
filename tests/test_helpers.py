@@ -11,9 +11,22 @@ from ipget.helpers import custom_namer
 
 @pytest.fixture
 def mock_datetime_now(monkeypatch):
+    """
+    Mocks the current datetime to a fixed value for testing purposes.
+
+    Args:
+        monkeypatch: The monkeypatch fixture provided by pytest.
+
+    Returns:
+        None
+    """
+
     class MockDatetime(datetime.datetime):
         @classmethod
         def now(cls):
+            """
+            Returns a fixed datetime representing 1963-11-23 17:16:00.
+            """
             return datetime.datetime(1963, 11, 23, 17, 16, 0)
 
     monkeypatch.setattr(datetime, "datetime", MockDatetime)
