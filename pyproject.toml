@@ -13,6 +13,9 @@ src = ["src"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "RUF", "TID252"]
 
+[tool.mypy]
+mypy_path = "src"
+
 [tool.poetry]
 name = "ipget"
 version = "0.8.1"
@@ -40,6 +43,8 @@ pytest-md = "*"
 pytest-emoji = "*"
 python-dotenv = "^1.0.0"
 hypothesis = "^6.92.2"
+mypy = "^1.8.0"
+types-requests = "^2.31.0.20240106"
 
 [build-system]
 requires = ["poetry-core"]
