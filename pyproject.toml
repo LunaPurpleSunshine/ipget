@@ -1,10 +1,3 @@
-[tool.black]
-target-version = ['py311']
-
-[tool.isort]
-profile = "black"
-src_paths = ["src/", "tests/"]
-
 [tool.pytest.ini_options]
 pythonpath = "src/"
 testpaths = ["tests/"]
@@ -13,6 +6,9 @@ markers = ["no_test_env"]
 
 [tool.coverage.run]
 source = ["src/ipget"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "RUF", "TID252"]
 
 [tool.poetry]
 name = "ipget"
