@@ -1,4 +1,5 @@
 import datetime
+import os
 from pathlib import Path
 
 import pytest
@@ -21,9 +22,11 @@ def mock_datetime_now(monkeypatch):
 class TestCustomNamer:
     def test_actual(self, mock_datetime_now):
         default_log_file_name = "/app/logs/ipget.log"
-        # test_date = datetime(1963, 11, 23, 17, 16, 0)
         new_file_name = custom_namer(default_log_file_name)
-        assert new_file_name == "/app/logs/ipget.1963-11-23.log"
+        if os.name == "nt":
+            assert new_file_name == "C:\\app\\logs\\ipget.1963-11-23.log"
+        else:
+            assert new_file_name == "/app/logs/ipget.1963-11-23.log"
 
     @given(
         stem=st.text(min_size=1, alphabet=st.characters(categories=["L", "N", "S"])),
