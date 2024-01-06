@@ -18,7 +18,7 @@ Base = declarative_base()
 TABLE_NAME = "public_ip_address"
 
 
-class IPInfo(Base):
+class IPInfo(Base):  # type: ignore
     """Represents IP information stored in the database table."""
 
     __tablename__ = TABLE_NAME
@@ -159,7 +159,7 @@ class SQLite(AlchemyDB):
         self._load_settings(settings)
         super().__init__()
 
-    def _load_settings(self, settings: SQLiteDatabaseSettings):
+    def _load_settings(self, settings: SQLiteDatabaseSettings):  # type: ignore[override]
         """Load SQLite file path from environment variable."""
         self.database_path: Path = settings.database_file_path
 
