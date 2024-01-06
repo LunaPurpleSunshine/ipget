@@ -32,10 +32,8 @@ pydantic-settings = "^2.1.0"
 
 [tool.poetry.group.dev.dependencies]
 rope = "*"
-black = "*"
 ruff = ">=0.0.250"
 pytest = "*"
-isort = "*"
 pytest-cov = "*"
 pre-commit = "*"
 pytest-md = "*"
