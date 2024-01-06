@@ -11,7 +11,7 @@ on:
       - master
 
 jobs:
-  linting:
+  ruff:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
@@ -45,21 +45,12 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --with dev --no-interaction --no-root
 
-      # Run linting, formatting, etc.
-      # if success() || failure() is used to ensure all steps run, even if one fails
+      - name: Linter
+        # Update output format to enable automatic inline annotations.
+        run: ruff check --output-format=github src/ tests/
 
-      - name: Format with Black
-        uses: psf/black@stable
-        with:
-          options: --check --diff --color --target-version py311
-
-      - name: Format with isort
-        if: success() || failure()
-        run: poetry run isort . --check-only --diff --profile black
-
-      - name: Lint with Ruff
-        if: success() || failure()
-        run: poetry run ruff check src/ tests/
+      - name: Formatter
+        run: ruff format --diff src/ tests/
 
   pytest:
     runs-on: ubuntu-latest
