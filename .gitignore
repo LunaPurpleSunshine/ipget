@@ -179,5 +179,6 @@ cython_debug/
 /test-dotenv/
 *.db
 *.env
+.env.test
 *requirements.txt
 !docs/example-test-dotenv/*.env
