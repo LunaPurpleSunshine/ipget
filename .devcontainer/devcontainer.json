@@ -36,8 +36,6 @@
 				"VisualStudioExptTeam.vscodeintellicode",
 				"KevinRose.vsc-python-indent",
 				"donjayamanne.python-environment-manager",
-				"ms-python.black-formatter",
-				"ms-python.isort",
 				"charliermarsh.ruff",
 				"teledemic.branch-warnings",
 				"mhutchie.git-graph",
