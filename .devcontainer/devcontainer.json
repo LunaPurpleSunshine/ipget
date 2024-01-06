@@ -37,6 +37,7 @@
 				"KevinRose.vsc-python-indent",
 				"donjayamanne.python-environment-manager",
 				"charliermarsh.ruff",
+				"ms-python.mypy-type-checker",
 				"teledemic.branch-warnings",
 				"mhutchie.git-graph",
 				"DavidAnson.vscode-markdownlint",
