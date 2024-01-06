@@ -138,7 +138,7 @@ class TestGenericDatabaseSettings:
             "port": port,
             "database_name": db_name,
         }
-        settings = GenericDatabaseSettings(**valid_settings)
+        settings = GenericDatabaseSettings(**valid_settings)  # type: ignore
         assert settings.username == user
         assert settings.password == password
         assert settings.host == host
@@ -155,7 +155,7 @@ class TestGenericDatabaseSettings:
             "database_name": "test_db",
         }
         with pytest.raises(ValidationError):
-            GenericDatabaseSettings(**test_settings)
+            GenericDatabaseSettings(**test_settings)  # type: ignore
 
     @given(bad_password=st.integers())
     def test_invalid_password(self, bad_password: str):
@@ -167,7 +167,7 @@ class TestGenericDatabaseSettings:
             "database_name": "test_db",
         }
         with pytest.raises(ValidationError):
-            GenericDatabaseSettings(**test_settings)
+            GenericDatabaseSettings(**test_settings)  # type: ignore
 
     @given(bad_host=st.integers())
     def test_invalid_host(self, bad_host: str):
@@ -179,7 +179,7 @@ class TestGenericDatabaseSettings:
             "database_name": "test_db",
         }
         with pytest.raises(ValidationError):
-            GenericDatabaseSettings(**test_settings)
+            GenericDatabaseSettings(**test_settings)  # type: ignore
 
     @given(bad_port=st.text(alphabet=st.characters(categories=["L", "P", "S"])))
     def test_invalid_port(self, bad_port: str):
@@ -203,7 +203,7 @@ class TestGenericDatabaseSettings:
             "database_name": bad_db_name,
         }
         with pytest.raises(ValidationError):
-            GenericDatabaseSettings(**test_settings)
+            GenericDatabaseSettings(**test_settings)  # type: ignore
 
 
 class TestAppSettings:
