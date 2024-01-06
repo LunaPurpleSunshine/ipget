@@ -209,12 +209,26 @@
 		},
 		{
 			"type": "shell",
+			"label": "python-mypy",
+			"detail": "Run pytest python tests.",
+			"group": "test",
+			"command": "poetry",
+			"args": [
+				"run",
+				"mypy",
+				"src/",
+				"tests/"
+			]
+		},
+		{
+			"type": "shell",
 			"label": "python-lint-and-test",
 			"detail": "Lint, format and test python code.",
 			"dependsOrder": "sequence",
 			"dependsOn": [
 				"python-lint-ruff",
 				"python-format-ruff",
+				"python-mypy",
 				"python-pytest-coverage",
 			]
 		},
