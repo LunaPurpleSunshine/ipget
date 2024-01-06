@@ -47,10 +47,10 @@ jobs:
 
       - name: Linter
         # Update output format to enable automatic inline annotations.
-        run: ruff check --output-format=github src/ tests/
+        run: poetry run ruff check --output-format=github src/ tests/
 
       - name: Formatter
-        run: ruff format --diff src/ tests/
+        run: poetry run ruff format --diff src/ tests/
 
   pytest:
     runs-on: ubuntu-latest
