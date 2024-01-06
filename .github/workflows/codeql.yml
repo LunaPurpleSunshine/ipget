@@ -42,13 +42,13 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-    
+
     # CodeQL requires python dependencies to be installed
     - uses: actions/setup-python@v5
       id: setup-python
       if: matrix.language == 'python'
       with:
-        python-version: "3.11"
+        python-version: "3.12"
 
     - name: Install Poetry
       uses: snok/install-poetry@v1
@@ -62,7 +62,7 @@ jobs:
       id: generate-dev-requirements
       if: matrix.language == 'python'
       run: poetry export --with dev -f requirements.txt -o requirements.txt
-    
+
     - name: Pip install dependencies
       if: matrix.language == 'python'
       run: pip install -r requirements.txt --no-deps

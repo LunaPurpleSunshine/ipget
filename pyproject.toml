@@ -22,7 +22,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 sqlalchemy = "^2"
 pymysql = "*"
 discord-webhook = "*"
