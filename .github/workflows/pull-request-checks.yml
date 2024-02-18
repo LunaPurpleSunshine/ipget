@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Check semver label
         id: semver_label_check
-        uses: agilepathway/label-checker@v1.6.21
+        uses: agilepathway/label-checker@v1.6.22
         if: ${{!contains(github.event.pull_request.labels.*.name, 'documentation') && !contains(github.event.pull_request.labels.*.name, 'maintenance')}}
         with:
           prefix_mode: true
