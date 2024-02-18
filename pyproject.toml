@@ -42,9 +42,9 @@ pre-commit = "*"
 pytest-md = "*"
 pytest-emoji = "*"
 python-dotenv = "^1.0.1"
-hypothesis = "^6.98.3"
+hypothesis = "^6.98.8"
 mypy = "^1.8.0"
-types-requests = "^2.31.0.20240125"
+types-requests = "^2.31.0.20240218"
 
 [build-system]
 requires = ["poetry-core"]
