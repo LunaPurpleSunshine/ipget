@@ -503,13 +503,13 @@ files = [
 
 [[package]]
 name = "pg8000"
-version = "1.30.4"
+version = "1.30.5"
 description = "PostgreSQL interface library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pg8000-1.30.4-py3-none-any.whl", hash = "sha256:64bbe27b11588a53cee08e840988416227263dc5191b649fab963949f3ddd84d"},
-    {file = "pg8000-1.30.4.tar.gz", hash = "sha256:2fa6964fff591a5e076fa6dd21a317c74de2caaa52991bb1f8b3d8ef2e56d172"},
+    {file = "pg8000-1.30.5-py3-none-any.whl", hash = "sha256:1abf18da652b0ad8e9cbfe57ed841c350b5330c33d8151303555db1fe5ce57f8"},
+    {file = "pg8000-1.30.5.tar.gz", hash = "sha256:072f7ad00cd723695cb2e9fc02c1dfb84c781455e97b8de6f4c4281eea08078c"},
 ]
 
 [package.dependencies]
