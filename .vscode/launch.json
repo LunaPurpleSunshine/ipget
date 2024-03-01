@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "sqlite :memory:",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/src/app.py",
             "cwd": "${workspaceFolder}/src",
@@ -20,7 +20,7 @@
         },
         {
             "name": "sqlite file",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "envFile": "${workspaceFolder}/test-dotenv/test-sqlite-file.env",
             "env": {
@@ -34,7 +34,7 @@
         },
         {
             "name": "postgres",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "envFile": "${workspaceFolder}/test-dotenv/test-postgres.env",
             "env": {
@@ -47,7 +47,7 @@
         },
         {
             "name": "mysql",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "envFile": "${workspaceFolder}/test-dotenv/test-mysql.env",
             "env": {
