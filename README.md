@@ -32,7 +32,7 @@ Docker-compose files containing [SQLite](docs/sqlite-example-compose.yaml) and [
 
 ### Database Configuration
 
-| Environment Variable | Required             | Description                                                                   |
+| Environment Variable | Required By            | Description                                                                   |
 | -------------------- | -------------------- | ----------------------------------------------------------------------------- |
 | `IPGET_DB_TYPE`      | Allways              | Which database type to use. Must be one of `SQLite`, `MySQL` or `PostgreSQL`. |
 | `IPGET_DATABASE`     | `MySQL` `PostgreSQL` | Name of the database to connect to e.g. `public_ip_db`.                       |
@@ -43,11 +43,12 @@ Docker-compose files containing [SQLite](docs/sqlite-example-compose.yaml) and [
 
 #### Using SQLite
 
+> [!NOTE]
+> It is generally **not** necessary to modify environment variable configuration for SQLite, these values are intended for use in development e.g. setting the path to `:memory:`, for testing.
+
 For `SQLite`, `IPGET_DATABASE` is the path to the sqlite database file **within the container**, which defaults to `/app/public_ip.db`.
 When deploying the container, the path should be configured via docker volume mappings to a persistent location, if it is not, then the database file **will be lost** on container restart!
 See the [here](docs/sqlite-example-compose.yaml) for an example docker compose file.
-
-It is generally **not** necessary to modify environment variable configuration for SQLite, these values are intended for use in development e.g. setting the path to `:memory:`, for testing.
 
 ### Logging & Monitoring
 
@@ -79,7 +80,7 @@ If a discord webhook is given, then notifications will be sent every time the de
 
 | Environment Variable | Default                                         | Description                                                                                              |
 | -------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `IPGET_URL_LIST`     | `["https://ident.me", "https://api.ipify.org"]` | JSON-encoded string of URL(s) to use for IP address detection, the first url to return a result is used. |
+| `IPGET_URL_LIST`     | `["https://ident.me", "https://api.ipify.org"]` | JSON-encoded string of URL(s) to use for IP address detection. The first url to return a result is used. |
 
 > [!IMPORTANT]
 > The `IPGET_URL_LIST` environment variable **must** be a JSON-encoded string, representing a list of URLs, e.g. `["https://ident.me", "https://api.ipify.org", "http://ifconfig.me/ip"]`.
