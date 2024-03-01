@@ -18,6 +18,7 @@
     - [Logging \& Monitoring](#logging--monitoring)
       - [Healthchecks](#healthchecks)
       - [Discord Notifications](#discord-notifications)
+    - [Additional Settings](#additional-settings)
   - [Licence](#licence)
 
 ## About
@@ -74,6 +75,16 @@ If a discord webhook is given, then notifications will be sent every time the de
 | Environment Variable    | Default | Description                                                                                            |
 | ----------------------- | ------- | ------------------------------------------------------------------------------------------------------ |
 | `IPGET_DISCORD_WEBHOOK` | None    | Discord webhook to use for notifications. If left unspecified, Discord notifications will be disabled. |
+
+### Additional Settings
+
+| Environment Variable | Default                                         | Description                                                                                              |
+| -------------------- | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `IPGET_URL_LIST`     | `["https://ident.me", "https://api.ipify.org"]` | JSON-encoded string of URL(s) to use for IP address detection, the first url to return a result is used. |
+
+> [!IMPORTANT]
+> The `IPGET_URL_LIST` environment variable **must** be a JSON-encoded string, representing a list of URLs, e.g. `["https://ident.me", "https://api.ipify.org", "http://ifconfig.me/ip"]`.
+> URLs must return the public IP address as plain text, with no additional content.
 
 ## Licence
 

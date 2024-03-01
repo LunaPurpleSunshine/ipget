@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field, field_validator
+from pydantic import Field, HttpUrl, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from ipget.environment import (
@@ -151,3 +151,20 @@ class AppSettings(ConfiguredBaseSettings):
     @classmethod
     def convert_to_lower(cls, v):
         return v.lower() if isinstance(v, str) else v
+
+
+class URLSettings(ConfiguredBaseSettings):
+    """Settings used by the IP retrieval process.
+
+    Attributes:
+        urls (list[str]): List of URLs used to retrieve the IP address.
+    """
+
+    urls: list[HttpUrl] = Field(
+        default=[
+            "https://ident.me",
+            "https://api.ipify.org",
+        ],
+        serialization_alias="IPGET_URL_LIST",
+        validation_alias="IPGET_URL_LIST",
+    )
