@@ -18,7 +18,7 @@ mypy_path = "src"
 
 [tool.poetry]
 name = "ipget"
-version = "0.8.1"
+version = "0.11.0"
 description = "Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io."
 authors = ["Andrew Kinsman <69199502+LunaPurpleSunshine@users.noreply.github.com>"]
 license = "MIT"
