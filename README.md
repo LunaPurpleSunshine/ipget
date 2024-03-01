@@ -55,7 +55,7 @@ It is generally **not** necessary to modify environment variable configuration f
 | -------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `IPGET_LOG_LEVEL`    | `INFO`  | Log level. Passed directly to the python logging module's [`Logger.setlevel`](https://docs.python.org/3.7/library/logging.html#logging.Logger.setLevel). |
 
->[!NOTE]
+>[!WARNING]
 > Healthcheck urls (see [Healthchecks](#healthchecks)), including un-redacted uuids, etc. will be included in `DEBUG` level logging output.
 
 #### Healthchecks
