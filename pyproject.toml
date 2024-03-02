@@ -17,6 +17,7 @@ select = ["E", "F", "I", "B", "RUF", "TID252"]
 mypy_path = "src"
 
 [tool.poetry]
+package-mode = false
 name = "ipget"
 version = "0.11.0"
 description = "Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io."
