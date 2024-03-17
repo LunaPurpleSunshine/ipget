@@ -5,6 +5,7 @@
 ![Poetry Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FLunaPurpleSunshine%2Fipget%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.python&logoColor=12a8ff&label=python)
 [![Python Tests](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml)
 [![CodeQL](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FLunaPurpleSunshine%2Fipget.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FLunaPurpleSunshine%2Fipget?ref=badge_shield)
 
 ## Table of Contents
 
@@ -19,6 +20,9 @@
       - [Discord Notifications](#discord-notifications)
     - [Additional Settings](#additional-settings)
   - [Licence](#licence)
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FLunaPurpleSunshine%2Fipget.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FLunaPurpleSunshine%2Fipget?ref=badge_large)
 
 ## About
 
