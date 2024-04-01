@@ -15,6 +15,14 @@ updates:
     groups:
       development-dependencies:
         dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+        exclude-patterns:
+          - "ruff"
+          - "mypy"
+          - "pytest"
+
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -27,3 +35,6 @@ updates:
       github-actions:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
