@@ -53,9 +53,9 @@ def main() -> int:
 
     db: AlchemyDB = get_database(mode=config.db_type)
 
-    previous_ip: IPv4Address | IPv6Address | Literal[
-        "Unknown"
-    ] | None = get_previous_ip(db)
+    previous_ip: IPv4Address | IPv6Address | Literal["Unknown"] | None = (
+        get_previous_ip(db)
+    )
 
     current_ip = None
     error_list = []

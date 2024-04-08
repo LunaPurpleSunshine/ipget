@@ -29,8 +29,7 @@ def test_encode_payload_data():
     condition=not all(HEALTHCHECK_REQUIRES),
     reason="Healthcheck requirements not given in .env.test",
 )
-class HealthcheckRequirements:
-    ...
+class HealthcheckRequirements: ...
 
 
 class TestHealthCheckConfig:
