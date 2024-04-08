@@ -6,10 +6,12 @@ on:
      - reopened
      - labeled
      - unlabeled
+     - edited
+     - synchronize
 
 permissions: {}
 
-jobs:  
+jobs:
   check-labels:
     runs-on: ubuntu-latest
     steps:
