@@ -504,18 +504,18 @@ files = [
 
 [[package]]
 name = "pg8000"
-version = "1.31.1"
+version = "1.31.2"
 description = "PostgreSQL interface library"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pg8000-1.31.1-py3-none-any.whl", hash = "sha256:69aac9dba4114c9c8d0408232d54eaf7d06d271df7765caeed39960e057800e4"},
-    {file = "pg8000-1.31.1.tar.gz", hash = "sha256:b11130d4c615dd3062ea8fed8143064a7978b7fe6d44f14b72261d43c8e27087"},
+    {file = "pg8000-1.31.2-py3-none-any.whl", hash = "sha256:436c771ede71af4d4c22ba867a30add0bc5c942d7ab27fadbb6934a487ecc8f6"},
+    {file = "pg8000-1.31.2.tar.gz", hash = "sha256:1ea46cf09d8eca07fe7eaadefd7951e37bee7fabe675df164f1a572ffb300876"},
 ]
 
 [package.dependencies]
 python-dateutil = ">=2.8.2"
-scramp = ">=1.4.4"
+scramp = ">=1.4.5"
 
 [[package]]
 name = "platformdirs"
@@ -978,13 +978,13 @@ files = [
 
 [[package]]
 name = "scramp"
-version = "1.4.4"
+version = "1.4.5"
 description = "An implementation of the SCRAM protocol."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "scramp-1.4.4-py3-none-any.whl", hash = "sha256:b142312df7c2977241d951318b7ee923d6b7a4f75ba0f05b621ece1ed616faa3"},
-    {file = "scramp-1.4.4.tar.gz", hash = "sha256:b7022a140040f33cf863ab2657917ed05287a807b917950489b89b9f685d59bc"},
+    {file = "scramp-1.4.5-py3-none-any.whl", hash = "sha256:50e37c464fc67f37994e35bee4151e3d8f9320e9c204fca83a5d313c121bbbe7"},
+    {file = "scramp-1.4.5.tar.gz", hash = "sha256:be3fbe774ca577a7a658117dca014e5d254d158cecae3dd60332dfe33ce6d78e"},
 ]
 
 [package.dependencies]
