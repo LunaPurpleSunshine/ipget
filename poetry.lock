@@ -354,13 +354,13 @@ test = ["objgraph", "psutil"]
 
 [[package]]
 name = "hypothesis"
-version = "6.100.4"
+version = "6.100.7"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.100.4-py3-none-any.whl", hash = "sha256:f1909d4702d21be55720bbbc58e0b42172e14bf712a8ecbab00ad6ae209a5ec9"},
-    {file = "hypothesis-6.100.4.tar.gz", hash = "sha256:f6858353a5fae943cae149cc618b9f2b261143df9d8d792cf1065a1b289bbb24"},
+    {file = "hypothesis-6.100.7-py3-none-any.whl", hash = "sha256:45d31834346f911c7a3184addb2f244eaea649298c531ec4a1eebe99225e82bb"},
+    {file = "hypothesis-6.100.7.tar.gz", hash = "sha256:64106ba1358f6e5205d89696d3f2b033c6c4f3ec2252a128abae6466d3f4ef47"},
 ]
 
 [package.dependencies]
@@ -549,13 +549,13 @@ testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
 name = "pre-commit"
-version = "3.7.0"
+version = "3.7.1"
 description = "A framework for managing and maintaining multi-language pre-commit hooks."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pre_commit-3.7.0-py2.py3-none-any.whl", hash = "sha256:5eae9e10c2b5ac51577c3452ec0a490455c45a0533f7960f993a0d01e59decab"},
-    {file = "pre_commit-3.7.0.tar.gz", hash = "sha256:e209d61b8acdcf742404408531f0c37d49d2c734fd7cff2d6076083d191cb060"},
+    {file = "pre_commit-3.7.1-py2.py3-none-any.whl", hash = "sha256:fae36fd1d7ad7d6a5a1c0b0d5adb2ed1a3bda5a21bf6c3e5372073d7a11cd4c5"},
+    {file = "pre_commit-3.7.1.tar.gz", hash = "sha256:8ca3ad567bc78a4972a3f1a477e94a79d4597e8140a6e0b651c5e33899c3654a"},
 ]
 
 [package.dependencies]
@@ -1179,4 +1179,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "8f6dd3413a6d2ae9d440590e3e1f39e3100c1faf5b3ff8f6e8f756d6f4513889"
+content-hash = "e70445c45e07696266c5977ba4a2f2b75ea004792a894a03a793ed81c8fd3c97"
