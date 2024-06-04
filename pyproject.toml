@@ -45,7 +45,7 @@ pytest-emoji = "*"
 python-dotenv = "^1.0.1"
 hypothesis = "^6.102.6"
 mypy = "^1.10.0"
-types-requests = "^2.32.0.20240523"
+types-requests = "^2.32.0.20240602"
 
 [build-system]
 requires = ["poetry-core"]
