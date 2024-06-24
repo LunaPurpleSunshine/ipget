@@ -68,7 +68,7 @@ jobs:
 
       - name: Build test image
         id: docker_build
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64
@@ -95,7 +95,7 @@ jobs:
 
       - name: Build & push all platforms
         id: docker_tag_semver
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64, linux/arm64
@@ -109,7 +109,7 @@ jobs:
 
       - name: Push alpha/beta/rc with :dev tag
         id: docker_tag_dev
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         if: contains(github.ref_name, '-alpha.') || contains(github.ref_name, '-beta.')
         with:
           context: .
