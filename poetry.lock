@@ -354,13 +354,13 @@ test = ["objgraph", "psutil"]
 
 [[package]]
 name = "hypothesis"
-version = "6.107.0"
+version = "6.108.0"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.107.0-py3-none-any.whl", hash = "sha256:b22f5ef7d777bbad7880fd093fb62ff5025b830dc92369210e0aa2b7284cdfbd"},
-    {file = "hypothesis-6.107.0.tar.gz", hash = "sha256:4982a8b34e5f05896a5d8825e636175d89c9efa0c7df6f910f8e123c4bc8c26e"},
+    {file = "hypothesis-6.108.0-py3-none-any.whl", hash = "sha256:1546e08abcfdda4ecd86a77df87c8a694936830236c393e4ad4c31f0bcf8ee3c"},
+    {file = "hypothesis-6.108.0.tar.gz", hash = "sha256:24183b2a4d05c15834f5a80fe51cf933cdc812c4f7dc036209c9902b81d4e8e5"},
 ]
 
 [package.dependencies]
@@ -1155,4 +1155,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "e63a7662433a29e9019f35492a077bf83eaec52c6eab8b0d8f851133ddc98e13"
+content-hash = "47d8eb8cbe64fdc2d1aaa5a2004217b6b5525fd5fdf590340db1a3f70a184dc8"
