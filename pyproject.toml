@@ -44,7 +44,7 @@ pytest-md = "*"
 pytest-emoji = "*"
 python-dotenv = "^1.0.1"
 hypothesis = "^6.108.2"
-mypy = "^1.10.1"
+mypy = "^1.11.0"
 types-requests = "^2.32.0.20240712"
 
 [build-system]
