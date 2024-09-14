@@ -43,7 +43,7 @@ pre-commit = "*"
 pytest-md = "*"
 pytest-emoji = "*"
 python-dotenv = "^1.0.1"
-hypothesis = "^6.112.0"
+hypothesis = "^6.112.1"
 mypy = "^1.11.2"
 types-requests = "^2.32.0.20240907"
 
