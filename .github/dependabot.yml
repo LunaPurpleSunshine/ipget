@@ -22,7 +22,8 @@ updates:
           - "ruff"
           - "mypy"
           - "pytest"
-
+        assignees:
+          - "LunaPurpleSunshine"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -38,6 +39,8 @@ updates:
         update-types:
           - "minor"
           - "patch"
+        assignees:
+          - "LunaPurpleSunshine"
 
   - package-ecosystem: "devcontainers"
     # https://containers.dev/guide/dependabot
@@ -45,3 +48,5 @@ updates:
     schedule:
       interval: weekly
       day: "sunday"
+    assignees:
+      - "LunaPurpleSunshine"
