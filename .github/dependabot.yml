@@ -7,6 +7,8 @@ version: 2
 updates:
   - package-ecosystem: "pip" # See documentation for possible values
     directory: "/" # Location of package manifests
+    assignees:
+      - "LunaPurpleSunshine"
     schedule:
       interval: "weekly"
       day: "sunday"
@@ -23,9 +25,10 @@ updates:
           - "mypy"
           - "pytest"
 
-
   - package-ecosystem: "github-actions"
     directory: "/"
+    assignees:
+      - "LunaPurpleSunshine"
     schedule:
       # Check for updates to GitHub Actions every week
       interval: "weekly"
@@ -42,6 +45,8 @@ updates:
   - package-ecosystem: "devcontainers"
     # https://containers.dev/guide/dependabot
     directory: "/"
+    assignees:
+      - "LunaPurpleSunshine"
     schedule:
       interval: weekly
       day: "sunday"
