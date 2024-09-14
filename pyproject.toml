@@ -32,7 +32,7 @@ pymysql = "*"
 discord-webhook = "*"
 requests = "*"
 pg8000 = "*"
-pydantic-settings = "^2.4.0"
+pydantic-settings = "^2.5.2"
 
 [tool.poetry.group.dev.dependencies]
 rope = "*"
