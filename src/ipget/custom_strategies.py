@@ -1,5 +1,3 @@
-import random
-
 from hypothesis import strategies as st
 
 
@@ -22,5 +20,5 @@ def _generate_casing_variations(input_string: str):
 
 @st.composite
 def random_casing(draw: st.DrawFn, string_list: list[str]):
-    rand_level = random.choice(string_list)
+    rand_level = draw(st.sampled_from(string_list))
     return draw(st.sampled_from(_generate_casing_variations(rand_level)))
