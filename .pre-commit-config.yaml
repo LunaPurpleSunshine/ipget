@@ -1,6 +1,13 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
+ci:
+  skip:  # a list of hook ids to skip only in pre-commit.ci
+    # These hooks refer to tools that are run separately in CI.
+    - ggshield
+    - ruff
+    - ruff-format
+
 default_language_version:
   python: python3.12
 
