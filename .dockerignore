@@ -1,7 +1,10 @@
 # Ignore everything
 **
 
-# ... except for dependencies and source
+# ... EXCEPT for dependencies and source,
 !requirements.txt
 !src/
 !docs/
+
+# but DO ignore parts of the module used ONLY in testing
+src/**/custom_strategies.py
