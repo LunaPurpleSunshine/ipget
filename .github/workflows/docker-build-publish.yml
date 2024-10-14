@@ -24,7 +24,7 @@ jobs:
       packages: write
 
     steps:
-      # Get repo, python, and poetry
+      # Get repo, python, and uv
       - name: Checkout the repository
         uses: actions/checkout@v4
 

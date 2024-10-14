@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      # Get repo, python, and poetry
+      # Get repo, python, and uv
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      # Get repo, python, and poetry
+      # Get repo, python, and uv
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: {}
     steps:
-      # Get repo, python, and poetry
+      # Get repo, python, and uv
       - name: Checkout Repository
         uses: actions/checkout@v4
 
