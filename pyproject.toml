@@ -27,7 +27,7 @@ dev = [
     "pytest-emoji == 0.2.0",
     "python-dotenv == 1.0.1",
     "hypothesis == 6.115.0",
-    "mypy == 1.11.2",
+    "mypy ==1.12.0",
     "types-requests == 2.32.0.20240914",
 ]
 
