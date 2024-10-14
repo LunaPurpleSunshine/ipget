@@ -1,4 +1,4 @@
-name: Dependabot Labeler
+name: PR Auto-Manager
 on:
   pull_request:
     types:
@@ -16,7 +16,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  pre-commit-ci-labler:
+  pre-commit-ci:
     runs-on: ubuntu-latest
     if: github.actor == 'pre-commit-ci[bot]'
     steps:
