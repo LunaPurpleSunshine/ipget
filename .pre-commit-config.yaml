@@ -16,6 +16,8 @@ repos:
     rev: v5.0.0 # Use the sha / tag you want to point at
     hooks:
       - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-illegal-windows-names
       - id: check-merge-conflict
       - id: debug-statements
       - id: detect-private-key

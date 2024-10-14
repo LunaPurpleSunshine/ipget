@@ -1,4 +1,4 @@
-name: Dependabot Labeler
+name: PR Auto-Manager
 on:
   pull_request:
     types:
@@ -16,6 +16,18 @@ permissions:
   pull-requests: write
 
 jobs:
+  pre-commit-ci:
+    runs-on: ubuntu-latest
+    if: github.actor == 'pre-commit-ci[bot]'
+    steps:
+      - name: Add semver:patch label
+        id: label-maintenance
+        run: gh pr edit "${{env.PR_URL}}" --add-label "maintenance"
+
+      - name: Assign owner
+        id: assign-owner
+        run: gh pr edit "${{env.PR_URL}}" --add-assignee "${{ github.repository_owner }}"
+
   dependabot-labeler:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
