@@ -10,8 +10,12 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-      "matchDepTypes": ["project.dependencies"],
+      "matchDepTypes": ["project.dependencies", "tool.uv.dev-dependencies"],
       "labels": ["dependencies"]
+    },
+    {
+      "matchDepTypes": ["project.dependencies", "!tool.uv.dev-dependencies"],
+      "addLabels": ["dependencies:production"]
     },
     {
       "matchDepTypes": ["tool.uv.dev-dependencies"],
