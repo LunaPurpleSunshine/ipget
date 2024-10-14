@@ -16,6 +16,26 @@
     {
       "matchDepTypes": ["tool.uv.dev-dependencies"],
       "addLabels": ["dependencies:development"]
+    },
+    {
+      "matchManagers": ["pep621"],
+      "addLabels": ["python"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions"]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["semver:major"]
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["semver:minor"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "addLabels": ["semver:patch"]
     }
   ]
 }
