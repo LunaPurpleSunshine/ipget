@@ -2,49 +2,28 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "shell",
-			"label": "Generate requirements.txt-production",
-			"detail": "Generates requirements.txt with production/deployment requirements ONLY.",
-			"group": "build",
-			"command": "poetry",
-			"args": [
-				"export",
-				"--only",
-				"main",
-				"-f",
-				"requirements.txt",
-				"--output",
-				"requirements.txt",
-			]
-		},
-		{
-			"type": "shell",
-			"label": "Generate requirements.txt-development",
-			"detail": "Generates development-requirements.txt",
-			"group": "build",
-			"command": "poetry",
-			"args": [
-				"export",
-				"--with",
-				"dev",
-				"-f",
-				"requirements.txt",
-				"--output",
-				"dev-requirements.txt",
-			]
-		},
-		{
 			"label": "docker-build :code",
-			"detail": "Builds multi-arch docker container as lunapurplesunshine/ipget:code. Does NOT push.",
-			"dependsOn": ["Generate requirements.txt-production"],
-			"dependsOrder": "sequence",
+			"detail": "Builds linux/amd64 docker container as lunapurplesunshine/ipget:code. Does NOT push.",
 			"type": "docker-build",
 			"platform": "python",
 			"dockerBuild": {
-				// "platform": "linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7",
+				"platform": "linux/amd64", // linux/arm64,linux/arm/v6,linux/arm/v7"
 				"dockerfile": "${workspaceFolder}/Dockerfile",
 				"context": "${workspaceFolder}",
-				"tag": "lunapurplesunshine/ipget:code",
+				"tag": "lunapurplesunshine/ipget:code-alpine",
+			},
+			"group": "build"
+		},
+		{
+			"label": "docker-build :code-debian",
+			"detail": "Builds linux/amd64 docker container as lunapurplesunshine/ipget:code. Does NOT push.",
+			"type": "docker-build",
+			"platform": "python",
+			"dockerBuild": {
+				"platform": "linux/amd64", // linux/arm64,linux/arm/v6,linux/arm/v7"
+				"dockerfile": "${workspaceFolder}/debian.Dockerfile",
+				"context": "${workspaceFolder}",
+				"tag": "lunapurplesunshine/ipget:code-debian",
 			},
 			"group": "build"
 		},
@@ -159,7 +138,7 @@
 			"label": "python-lint-ruff",
 			"detail": "Lint python coder with ruff.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"ruff",
@@ -173,7 +152,7 @@
 			"label": "python-format-ruff",
 			"detail": "Format python code with black.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"ruff",
@@ -187,7 +166,7 @@
 			"label": "python-pytest-basic",
 			"detail": "Run pytest python tests.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pytest",
@@ -199,7 +178,7 @@
 			"label": "python-pytest-coverage",
 			"detail": "Run pytest python tests with coverage report.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pytest",
@@ -212,7 +191,7 @@
 			"label": "python-mypy",
 			"detail": "Run pytest python tests.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"mypy",
@@ -251,7 +230,7 @@
 			"label": "precommit-uninstall",
 			"detail": "Uninstall pre-commit hooks.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pre-commit",
@@ -263,7 +242,7 @@
 			"label": "precommit-install",
 			"detail": "Install pre-commit hooks.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pre-commit",
@@ -275,7 +254,7 @@
 			"label": "precommit-autoupdate",
 			"detail": "Auto-update pre-commit hooks.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pre-commit",
@@ -296,10 +275,10 @@
 		},
 		{
 			"type": "shell",
-			"label": "poetry update & lock dependencies",
-			"detail": "Update all dependencies and update poetry.lock.",
+			"label": "uv update & lock dependencies",
+			"detail": "Update all dependencies and update uv.lock.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"lock"
 			]
