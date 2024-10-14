@@ -26,19 +26,26 @@
       "addLabels": ["python"]
     },
     {
-      "matchManagers": ["github-actions"],
-      "addLabels": ["github_actions"]
-    },
-    {
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["project.dependencies"],
       "matchUpdateTypes": ["major"],
       "addLabels": ["semver:major"]
     },
     {
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["project.dependencies"],
       "matchUpdateTypes": ["minor"],
       "addLabels": ["semver:minor"]
     },
     {
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["project.dependencies"],
       "matchUpdateTypes": ["patch"],
+      "addLabels": ["semver:patch"]
+    },
+    {
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["tool.uv.dev-dependencies"],
       "addLabels": ["semver:patch"]
     }
   ]
