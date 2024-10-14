@@ -2,49 +2,28 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "shell",
-			"label": "Generate requirements.txt-production",
-			"detail": "Generates requirements.txt with production/deployment requirements ONLY.",
-			"group": "build",
-			"command": "poetry",
-			"args": [
-				"export",
-				"--only",
-				"main",
-				"-f",
-				"requirements.txt",
-				"--output",
-				"requirements.txt",
-			]
-		},
-		{
-			"type": "shell",
-			"label": "Generate requirements.txt-development",
-			"detail": "Generates development-requirements.txt",
-			"group": "build",
-			"command": "poetry",
-			"args": [
-				"export",
-				"--with",
-				"dev",
-				"-f",
-				"requirements.txt",
-				"--output",
-				"dev-requirements.txt",
-			]
-		},
-		{
 			"label": "docker-build :code",
-			"detail": "Builds multi-arch docker container as lunapurplesunshine/ipget:code. Does NOT push.",
-			"dependsOn": ["Generate requirements.txt-production"],
-			"dependsOrder": "sequence",
+			"detail": "Builds linux/amd64 docker container as lunapurplesunshine/ipget:code. Does NOT push.",
 			"type": "docker-build",
 			"platform": "python",
 			"dockerBuild": {
-				// "platform": "linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7",
+				"platform": "linux/amd64", // linux/arm64,linux/arm/v6,linux/arm/v7"
 				"dockerfile": "${workspaceFolder}/Dockerfile",
 				"context": "${workspaceFolder}",
-				"tag": "lunapurplesunshine/ipget:code",
+				"tag": "lunapurplesunshine/ipget:code-alpine",
+			},
+			"group": "build"
+		},
+		{
+			"label": "docker-build :code-debian",
+			"detail": "Builds linux/amd64 docker container as lunapurplesunshine/ipget:code. Does NOT push.",
+			"type": "docker-build",
+			"platform": "python",
+			"dockerBuild": {
+				"platform": "linux/amd64", // linux/arm64,linux/arm/v6,linux/arm/v7"
+				"dockerfile": "${workspaceFolder}/debian.Dockerfile",
+				"context": "${workspaceFolder}",
+				"tag": "lunapurplesunshine/ipget:code-debian",
 			},
 			"group": "build"
 		},
