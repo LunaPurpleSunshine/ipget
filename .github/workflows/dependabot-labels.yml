@@ -16,6 +16,14 @@ permissions:
   pull-requests: write
 
 jobs:
+  pre-commit-ci-labler:
+    runs-on: ubuntu-latest
+    if: github.actor == 'pre-commit-ci[bot]'
+    steps:
+      - name: Add semver:patch label
+        id: label-maintenance
+        run: gh pr edit "${{env.PR_URL}}" --add-label "maintenance"
+
   dependabot-labeler:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
