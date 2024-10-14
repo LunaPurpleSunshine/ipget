@@ -24,6 +24,10 @@ jobs:
         id: label-maintenance
         run: gh pr edit "${{env.PR_URL}}" --add-label "maintenance"
 
+      - name: Assign maintainer
+        id: assign-maintainer
+        run: gh pr edit "${{env.PR_URL}}" --add-assignee "LunaPurpleSunshine"
+
   dependabot-labeler:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
