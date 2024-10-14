@@ -100,7 +100,7 @@ jobs:
       - name: Run pytest
         uses: pavelzw/pytest-action@v2.2.0
         with:
-          custom-pytest: poetry run pytest
+          custom-pytest: uv run pytest
           custom-arguments: -r a
           report-title: Pytest Report
           click-to-expand: true
