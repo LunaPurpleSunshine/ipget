@@ -2,7 +2,7 @@
 
 ![GitHub](https://img.shields.io/github/license/LunaPurpleSunshine/ipget?label=licence)
 [![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/LunaPurpleSunshine/ipget?sort=semver)](https://github.com/LunaPurpleSunshine/ipget-docker/releases)
-![Poetry Python Version](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2FLunaPurpleSunshine%2Fipget%2Fmaster%2Fpyproject.toml&query=%24.tool.poetry.dependencies.python&logoColor=12a8ff&label=python)
+
 [![Python Tests](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml)
 [![CodeQL](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LunaPurpleSunshine/ipget/master.svg)](https://results.pre-commit.ci/latest/github/LunaPurpleSunshine/ipget/master)
