@@ -47,6 +47,14 @@
       "matchManagers": ["pep621"],
       "matchDepTypes": ["tool.uv.dev-dependencies"],
       "addLabels": ["semver:patch"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions", "maintenance"]
+    },
+    {
+      "matchManagers": ["docker", "docker-compose", "dockerfile"],
+      "addLabels": ["dependencies"]
     }
   ]
 }
