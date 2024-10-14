@@ -2,7 +2,8 @@
 **
 
 # ... EXCEPT for dependencies and source,
-!requirements.txt
+!uv.lock
+!pyproject.toml
 !src/
 !docs/
 

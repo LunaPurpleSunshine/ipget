@@ -1,3 +1,6 @@
+# Some parts of this dockerfile are based on the example uv Python Dockerfile found at
+# https://hynek.me/articles/docker-uv/ (retrieved 2024-10-14)
+
 FROM python:3.12-alpine AS base
 
 # Setup env
@@ -10,14 +13,24 @@ ENV PYTHONFAULTHANDLER=1
 RUN apk update && apk upgrade --no-cache
 
 FROM base AS python-deps
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+# - Silence uv complaining about not being able to use hard links,
+# - tell uv to byte-compile packages for faster application startups,
+# - and finally declare `/app` as the target for `uv sync`.
+ENV UV_LINK_MODE=copy \
+    UV_COMPILE_BYTECODE=1 \
+    UV_PROJECT_ENVIRONMENT=/app/.venv
 
-# Install python deps into venv
-ENV VIRTUAL_ENV=/.venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-COPY requirements.txt .
-RUN --mount=type=cache,target=~/.cache/pip \
-    pip install -r requirements.txt
+# Since there's no point in shipping lock files, we move them
+# into a directory that is NOT copied into the runtime image.
+# The trailing slash makes COPY create `/_lock/` automagically.
+COPY pyproject.toml /_lock/
+COPY uv.lock /_lock/
+
+# Synchronize DEPENDENCIES without the application itself.
+RUN --mount=type=cache,target=/root/.cache  cd /_lock && \
+    uv sync --locked --no-dev --no-install-project
 
 FROM base AS runtime
 
@@ -25,8 +38,8 @@ FROM base AS runtime
 ENV PYTHONUNBUFFERED=1
 
 # Copy virtual env from python-deps stage
-COPY --from=python-deps /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
+COPY --from=python-deps /app/.venv /home/appuser/.venv
+ENV PATH="/home/appuser/.venv/bin:$PATH"
 
 # Create and switch to a new user
 # THIS BREAKS LOGGING with permissions errors writing the log file
@@ -40,3 +53,5 @@ COPY ./src /home/appuser/app
 
 # Run the application
 ENTRYPOINT ["python", "/home/appuser/app/app.py"]
+# See <https://hynek.me/articles/docker-signals/>.
+STOPSIGNAL SIGINT
