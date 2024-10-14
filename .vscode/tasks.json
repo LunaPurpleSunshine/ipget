@@ -138,7 +138,7 @@
 			"label": "python-lint-ruff",
 			"detail": "Lint python coder with ruff.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"ruff",
@@ -152,7 +152,7 @@
 			"label": "python-format-ruff",
 			"detail": "Format python code with black.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"ruff",
@@ -166,7 +166,7 @@
 			"label": "python-pytest-basic",
 			"detail": "Run pytest python tests.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pytest",
@@ -178,7 +178,7 @@
 			"label": "python-pytest-coverage",
 			"detail": "Run pytest python tests with coverage report.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pytest",
@@ -191,7 +191,7 @@
 			"label": "python-mypy",
 			"detail": "Run pytest python tests.",
 			"group": "test",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"mypy",
@@ -230,7 +230,7 @@
 			"label": "precommit-uninstall",
 			"detail": "Uninstall pre-commit hooks.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pre-commit",
@@ -242,7 +242,7 @@
 			"label": "precommit-install",
 			"detail": "Install pre-commit hooks.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pre-commit",
@@ -254,7 +254,7 @@
 			"label": "precommit-autoupdate",
 			"detail": "Auto-update pre-commit hooks.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"run",
 				"pre-commit",
@@ -275,10 +275,10 @@
 		},
 		{
 			"type": "shell",
-			"label": "poetry update & lock dependencies",
-			"detail": "Update all dependencies and update poetry.lock.",
+			"label": "uv update & lock dependencies",
+			"detail": "Update all dependencies and update uv.lock.",
 			"group": "none",
-			"command": "poetry",
+			"command": "uv",
 			"args": [
 				"lock"
 			]
