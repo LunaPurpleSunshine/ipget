@@ -1,5 +1,5 @@
 [project]
-requires-python = ">=3.12.7, <3.13"
+requires-python = ">=3.13"
 name = "ipget"
 version = "0.11.0"
 description = "Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io."
@@ -16,8 +16,8 @@ dependencies = [
     "sqlalchemy == 2.0.35",
 ]
 
-[project.optional-dependencies]
-dev = [
+[tool.uv]
+dev-dependencies = [
     "rope == 1.13.0",
     "ruff == 0.6.9",
     "pytest == 8.3.3",
@@ -30,7 +30,6 @@ dev = [
     "mypy ==1.12.0",
     "types-requests == 2.32.0.20240914",
 ]
-
 
 [tool.pytest.ini_options]
 pythonpath = "src/"
