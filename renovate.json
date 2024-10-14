@@ -55,6 +55,11 @@
     {
       "matchManagers": ["docker", "docker-compose", "dockerfile"],
       "addLabels": ["dependencies"]
+    },
+    {
+      "matchManagers": ["docker", "docker-compose", "dockerfile"],
+      "matchPackageNames": ["python"],
+      "enabled": false
     }
   ]
 }
