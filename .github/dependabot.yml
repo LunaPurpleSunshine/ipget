@@ -41,12 +41,3 @@ updates:
         update-types:
           - "minor"
           - "patch"
-
-  - package-ecosystem: "devcontainers"
-    # https://containers.dev/guide/dependabot
-    directory: "/"
-    assignees:
-      - "LunaPurpleSunshine"
-    schedule:
-      interval: weekly
-      day: "sunday"
