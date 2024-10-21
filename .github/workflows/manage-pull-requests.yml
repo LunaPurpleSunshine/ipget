@@ -1,4 +1,4 @@
-name: PR Auto-Manager
+name: PR Manager
 on:
   pull_request:
     types:
@@ -28,7 +28,7 @@ jobs:
         id: assign-owner
         run: gh pr edit "${{env.PR_URL}}" --add-assignee "${{ github.repository_owner }}"
 
-  dependabot-labeler:
+  dependabot:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
