@@ -29,18 +29,12 @@
       "matchManagers": ["pep621"],
       "matchDepTypes": ["project.dependencies"],
       "matchUpdateTypes": ["major"],
-      "addLabels": ["semver:major"]
-    },
-    {
-      "matchManagers": ["pep621"],
-      "matchDepTypes": ["project.dependencies"],
-      "matchUpdateTypes": ["minor"],
       "addLabels": ["semver:minor"]
     },
     {
       "matchManagers": ["pep621"],
       "matchDepTypes": ["project.dependencies"],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["minor", "patch"],
       "addLabels": ["semver:patch"]
     },
     {
