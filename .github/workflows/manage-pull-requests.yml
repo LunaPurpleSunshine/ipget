@@ -86,6 +86,16 @@ jobs:
         if: steps.metadata.outputs.package-ecosystem == 'github-actions'
         run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_DEVELOPMENT}}"
 
+  renovate:
+    runs-on: ubuntu-latest
+    if: github.actor == 'renovate[bot]'
+    steps:
+      - name: Label Lock file maintenance
+        id: label-lock-file-maintenance
+        # Only run if the PR title contains "Lock file"
+        if: contains(github.event.pull_request.title, 'Lock file')
+        run: gh pr edit "${{env.PR_URL}}" --add-label "semver:patch"
+
   check-labels:
     # This job should run, even if the previous jobs failed or were skipped,
     # but MUST run after them, if they are not skipped.
@@ -93,6 +103,7 @@ jobs:
     needs:
       - pre-commit-ci
       - dependabot
+      - renovate
     if: ${{ ! cancelled() }}
     steps:
       - name: Check semver label
