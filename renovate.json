@@ -3,6 +3,9 @@
   "extends": [
     "config:recommended"
   ],
+  "schedule": [
+    "every weekend"
+  ],
   "assignees": ["LunaPurpleSunshine"],
   "lockFileMaintenance": {
     "enabled": true
