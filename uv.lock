@@ -190,7 +190,7 @@ dependencies = [
     { name = "sqlalchemy" },
 ]
 
-[package.dev-dependencies]
+[package.dependency-groups]
 dev = [
     { name = "hypothesis" },
     { name = "mypy" },
@@ -215,7 +215,7 @@ requires-dist = [
     { name = "sqlalchemy", specifier = "==2.0.36" },
 ]
 
-[package.metadata.requires-dev]
+[package.metadata.dependency-groups]
 dev = [
     { name = "hypothesis", specifier = "==6.115.5" },
     { name = "mypy", specifier = "==1.13.0" },
