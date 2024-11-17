@@ -139,15 +139,15 @@ wheels = [
 
 [[package]]
 name = "hypothesis"
-version = "6.119.1"
+version = "6.119.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "sortedcontainers" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/86/8a/1da6247cd23495c310513a1b9127835d7284310a403ce67f2d301a5f93c1/hypothesis-6.119.1.tar.gz", hash = "sha256:f9a1a4bc765bcf5879ad7a5f05ab1533adff39388e4e6a6e25c1b7c4a56aa189", size = 412203 }
+sdist = { url = "https://files.pythonhosted.org/packages/68/1b/1b27b5b0328a421d19757643ba6ce5afd169faf5d271e3e108d358689db7/hypothesis-6.119.2.tar.gz", hash = "sha256:001ea8eda13edba31d67bea1fa8843880a0d6312cc22dc83710adb242efbec14", size = 412417 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d5/4c/fd30d050667ef106136e8ba88b3061921f9dcf0ebcb2a86eba77693e5db2/hypothesis-6.119.1-py3-none-any.whl", hash = "sha256:77ff76a995ef40999b96e70abb6ab839d077df2f6127230f36bf9ed24c67473b", size = 473393 },
+    { url = "https://files.pythonhosted.org/packages/3d/df/6b855af644462fd8bfd72fb49366663b626bfe0e92d81878612f2258f9f6/hypothesis-6.119.2-py3-none-any.whl", hash = "sha256:0de7ac207578d1bb5719a71b67f6d2ed8bad8aeab32b2f1f38647bd20af3ded5", size = 473580 },
 ]
 
 [[package]]
@@ -217,7 +217,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "hypothesis", specifier = "==6.119.1" },
+    { name = "hypothesis", specifier = "==6.119.2" },
     { name = "mypy", specifier = "==1.13.0" },
     { name = "pre-commit", specifier = "==4.0.1" },
     { name = "pytest", specifier = "==8.3.3" },
