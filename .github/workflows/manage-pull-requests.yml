@@ -106,11 +106,6 @@ jobs:
       - renovate
     if: ${{ ! cancelled() }}
     steps:
-      - name: Debug show PR author & actor
-        run: |
-          echo "Author: ${{ github.event.pull_request.user.login }}"
-          echo "Actor: ${{ github.actor }}"
-
       - name: Check semver label
         id: semver_label_check
         uses: agilepathway/label-checker@v1.6.56
