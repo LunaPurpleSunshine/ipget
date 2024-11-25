@@ -162,8 +162,8 @@ class URLSettings(ConfiguredBaseSettings):
 
     urls: list[HttpUrl] = Field(
         default=[
-            "https://ident.me",
-            "https://api.ipify.org",
+            HttpUrl("https://ident.me"),
+            HttpUrl("https://api.ipify.org"),
         ],
         serialization_alias="IPGET_URL_LIST",
         validation_alias="IPGET_URL_LIST",
