@@ -1,8 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
+    "config:recommended",
+    "docker:pinDigests",
+    "customManagers:dockerfileVersions",
+    "customManagers:githubActionsVersions"
   ],
+  "platformAutomerge": true,
+  "semanticCommits": "enabled",
   "schedule": [
     "every weekend"
   ],
@@ -12,6 +17,25 @@
   },
   "labels": ["dependencies"],
   "packageRules": [
+    {
+    "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
+    "automerge": true
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions", "maintenance"],
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "addLabels": ["dependencies"]
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "matchPackageNames": ["python"],
+      "enabled": false
+    },
     {
       "matchDepTypes": ["project.dependencies", "tool.uv.dev-dependencies"],
       "labels": ["dependencies"]
@@ -44,19 +68,6 @@
       "matchManagers": ["pep621"],
       "matchDepTypes": ["tool.uv.dev-dependencies"],
       "addLabels": ["semver:patch"]
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "addLabels": ["github_actions", "maintenance"]
-    },
-    {
-      "matchManagers": ["docker-compose", "dockerfile"],
-      "addLabels": ["dependencies"]
-    },
-    {
-      "matchManagers": ["docker-compose", "dockerfile"],
-      "matchPackageNames": ["python"],
-      "enabled": false
     }
   ]
 }
