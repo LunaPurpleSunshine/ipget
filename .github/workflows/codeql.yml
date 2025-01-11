@@ -22,7 +22,7 @@ on:
 
 env:
   # renovate: datasource=github-releases depName=uv packageName=astral-sh/uv
-  UV_VERSION: "0.4.20"
+  UV_VERSION: "0.5.18"
 
 jobs:
   analyze:
