@@ -27,5 +27,5 @@ class IPRetrievalError(Exception):
     def __str__(self) -> str:
         return (
             "Failed to retrieve IP address from any of the following URLs: "
-            f"{", ".join(self.urls)}"
+            f"{', '.join(self.urls)}"
         )
