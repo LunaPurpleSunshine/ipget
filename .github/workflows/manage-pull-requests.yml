@@ -108,7 +108,7 @@ jobs:
     steps:
       - name: Check semver label
         id: semver_label_check
-        uses: agilepathway/label-checker@v1.6.60
+        uses: agilepathway/label-checker@v1.6.61
         # Ignore documentation and repository maintenance PRs, as they are should not bump the semver
         if: ${{!contains(github.event.pull_request.labels.*.name, 'documentation') && !contains(github.event.pull_request.labels.*.name, 'maintenance')}}
         with:
