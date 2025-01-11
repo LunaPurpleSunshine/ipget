@@ -11,7 +11,7 @@ on:
 
 # Since this workflow is triggered by ALL changes to labels,
 # we only want to let the most recent one run.
-# This avoids issues when multiple labesl are added/removed at the same time.
+# This avoids issues when multiple labels are added/removed at the same time.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref || github.run_id}}
   cancel-in-progress: true
