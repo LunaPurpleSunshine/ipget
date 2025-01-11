@@ -7,6 +7,8 @@ ci:
     - ggshield
     - ruff
     - ruff-format
+  autoupdate_commit_msg: "chore(pre-commit): pre-commit autoupdate"
+  autofix_commit_msg: "chore(pre-commit): auto fixes from pre-commit hooks"
 
 default_language_version:
   python: python3.12
