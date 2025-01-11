@@ -59,10 +59,13 @@
       "addLabels": ["semver:minor"]
     },
     {
-      "matchManagers": ["pep621"],
-      "matchDepTypes": ["project.dependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": ["!major"],
       "addLabels": ["semver:patch"]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "matchDepTypes": ["!tool.uv.dev-dependencies"],
+      "addLabels": ["semver:minor"]
     },
     {
       "matchManagers": ["pep621"],
