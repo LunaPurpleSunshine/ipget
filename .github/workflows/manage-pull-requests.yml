@@ -9,6 +9,13 @@ on:
       - edited
       - synchronize
 
+# Since this workflow is triggered by ALL changes to labels,
+# we only want to let the most recent one run.
+# This avoids issues when multiple labels are added/removed at the same time.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id}}
+  cancel-in-progress: true
+
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PR_URL: ${{github.event.pull_request.html_url}}
