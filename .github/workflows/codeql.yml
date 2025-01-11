@@ -20,6 +20,10 @@ on:
   schedule:
     - cron: '26 23 * * 3'
 
+env:
+  # renovate: datasource=github-releases depName=uv packageName=astral-sh/uv
+  UV_VERSION: "0.4.20"
+
 jobs:
   analyze:
     name: Analyze
@@ -55,7 +59,7 @@ jobs:
       if: matrix.language == 'python'
       with:
         # Install a specific version of uv.
-        version: "0.4.20"
+        version: ${{env.UV_VERSION}}
         enable-cache: true
         cache-dependency-glob: "uv.lock"
 
