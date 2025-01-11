@@ -22,6 +22,21 @@
     "automerge": true
     },
     {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions", "maintenance"],
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "addLabels": ["dependencies"]
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "matchPackageNames": ["python"],
+      "enabled": false
+    },
+    {
       "matchDepTypes": ["project.dependencies", "tool.uv.dev-dependencies"],
       "labels": ["dependencies"]
     },
@@ -53,19 +68,6 @@
       "matchManagers": ["pep621"],
       "matchDepTypes": ["tool.uv.dev-dependencies"],
       "addLabels": ["semver:patch"]
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "addLabels": ["github_actions", "maintenance"]
-    },
-    {
-      "matchManagers": ["docker-compose", "dockerfile"],
-      "addLabels": ["dependencies"]
-    },
-    {
-      "matchManagers": ["docker-compose", "dockerfile"],
-      "matchPackageNames": ["python"],
-      "enabled": false
     }
   ]
 }
