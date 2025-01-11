@@ -59,11 +59,15 @@
       "addLabels": ["semver:minor"]
     },
     {
-      "matchUpdateTypes": ["!major"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance", "rollback", "bump"],
       "addLabels": ["semver:patch"]
     },
     {
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": ["pinDigest"],
+      "addLabels": ["maintenance"]
+    },
+    {
+      "matchUpdateTypes": ["major", "replacement"],
       "matchDepTypes": ["!tool.uv.dev-dependencies"],
       "addLabels": ["semver:minor"]
     },
