@@ -22,23 +22,27 @@
     "automerge": true
     },
     {
-      "matchManagers": ["github-actions"],
-      "addLabels": ["github_actions", "maintenance"],
-      "semanticCommitType": "ci",
-      "semanticCommitScope": "deps"
-    },
-    {
-      "matchManagers": ["docker-compose", "dockerfile"],
-      "addLabels": ["dependencies"]
-    },
-    {
       "matchManagers": ["docker-compose", "dockerfile"],
       "matchPackageNames": ["python"],
       "enabled": false
     },
     {
+      "matchManagers": ["github-actions"],
+      "labels": ["github_actions", "maintenance"],
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchManagers": ["docker-compose", "dockerfile"],
+      "labels": ["dependencies", "semver:patch"]
+    },
+    {
+      "matchManagers": ["pep621"],
+      "addLabels": ["python"]
+    },
+    {
       "matchDepTypes": ["project.dependencies", "tool.uv.dev-dependencies"],
-      "labels": ["dependencies"]
+      "addLabels": ["dependencies"]
     },
     {
       "matchDepTypes": ["project.dependencies", "!tool.uv.dev-dependencies"],
@@ -49,25 +53,22 @@
       "addLabels": ["dependencies:development"]
     },
     {
-      "matchManagers": ["pep621"],
-      "addLabels": ["python"]
+      "matchUpdateTypes": ["pinDigest"],
+      "addLabels": ["maintenance"]
     },
     {
-      "matchManagers": ["pep621"],
-      "matchDepTypes": ["project.dependencies"],
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance", "rollback", "bump"],
+      "addLabels": ["semver:patch"]
+    },
+    {
+      "matchUpdateTypes": ["major", "replacement"],
+      "matchDepTypes": ["!tool.uv.dev-dependencies"],
       "addLabels": ["semver:minor"]
     },
     {
-      "matchManagers": ["pep621"],
-      "matchDepTypes": ["project.dependencies"],
-      "matchUpdateTypes": ["minor", "patch"],
-      "addLabels": ["semver:patch"]
-    },
-    {
-      "matchManagers": ["pep621"],
+      "matchUpdateTypes": ["major", "replacement"],
       "matchDepTypes": ["tool.uv.dev-dependencies"],
-      "addLabels": ["semver:patch"]
+      "addLabels": ["semver:minor"]
     }
   ]
 }
