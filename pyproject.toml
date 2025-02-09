@@ -26,7 +26,7 @@ dev-dependencies = [
     "pytest-md == 0.2.0",
     "pytest-emoji == 0.2.0",
     "python-dotenv == 1.0.1",
-    "hypothesis ==6.124.9",
+    "hypothesis ==6.125.2",
     "mypy ==1.15.0",
     "types-requests ==2.32.0.20241016",
 ]
