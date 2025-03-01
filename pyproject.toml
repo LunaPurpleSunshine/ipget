@@ -28,7 +28,7 @@ dev-dependencies = [
     "python-dotenv == 1.0.1",
     "hypothesis ==6.127.3",
     "mypy ==1.15.0",
-    "types-requests ==2.32.0.20241016",
+    "types-requests ==2.32.0.20250301",
 ]
 
 [tool.pytest.ini_options]
