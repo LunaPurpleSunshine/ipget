@@ -109,14 +109,14 @@ wheels = [
 
 [[package]]
 name = "discord-webhook"
-version = "1.3.1"
+version = "1.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e8/e6/660b07356a15d98787d893f879efc404eb15176312d457f2f6f7090acd32/discord_webhook-1.3.1.tar.gz", hash = "sha256:ee3e0f3ea4f3dc8dc42be91f75b894a01624c6c13fea28e23ebcf9a6c9a304f7", size = 11715 }
+sdist = { url = "https://files.pythonhosted.org/packages/89/35/4837053ab7d781983c2dce787c5dda42918c3b2936ccadf4e097057ca29a/discord_webhook-1.4.1.tar.gz", hash = "sha256:2913c3ccb216e7d82911f96296f78b6b28b68a6f33a6fa5a61fc2da697b34a4d", size = 13724 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/92/e2/eed83ebc8d88da0930143a6dd1d0ba0b6deba1fd91b956f21c23a2608510/discord_webhook-1.3.1-py3-none-any.whl", hash = "sha256:ede07028316de76d24eb811836e2b818b2017510da786777adcb0d5970e7af79", size = 13206 },
+    { url = "https://files.pythonhosted.org/packages/9b/90/a4db0122694a5657d9434f5c782adc894477a2d17776309290674ba3e7ac/discord_webhook-1.4.1-py3-none-any.whl", hash = "sha256:1ed6a07d16ca0e6e6b1a91536c2fc34d0ba8251e5be37fe8850189aaf1155ee8", size = 13573 },
 ]
 
 [[package]]
@@ -231,7 +231,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "discord-webhook", specifier = "==1.3.1" },
+    { name = "discord-webhook", specifier = "==1.4.1" },
     { name = "pg8000", specifier = "==1.31.2" },
     { name = "pydantic-settings", specifier = "==2.8.1" },
     { name = "pymysql", specifier = "==1.1.1" },
