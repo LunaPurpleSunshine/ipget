@@ -3,7 +3,7 @@ from http.client import responses
 from ipaddress import IPv4Address, IPv6Address
 from typing import Literal
 
-from discord_webhook import DiscordWebhook
+from discord_webhook import DiscordWebhook  # type: ignore[import-untyped]
 from requests import Response
 
 from ipget.environment import DISCORD_WEBHOOK_ENV
