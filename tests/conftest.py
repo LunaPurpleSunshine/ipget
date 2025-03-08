@@ -6,7 +6,7 @@ from pathlib import Path
 from random import randint
 
 import pytest
-from discord_webhook import DiscordWebhook
+from discord_webhook import DiscordWebhook  # type: ignore[import-untyped]
 from dotenv import load_dotenv
 from pytest import MonkeyPatch
 
