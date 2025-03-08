@@ -14,7 +14,7 @@ RUN apk update && apk upgrade --no-cache
 
 FROM base AS python-deps
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:8257f3d17fd04794feaf89d83b4ccca3b2eaa5501de9399fa53929843c0a5b55 /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:562193a4a9d398f8aedddcb223e583da394ee735de36b5815f8f1d22cb49be15 /uv /usr/local/bin/uv
 # - Silence uv complaining about not being able to use hard links,
 # - tell uv to byte-compile packages for faster application startups,
 # - and finally declare `/app` as the target for `uv sync`.
