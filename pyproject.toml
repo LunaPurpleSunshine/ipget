@@ -13,7 +13,7 @@ dependencies = [
     "pydantic-settings ==2.8.1",
     "pymysql == 1.1.1",
     "requests == 2.32.3",
-    "sqlalchemy ==2.0.39",
+    "sqlalchemy ==2.0.40",
 ]
 
 [tool.uv]
