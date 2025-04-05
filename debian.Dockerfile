@@ -8,7 +8,7 @@ RUN  apt-get update -qy && apt-get install -qyy
 
 FROM base AS python-deps
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:latest@sha256:fb91e82e8643382d5bce074ba0d167677d678faff4bd518dac670476d19b159c /uv /usr/local/bin/uv
+COPY --from=ghcr.io/astral-sh/uv:latest@sha256:515b886e8eb99bcf9278776d8ea41eb4553a794195ef5803aa7ca6258653100d /uv /usr/local/bin/uv
 # - Silence uv complaining about not being able to use hard links,
 # - tell uv to byte-compile packages for faster application startups,
 # - and finally declare `/app` as the target for `uv sync`.
