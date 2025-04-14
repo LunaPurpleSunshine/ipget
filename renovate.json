@@ -34,7 +34,7 @@
     },
     {
       "matchManagers": ["docker-compose", "dockerfile"],
-      "labels": ["dependencies", "semver:patch"]
+      "labels": ["dependencies", "dependencies:production", "semver:patch"]
     },
     {
       "matchManagers": ["pep621"],
