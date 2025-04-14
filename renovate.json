@@ -18,8 +18,8 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-    "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
-    "automerge": true
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
+      "automerge": true
     },
     {
       "matchManagers": ["docker-compose", "dockerfile"],
@@ -62,7 +62,7 @@
     },
     {
       "matchUpdateTypes": ["lockFileMaintenance"],
-      "addlabels": ["maintenance"]
+      "labels": ["python","dependencies", "maintenance"]
     },
     {
       "matchUpdateTypes": ["major", "replacement"],
