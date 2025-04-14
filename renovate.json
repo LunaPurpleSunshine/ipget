@@ -57,8 +57,12 @@
       "addLabels": ["maintenance"]
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance", "rollback", "bump"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "rollback", "bump"],
       "addLabels": ["semver:patch"]
+    },
+    {
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "addlabels": ["maintenance"]
     },
     {
       "matchUpdateTypes": ["major", "replacement"],
