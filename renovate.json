@@ -18,8 +18,8 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
-    "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
-    "automerge": true
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance"],
+      "automerge": true
     },
     {
       "matchManagers": ["docker-compose", "dockerfile"],
@@ -34,7 +34,7 @@
     },
     {
       "matchManagers": ["docker-compose", "dockerfile"],
-      "labels": ["dependencies", "semver:patch"]
+      "labels": ["dependencies", "dependencies:production", "semver:patch"]
     },
     {
       "matchManagers": ["pep621"],
@@ -57,8 +57,12 @@
       "addLabels": ["maintenance"]
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "lockFileMaintenance", "rollback", "bump"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "rollback", "bump"],
       "addLabels": ["semver:patch"]
+    },
+    {
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "labels": ["python","dependencies", "maintenance"]
     },
     {
       "matchUpdateTypes": ["major", "replacement"],
