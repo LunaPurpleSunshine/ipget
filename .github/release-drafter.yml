@@ -16,6 +16,7 @@ categories:
     labels:
       - 'dependencies:production'
   - title: 'Maintenance'
+    collapse-after: 1
     labels:
       - 'maintenance'
       - 'dependencies:development'
