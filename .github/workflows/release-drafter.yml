@@ -63,7 +63,7 @@ jobs:
             echo "No draft release to publish"
             do_release_check=false
             # Check if the body contains "No changes" and exit if so
-          elif [ "$(cat ./body.txt | grep -c "* No changes")" != "0" ]; then
+          elif [ "$(cat ./body.txt | grep -c "\* No changes")" != "0" ]; then
             echo "No changes to publish"
             do_release_check=false
           else
