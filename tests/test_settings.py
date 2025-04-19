@@ -33,7 +33,8 @@ class TestLoggerSettings:
         assert settings.level == level.upper()
 
     @given(bad_level=st.text())
-    def test_invalid_log_level(self, bad_level):
+    def test_invalid_log_level(self, bad_level: str):
+        assume(bad_level.upper() not in LOG_LEVELS)
         with pytest.raises(ValidationError):
             LoggerSettings(level=bad_level)  # type: ignore
 
