@@ -46,7 +46,7 @@ jobs:
     permissions:
       contents: write  # for gh actions to create a release
     env:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ secrets.IPGET_PUBLISH_TOKEN }}
 
     steps:
       - name: Check Release
