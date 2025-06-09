@@ -9,7 +9,7 @@
   "platformAutomerge": true,
   "semanticCommits": "enabled",
   "schedule": [
-    "every weekend"
+    "* 9 1-3 * *"
   ],
   "assignees": ["LunaPurpleSunshine"],
   "lockFileMaintenance": {
