@@ -12,7 +12,7 @@ dependencies = [
     "pg8000 == 1.31.2",
     "pydantic-settings ==2.9.1",
     "pymysql == 1.1.1",
-    "requests == 2.32.3",
+    "requests ==2.32.4",
     "sqlalchemy ==2.0.41",
 ]
 
