@@ -14,7 +14,7 @@ on:
      - reopened
      - synchronize
   schedule:
-    - cron: "0 9 * * 1"
+    - cron: "0 9 5 * *"
 
 jobs:
   update_release_draft:
