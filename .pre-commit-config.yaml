@@ -5,7 +5,7 @@ ci:
   skip:  # a list of hook ids to skip only in pre-commit.ci
     # These hooks refer to tools that are run separately in CI.
     - ggshield
-    - ruff
+    - ruff-check
     - ruff-format
     - renovate-config-validator
   autoupdate_commit_msg: "chore(pre-commit): pre-commit autoupdate"
@@ -40,7 +40,7 @@ repos:
     rev: v0.11.13
     hooks:
       # Run the linter.
-      - id: ruff
+      - id: ruff-check
         args: [ --fix ]
       # Run the formatter.
       - id: ruff-format
