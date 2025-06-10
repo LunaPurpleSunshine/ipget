@@ -6,6 +6,9 @@ description = "Gets public ip and writes to a database. Optionally notifies on c
 authors = [{ name = "Andrew Kinsman", email = "69199502+LunaPurpleSunshine@users.noreply.github.com" }]
 license = {file = "LICENCE.txt"}
 readme = "README.md"
+classifiers = [
+    "Private :: Do Not Upload",
+]
 
 dependencies = [
     "discord-webhook ==1.4.1",
