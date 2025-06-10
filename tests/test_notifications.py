@@ -4,7 +4,7 @@ from os import environ
 
 import pytest
 from pytest import MonkeyPatch
-from requests import ConnectionError, HTTPError, Response
+from requests import ConnectionError, HTTPError, Response  # noqa: A004
 
 from ipget.environment import DISCORD_WEBHOOK_ENV
 from ipget.errors import ConfigurationError
