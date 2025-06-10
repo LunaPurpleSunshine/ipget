@@ -1,7 +1,7 @@
 [project]
 requires-python = ">=3.13, <3.14"
 name = "ipget"
-version = "0.11.0"
+version = "1.0.0"
 description = "Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io."
 authors = [{ name = "Andrew Kinsman", email = "69199502+LunaPurpleSunshine@users.noreply.github.com" }]
 license = {file = "LICENCE.txt"}
