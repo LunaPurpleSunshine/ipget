@@ -1,8 +1,7 @@
 # IPget Docker
 
-![GitHub](https://img.shields.io/github/license/LunaPurpleSunshine/ipget?label=licence)
-[![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/LunaPurpleSunshine/ipget?sort=semver)](https://github.com/LunaPurpleSunshine/ipget-docker/releases)
-
+[![Licence: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENCE.txt)
+[![GitHub Release (Latest SemVer)](https://img.shields.io/github/v/release/LunaPurpleSunshine/ipget?sort=semver)](https://github.com/LunaPurpleSunshine/ipget/releases)
 [![Python Tests](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/python-tests.yml)
 [![CodeQL](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml/badge.svg)](https://github.com/LunaPurpleSunshine/ipget/actions/workflows/codeql.yml)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/LunaPurpleSunshine/ipget/master.svg)](https://results.pre-commit.ci/latest/github/LunaPurpleSunshine/ipget/master)
@@ -23,7 +22,7 @@
 
 ## About
 
-A simple, containerised Python script, that gets the system's current public IPv4 address using [ident.me](https://api.ident.me) and records it to a MySQL/SQLite database.
+A simple containerised Python script, that gets the system's current public IPv4 address using [ident.me](https://api.ident.me) and records it to a database.
 Optionally, sends a Discord notification via webhook, and pings [healthchecks.io](https://healthchecks.io/).
 
 ## Usage Configuration
@@ -33,7 +32,7 @@ Docker-compose files containing [SQLite](docs/sqlite-example-compose.yaml) and [
 
 ### Database Configuration
 
-| Environment Variable | Required By            | Description                                                                   |
+| Environment Variable | Required By          | Description                                                                   |
 | -------------------- | -------------------- | ----------------------------------------------------------------------------- |
 | `IPGET_DB_TYPE`      | Allways              | Which database type to use. Must be one of `SQLite`, `MySQL` or `PostgreSQL`. |
 | `IPGET_DATABASE`     | `MySQL` `PostgreSQL` | Name of the database to connect to e.g. `public_ip_db`.                       |
@@ -42,14 +41,16 @@ Docker-compose files containing [SQLite](docs/sqlite-example-compose.yaml) and [
 | `IPGET_HOST`         | `MySQL` `PostgreSQL` | Address of the database host e.g. `ip_address`.                               |
 | `IPGET_PORT`         | `MySQL` `PostgreSQL` | Port for the database connection.                                             |
 
+IPget will attempt to create the database and table if it does not already exist, so make sure the user has the required permissions to create the tables, etc.
+
 #### Using SQLite
 
 > [!NOTE]
 > It is generally **not** necessary to modify environment variable configuration for SQLite, these values are intended for use in development e.g. setting the path to `:memory:`, for testing.
 
 For `SQLite`, `IPGET_DATABASE` is the path to the sqlite database file **within the container**, which defaults to `/app/public_ip.db`.
-When deploying the container, the path should be configured via docker volume mappings to a persistent location, if it is not, then the database file **will be lost** on container restart!
-See the [here](docs/sqlite-example-compose.yaml) for an example docker compose file.
+When deploying the container, the path **must** be configured via docker volume mappings to a persistent location, if it is not, then the database file **will be lost** on container restart!
+See the example [docker compose](docs/sqlite-example-compose.yaml) file.
 
 ### Logging & Monitoring
 
