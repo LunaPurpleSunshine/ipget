@@ -71,9 +71,19 @@ class TestCustomNamer:
     )
     def test_multiple_suffixes(self, stem, suffix):
         assume(all([stem, suffix]))
+        assume(suffix != "log")  # Duplicate "log" suffixes are deliberately removed
 
         input_name = f"{stem}.{suffix}.{suffix}"
         expected_output = f"{stem}.{suffix}.{datetime.datetime.now().date()}.log"
+
+        result = custom_namer(input_name)
+
+        assert Path(result).name == expected_output
+
+    @given(st.integers(min_value=2, max_value=10))
+    def test_multiple_log_suffixes(self, suffix_multiplier: int):
+        input_name = "ipget" + ".log" * suffix_multiplier
+        expected_output = f"ipget.{datetime.datetime.now().date()}.log"
 
         result = custom_namer(input_name)
 
