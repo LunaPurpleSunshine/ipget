@@ -19,20 +19,38 @@ dependencies = [
     "sqlalchemy ==2.0.41",
 ]
 
-[tool.uv]
-dev-dependencies = [
-    "rope == 1.13.0",
-    "ruff ==0.11.13",
-    "pytest ==8.4.0",
-    "pytest-cov ==6.1.1",
-    "pre-commit ==4.2.0",
-    "pytest-md == 0.2.0",
-    "pytest-emoji == 0.2.0",
-    "python-dotenv ==1.1.0",
-    "hypothesis ==6.135.2",
-    "mypy ==1.16.0",
-    "types-requests ==2.32.0.20250602",
+[dependency-groups]
+dev = [
+    { include-group = "tools" },
+    { include-group = "lint" },
+    { include-group = "test" },
 ]
+tools = [
+    "pre-commit>=4.2.0",
+    "rope>=1.13.0",
+]
+lint = [
+    "mypy>=1.16.0",
+    "ruff==0.11.13",
+    "types-requests>=2.32.0.20250602",
+]
+test = [
+    "hypothesis>=6.135.2",
+    "pytest>=8.4.0",
+    "pytest-cov>=6.1.1",
+    "pytest-emoji>=0.2.0",
+    "pytest-md>=0.2.0",
+    "python-dotenv>=1.1.0",
+]
+ci = [
+    { include-group = "lint" },
+    { include-group = "test" },
+    "pytest-emoji>=0.2",
+    "pytest-md>=0.2",
+]
+
+
+######### Lint/Formatter Settings #########
 
 [tool.pytest.ini_options]
 pythonpath = "src/"
@@ -47,7 +65,7 @@ source = ["src/ipget"]
 src = ["src"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "RUF", "TID252"]
+select = ["E", "F", "I", "B", "BLE", "A", "RUF", "TID252"]
 
 [tool.mypy]
 mypy_path = "src"
