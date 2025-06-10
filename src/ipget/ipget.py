@@ -45,7 +45,6 @@ def get_current_ip() -> IPv4Address | IPv6Address:
     Raises:
         Exception: If the current IP address cannot be retrieved from any source.
     """
-    # TODO: Make list of URLs a configuration option
     config = URLSettings()
     http_urls: list[HttpUrl] = config.urls
     urls: list[str] = [str(url) for url in http_urls]
