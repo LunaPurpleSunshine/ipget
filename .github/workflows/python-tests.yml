@@ -37,7 +37,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
 
       - name: uv install dependencies
-        run: uv sync --all-extras --dev
+        run: uv sync --group dev
 
       - name: Linter
         # Update output format to enable automatic inline annotations.
@@ -68,7 +68,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
 
       - name: uv install dependencies
-        run: uv sync --all-extras --dev
+        run: uv sync --group dev
 
       - name: Run mypy
         run: uv run mypy src/ tests/
@@ -95,7 +95,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
 
       - name: uv install dependencies
-        run: uv sync --all-extras --dev
+        run: uv sync --group dev --group ci
 
       # Run python tests
       - name: Run pytest
