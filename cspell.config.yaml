@@ -37,6 +37,7 @@ words:
   - psycopg
   - pydantic
   - pymysql
+  - pyproject
   - pytest
   - regen
   - setenv
@@ -50,6 +51,7 @@ words:
   - virtualenvs
   - VisualStudioExptTeam
   - vscodeintellicode
+  - xfail
   - yzhang
 ignoreWords: []
 import: []
