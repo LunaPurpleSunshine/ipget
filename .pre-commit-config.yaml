@@ -34,13 +34,13 @@ repos:
       - id: check-yaml
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.8.22
+    rev: 0.8.23
     hooks:
       - id: uv-lock
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.13.2
+    rev: v0.13.3
     hooks:
       # Run the linter.
       - id: ruff-check
@@ -56,7 +56,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 41.131.12
+    rev: 41.137.1
     hooks:
       - id: renovate-config-validator
         args: [--strict]
