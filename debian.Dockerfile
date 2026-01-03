@@ -1,7 +1,7 @@
 # Some parts of this dockerfile are based on the example uv Python Dockerfile found at
 # https://hynek.me/articles/docker-uv/ (retrieved 2024-10-14)
 
-FROM debian:bookworm-slim@sha256:78d2f66e0fec9e5a39fb2c72ea5e052b548df75602b5215ed01a17171529f706 AS base
+FROM debian:bookworm-slim@sha256:d5d3f9c23164ea16f31852f95bd5959aad1c5e854332fe00f7b3a20fcc9f635c AS base
 
 # Install updates
 RUN  apt-get update -qy && apt-get install -qyy
