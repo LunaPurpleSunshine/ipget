@@ -35,6 +35,7 @@ jobs:
 
       - name: Set auto-merge when tests pass
         id: auto-merge
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
         run: gh pr merge "${{env.PR_URL}}" --auto --squash
 
   dependabot:
