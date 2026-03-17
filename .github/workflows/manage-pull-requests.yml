@@ -33,6 +33,10 @@ jobs:
         id: assign-owner
         run: gh pr edit "${{env.PR_URL}}" --add-assignee "${{ github.repository_owner }}"
 
+      - name: Set auto-merge when tests pass
+        id: auto-merge
+        run: gh pr merge "${{env.PR_URL}}" --auto --squash
+
   dependabot:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'dependabot[bot]'
