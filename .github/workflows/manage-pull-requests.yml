@@ -24,6 +24,9 @@ jobs:
   pre-commit-ci:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'pre-commit-ci[bot]'
+    permissions:
+      pull-requests: write
+      contents: write
     steps:
       - name: Add semver:patch label
         id: label-maintenance
