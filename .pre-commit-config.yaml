@@ -34,7 +34,7 @@ repos:
       - id: check-yaml
 
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.11.25
+    rev: 0.11.26
     hooks:
       - id: uv-lock
 
@@ -56,7 +56,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 43.248.0
+    rev: 43.252.5
     hooks:
       - id: renovate-config-validator
         args: [--strict]
