@@ -16,9 +16,10 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
-# Cancel superseded runs on the same PR, but never interrupt a publish
+# Cancel superseded runs on the same PR. Other runs get their own group
+# (run_id), so a tag or manual run is never cancelled or replaced.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions: {}
@@ -26,6 +27,7 @@ permissions: {}
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
 
@@ -54,7 +56,7 @@ jobs:
           docker run --rm --user root \
             -e "IPGET_LOG_LEVEL=DEBUG" \
             -e "IPGET_DB_TYPE=SQLite" \
-            -e "IPGET_SQLITE_DATABASE=:memory:" \
+            -e "IPGET_DATABASE=:memory:" \
             ipget:build-test
 
   publish:
