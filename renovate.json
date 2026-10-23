@@ -11,9 +11,19 @@
   "schedule": [
     "* 9 1-3 * *"
   ],
+  "minimumReleaseAge": "14 days",
   "assignees": ["LunaPurpleSunshine"],
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": true,
+    "schedule": [
+      "* 9 1-3 * *"
+    ]
+  },
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "minimumReleaseAge": null,
+    "addLabels": ["security"]
   },
   "labels": ["dependencies"],
   "packageRules": [
@@ -22,9 +32,32 @@
       "automerge": true
     },
     {
+      "description": "Updates without a release date (digests, pins, lock file refreshes) would never pass minimumReleaseAge",
+      "matchUpdateTypes": ["pin", "pinDigest", "digest", "lockFileMaintenance"],
+      "minimumReleaseAge": null
+    },
+    {
       "description": "Keep the Docker base image, pyproject.toml and CI Python versions in one PR",
       "matchPackageNames": ["python"],
       "groupName": "python"
+    },
+    {
+      "description": "Group non-major GitHub Actions updates; majors stay separate so each changelog gets reviewed",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest", "pinDigest"],
+      "groupName": "GitHub Actions"
+    },
+    {
+      "description": "Group non-major Python dev dependency updates",
+      "matchManagers": ["pep621"],
+      "matchDepTypes": ["dependency-groups"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Python dev dependencies"
+    },
+    {
+      "description": "Keep uv in step across the workflows and Dockerfiles",
+      "matchPackageNames": ["astral-sh/uv", "ghcr.io/astral-sh/uv"],
+      "groupName": "uv"
     },
     {
       "matchManagers": ["github-actions"],
@@ -34,22 +67,23 @@
     },
     {
       "matchManagers": ["docker-compose", "dockerfile"],
-      "labels": ["dependencies", "dependencies:production", "semver:patch"]
+      "labels": ["dependencies", "dependencies:production"]
+    },
+    {
+      "description": "uv is a build tool, not a runtime dependency",
+      "matchPackageNames": ["astral-sh/uv", "ghcr.io/astral-sh/uv"],
+      "labels": ["dependencies", "dependencies:development"]
     },
     {
       "matchManagers": ["pep621"],
       "addLabels": ["python"]
     },
     {
-      "matchDepTypes": ["project.dependencies", "tool.uv.dev-dependencies"],
-      "addLabels": ["dependencies"]
-    },
-    {
-      "matchDepTypes": ["project.dependencies", "!tool.uv.dev-dependencies"],
+      "matchDepTypes": ["project.dependencies"],
       "addLabels": ["dependencies:production"]
     },
     {
-      "matchDepTypes": ["tool.uv.dev-dependencies"],
+      "matchDepTypes": ["dependency-groups"],
       "addLabels": ["dependencies:development"]
     },
     {
@@ -57,22 +91,35 @@
       "addLabels": ["maintenance"]
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest", "rollback", "bump"],
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "labels": ["python", "dependencies", "maintenance"]
+    },
+    {
+      "description": "Version bump labels: non-major updates and lock file refreshes are patch releases",
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest", "rollback", "bump", "lockFileMaintenance"],
       "addLabels": ["semver:patch"]
     },
     {
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "labels": ["python","dependencies", "maintenance"]
-    },
-    {
+      "description": "Major updates to runtime dependencies (Python packages and the Docker image) are minor releases",
       "matchUpdateTypes": ["major", "replacement"],
-      "matchDepTypes": ["!tool.uv.dev-dependencies"],
+      "matchDepTypes": ["project.dependencies"],
       "addLabels": ["semver:minor"]
     },
     {
       "matchUpdateTypes": ["major", "replacement"],
-      "matchDepTypes": ["tool.uv.dev-dependencies"],
+      "matchManagers": ["docker-compose", "dockerfile"],
       "addLabels": ["semver:minor"]
+    },
+    {
+      "description": "Major updates to dev tooling and CI do not change the app, so they are patch releases",
+      "matchUpdateTypes": ["major", "replacement"],
+      "matchDepTypes": ["dependency-groups"],
+      "addLabels": ["semver:patch"]
+    },
+    {
+      "matchUpdateTypes": ["major", "replacement"],
+      "matchManagers": ["github-actions"],
+      "addLabels": ["semver:patch"]
     }
   ]
 }
