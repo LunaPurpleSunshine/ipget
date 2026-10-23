@@ -2,53 +2,71 @@ name-template: 'v$RESOLVED_VERSION'
 tag-template: 'v$RESOLVED_VERSION'
 
 categories:
+  # Changelog sections
   - title: 'Features'
-    labels:
-      - 'enhancement'
+    when:
+      labels:
+        - 'enhancement'
   - title: 'Bug Fixes'
-    labels:
-      - 'bugfix'
-      - 'bug'
+    when:
+      labels:
+        - 'bugfix'
+        - 'bug'
   - title: 'Documentation'
-    labels:
-      - 'documentation'
+    when:
+      labels:
+        - 'documentation'
   - title: 'Updated Dependencies'
-    labels:
-      - 'dependencies:production'
+    when:
+      labels:
+        - 'dependencies:production'
   - title: 'Maintenance'
     collapse-after: 1
-    labels:
-      - 'maintenance'
-      - 'dependencies:development'
-      - 'github_actions'
+    when:
+      labels:
+        - 'maintenance'
+        - 'dependencies:development'
+        - 'github_actions'
 
-change-template: '- $TITLE (#$NUMBER) by @$AUTHOR'  # @$AUTHOR not used here, names in Contributors section
+  # Version resolution (driven only by the semver:* labels)
+  - type: version-resolver
+    semver-increment: major
+    when:
+      labels:
+        - 'semver:major'
+  - type: version-resolver
+    semver-increment: minor
+    when:
+      labels:
+        - 'semver:minor'
+  - type: version-resolver
+    semver-increment: patch
+    when:
+      labels:
+        - 'semver:patch'
+  # Fallback when no semver:* label matches
+  - type: version-resolver
+    semver-increment: patch
+
+change-template: '- $TITLE (#$NUMBER) by @$AUTHOR'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 
-version-resolver:
-  major:
-    labels:
-      - 'semver:major'
-  minor:
-    labels:
-      - 'semver:minor'
-  patch:
-    labels:
-      - 'semver:patch'
-  default: patch
-
 autolabeler:
-  - label: 'maintenance'
+  - labels:
+      - 'maintenance'
     branch:
       - '/chore-.+/'
-  - label: 'documentation'
+  - labels:
+      - 'documentation'
     branch:
       - '/docs-.+/'
-  - label: 'bug'
+  - labels:
+      - 'bug'
     branch:
       - '/fix-.+/'
       - '/bugfix-.+/'
-  - label: 'enhancement'
+  - labels:
+      - 'enhancement'
     branch:
       - '/feature-.+/'
       - '/feat-.+/'
