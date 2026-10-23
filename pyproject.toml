@@ -16,7 +16,7 @@ dependencies = [
     "pydantic-settings ==2.16.1",
     "pymysql ==1.2.3",
     "requests ==2.34.2",
-    "sqlalchemy ==2.0.41",
+    "sqlalchemy ==2.1.6",
 ]
 
 [dependency-groups]
