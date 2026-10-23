@@ -6,21 +6,30 @@ on:
       - reopened
       - labeled
       - unlabeled
-      - edited
       - synchronize
 
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  PR_URL: ${{github.event.pull_request.html_url}}
-  # Labels
-  LABEL_DEVELOPMENT: "dependencies:development"
-  LABEL_PRODUCTION: "dependencies:production"
-  LABEL_SEMVER_DEFAULT: "semver:patch"
+  PR_URL: ${{ github.event.pull_request.html_url }}
 
-permissions:
-  pull-requests: write
+permissions: {}
 
+# Renovate PRs are labelled by renovate.json, so they need no job here.
 jobs:
+  autolabel:
+    # Labels PRs from the `autolabeler` rules in .github/release-drafter.yml.
+    # It runs here, before check-labels, so the check sees those labels.
+    if: ${{ github.event.action != 'labeled' && github.event.action != 'unlabeled' }}
+    runs-on: ubuntu-latest
+    # The token is read-only on fork PRs; don't block the label check there.
+    continue-on-error: true
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Autolabel PR
+        uses: release-drafter/release-drafter/autolabeler@v7
+
   pre-commit-ci:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'pre-commit-ci[bot]'
@@ -28,98 +37,45 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - name: Add semver:patch label
+      - name: Add maintenance label
         id: label-maintenance
-        run: gh pr edit "${{env.PR_URL}}" --add-label "maintenance"
+        run: gh pr edit "$PR_URL" --add-label "maintenance"
 
       - name: Assign owner
         id: assign-owner
-        run: gh pr edit "${{env.PR_URL}}" --add-assignee "${{ github.repository_owner }}"
+        run: gh pr edit "$PR_URL" --add-assignee "$GITHUB_REPOSITORY_OWNER"
 
       - name: Set auto-merge when tests pass
         id: auto-merge
         if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
-        run: gh pr merge "${{env.PR_URL}}" --auto --squash
-
-  dependabot:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'dependabot[bot]'
-    steps:
-      - name: Get Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Print Metadata
-        run: |
-          echo ${{ steps.metadata.outputs.package-ecosystem }}
-          echo ${{ steps.metadata.outputs.dependency-type }}
-
-      # Semver Label
-      - name: Add semver:patch label
-        id: label-semver-patch
-        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_SEMVER_DEFAULT}}"
-
-      # Python Dependencies
-      - name: Determine if development or production
-        id: determine-python-label
-        if: steps.metadata.outputs.package-ecosystem == 'pip'
-        # Check if the github ref contains 'development', or
-        # Ruff, mypy, pytest, which are development dependencies,
-        # but they are not in the development-dependencies group
-        run: |
-          if [[ ${{ github.head_ref }} == *dependabot/pip/development-dependencies* ]]; then
-            echo "py-dep-type=development" >> "$GITHUB_OUTPUT"
-          elif [[ ${{ github.head_ref }} =~ ^.*\/(ruff|mypy|pytest)-.*$ ]]; then
-            echo "py-dep-type=development" >> "$GITHUB_OUTPUT"
-            echo "py-dep-type=development" >> "$GITHUB_OUTPUT"
-          else
-            echo "py-dep-type=production" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Python Production
-        id: label-python-production
-        if: steps.metadata.outputs.package-ecosystem == 'pip' && steps.determine-python-label.outputs.py-dep-type == 'production'
-        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_PRODUCTION}}"
-
-      - name: Python Development
-        id: label-python-development
-        if: steps.metadata.outputs.package-ecosystem == 'pip' && steps.determine-python-label.outputs.py-dep-type == 'development'
-        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_DEVELOPMENT}}"
-
-      # GitHub Actions Dependencies
-      - name: GitHub Actions
-        id: label-github-actions
-        if: steps.metadata.outputs.package-ecosystem == 'github-actions'
-        run: gh pr edit "${{env.PR_URL}}" --add-label "${{env.LABEL_DEVELOPMENT}}"
-
-  renovate:
-    runs-on: ubuntu-latest
-    if: github.event.pull_request.user.login == 'renovate[bot]'
-    steps:
-      - name: Label Lock file maintenance
-        id: label-lock-file-maintenance
-        # Only run if the PR title contains "Lock file"
-        if: contains(github.event.pull_request.title, 'Lock file')
-        run: gh pr edit "${{env.PR_URL}}" --add-label "semver:patch"
+        run: gh pr merge "$PR_URL" --auto --squash
 
   check-labels:
-    # This job should run, even if the previous jobs failed or were skipped,
-    # but MUST run after them, if they are not skipped.
+    # Runs after the labelling jobs when they run, and on its own when they
+    # are skipped.
+    if: ${{ !cancelled() && !contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
     needs:
+      - autolabel
       - pre-commit-ci
-      - dependabot
-      - renovate
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
+      # Reads the PR's current labels rather than the event's snapshot, so
+      # labels added by the jobs above count.
       - name: Check semver label
         id: semver_label_check
-        uses: agilepathway/label-checker@v2.0.46
-        # Ignore documentation and repository maintenance PRs, as they are should not bump the semver
-        # Also ignore PRs from pre-commit-ci, as the label adding still fails the check
-        if: ${{!contains(github.event.pull_request.labels.*.name, 'documentation') && !contains(github.event.pull_request.labels.*.name, 'maintenance') && !contains(github.event.pull_request.user.login, 'pre-commit-ci[bot]') }}
-        with:
-          prefix_mode: true
-          one_of: "semver:"
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          labels=$(gh pr view "$PR_URL" --json labels --jq '.labels[].name')
+          echo "Labels: $(echo "$labels" | paste -sd ',' -)"
+          # Documentation and maintenance PRs should not bump the version.
+          if grep -qxE 'documentation|maintenance' <<< "$labels"; then
+            echo "Documentation or maintenance PR, no semver label needed"
+            exit 0
+          fi
+          count=$(grep -c '^semver:' <<< "$labels" || true)
+          if [ "$count" -ne 1 ]; then
+            echo "::error::Expected exactly one semver:* label, found $count"
+            exit 1
+          fi
