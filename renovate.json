@@ -22,9 +22,9 @@
       "automerge": true
     },
     {
-      "matchManagers": ["docker-compose", "dockerfile"],
+      "description": "Keep the Docker base image, pyproject.toml and CI Python versions in one PR",
       "matchPackageNames": ["python"],
-      "enabled": false
+      "groupName": "python"
     },
     {
       "matchManagers": ["github-actions"],
