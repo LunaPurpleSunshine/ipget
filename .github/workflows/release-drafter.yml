@@ -6,33 +6,15 @@ on:
     # branches to consider in the event; optional, defaults to all
     branches:
       - master
-  # pull_request event is required only for the autolabeler
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
   schedule:
     - cron: "0 9 5 * *"
 
 permissions: {}
 
 jobs:
-  autolabel:
-    # Labels PRs based on the `autolabeler` rules in .github/release-drafter.yml
-    if: ${{ github.event_name == 'pull_request' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      # write permission is required to add labels
-      pull-requests: write
-    steps:
-      - name: Autolabel PR
-        uses: release-drafter/release-drafter/autolabeler@v7
-
   update_release_draft:
-    # Drafts the next release notes as PRs are merged into "master"
-    if: ${{ github.event_name != 'pull_request' }}
+    # Drafts the next release notes as PRs are merged into "master".
+    # PR autolabelling runs in the PR Manager workflow.
     runs-on: ubuntu-latest
     permissions:
       # write permission is required to create a github release

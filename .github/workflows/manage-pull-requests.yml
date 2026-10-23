@@ -12,15 +12,24 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   PR_URL: ${{ github.event.pull_request.html_url }}
 
-# Only the latest event per PR matters, e.g. several labels added at once.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
-
 permissions: {}
 
 # Renovate PRs are labelled by renovate.json, so they need no job here.
 jobs:
+  autolabel:
+    # Labels PRs from the `autolabeler` rules in .github/release-drafter.yml.
+    # It runs here, before check-labels, so the check sees those labels.
+    if: ${{ github.event.action != 'labeled' && github.event.action != 'unlabeled' }}
+    runs-on: ubuntu-latest
+    # The token is read-only on fork PRs; don't block the label check there.
+    continue-on-error: true
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Autolabel PR
+        uses: release-drafter/release-drafter/autolabeler@v7
+
   pre-commit-ci:
     runs-on: ubuntu-latest
     if: github.event.pull_request.user.login == 'pre-commit-ci[bot]'
@@ -42,22 +51,31 @@ jobs:
         run: gh pr merge "$PR_URL" --auto --squash
 
   check-labels:
-    # Runs after pre-commit-ci when that job runs, and on its own when it is
-    # skipped (every PR not opened by pre-commit-ci).
+    # Runs after the labelling jobs when they run, and on its own when they
+    # are skipped.
     if: ${{ !cancelled() && !contains(needs.*.result, 'failure') }}
     runs-on: ubuntu-latest
     needs:
+      - autolabel
       - pre-commit-ci
     permissions:
+      contents: read
       pull-requests: read
     steps:
+      # Reads the PR's current labels rather than the event's snapshot, so
+      # labels added by the jobs above count.
       - name: Check semver label
         id: semver_label_check
-        uses: agilepathway/label-checker@v2.0.46
-        # Documentation and maintenance PRs should not bump the version.
-        # PRs from pre-commit-ci are skipped, as the label it just got is not in this event's payload.
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'documentation') && !contains(github.event.pull_request.labels.*.name, 'maintenance') && github.event.pull_request.user.login != 'pre-commit-ci[bot]' }}
-        with:
-          prefix_mode: true
-          one_of: "semver:"
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          labels=$(gh pr view "$PR_URL" --json labels --jq '.labels[].name')
+          echo "Labels: $(echo "$labels" | paste -sd ',' -)"
+          # Documentation and maintenance PRs should not bump the version.
+          if grep -qxE 'documentation|maintenance' <<< "$labels"; then
+            echo "Documentation or maintenance PR, no semver label needed"
+            exit 0
+          fi
+          count=$(grep -c '^semver:' <<< "$labels" || true)
+          if [ "$count" -ne 1 ]; then
+            echo "::error::Expected exactly one semver:* label, found $count"
+            exit 1
+          fi
