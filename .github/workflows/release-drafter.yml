@@ -34,9 +34,6 @@ jobs:
     # Drafts the next release notes as PRs are merged into "master"
     if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
-    # Avoid concurrent runs racing to create/update the same draft release
-    concurrency:
-      group: release-drafter-${{ github.ref }}
     permissions:
       # write permission is required to create a github release
       contents: write
