@@ -4,7 +4,6 @@ on:
     types:
       - opened
       - reopened
-      - edited
       - synchronize
   push:
     branches:
@@ -14,10 +13,19 @@ env:
   # renovate: datasource=github-releases depName=uv packageName=astral-sh/uv
   UV_VERSION: "0.13.5"
 
+# Cancel superseded runs on the same PR; pushes to master always run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions: {}
+
 jobs:
   ruff:
     runs-on: ubuntu-latest
-    permissions: {}
+    timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       # Get repo, python, and uv
       - name: Checkout repository
@@ -36,19 +44,22 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
+      # --locked fails if uv.lock is out of date with pyproject.toml
       - name: uv install dependencies
-        run: uv sync --group dev
+        run: uv sync --locked --no-default-groups --group lint
 
       - name: Linter
         # Update output format to enable automatic inline annotations.
-        run: uv run ruff check --output-format=github src/ tests/
+        run: uv run --no-sync ruff check --output-format=github src/ tests/
 
       - name: Formatter
-        run: uv run ruff format --diff src/ tests/
+        run: uv run --no-sync ruff format --diff src/ tests/
 
   mypy:
     runs-on: ubuntu-latest
-    permissions: {}
+    timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       # Get repo, python, and uv
       - name: Checkout repository
@@ -67,15 +78,18 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
+      # mypy needs the test dependencies too, as it checks tests/
       - name: uv install dependencies
-        run: uv sync --group dev
+        run: uv sync --locked --no-default-groups --group ci
 
       - name: Run mypy
-        run: uv run mypy src/ tests/
+        run: uv run --no-sync mypy src/ tests/
 
   pytest:
     runs-on: ubuntu-latest
-    permissions: {}
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       # Get repo, python, and uv
       - name: Checkout Repository
@@ -95,13 +109,13 @@ jobs:
           cache-dependency-glob: "uv.lock"
 
       - name: uv install dependencies
-        run: uv sync --group dev --group ci
+        run: uv sync --locked --no-default-groups --group test
 
       # Run python tests
       - name: Run pytest
         uses: pavelzw/pytest-action@v2.2.0
         with:
-          custom-pytest: uv run pytest
+          custom-pytest: uv run --no-sync pytest
           custom-arguments: -r a
           report-title: Pytest Report
           click-to-expand: true
