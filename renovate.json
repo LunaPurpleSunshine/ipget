@@ -108,10 +108,11 @@
     {
       "matchUpdateTypes": ["major", "replacement"],
       "matchManagers": ["docker-compose", "dockerfile"],
+      "matchPackageNames": ["!ghcr.io/astral-sh/uv"],
       "addLabels": ["semver:minor"]
     },
     {
-      "description": "Major updates to dev tooling and CI do not change the app, so they are patch releases",
+      "description": "Major updates to dev tooling, CI and uv do not change the app, so they are patch releases",
       "matchUpdateTypes": ["major", "replacement"],
       "matchDepTypes": ["dependency-groups"],
       "addLabels": ["semver:patch"]
@@ -119,6 +120,11 @@
     {
       "matchUpdateTypes": ["major", "replacement"],
       "matchManagers": ["github-actions"],
+      "addLabels": ["semver:patch"]
+    },
+    {
+      "matchUpdateTypes": ["major", "replacement"],
+      "matchPackageNames": ["astral-sh/uv", "ghcr.io/astral-sh/uv"],
       "addLabels": ["semver:patch"]
     }
   ]
