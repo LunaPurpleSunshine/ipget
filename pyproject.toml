@@ -31,7 +31,7 @@ tools = [
 ]
 lint = [
     "mypy>=1.16.0",
-    "ruff==0.11.13",
+    "ruff==0.17.2",
     "types-requests>=2.32.0.20250602",
 ]
 test = [
