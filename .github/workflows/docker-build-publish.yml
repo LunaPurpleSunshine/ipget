@@ -7,6 +7,8 @@ on:
       - "v*.*.*-alpha.*"
       - "v*.*.*-beta.*"
       - "v*.*.*-rc.*"
+  # Build and test the image on every PR (publishing is skipped)
+  pull_request:
   # Run build manually from the Actions tab, will be tagged with branch name
   workflow_dispatch:
 
@@ -14,17 +16,57 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
+# Cancel superseded runs on the same PR, but never interrupt a publish
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 permissions: {}
 
 jobs:
-  docker:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v7
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build test image
+        id: docker_build
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          platforms: linux/amd64
+          push: false
+          load: true
+          tags: ipget:build-test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Basic image test
+        id: test_container
+        run: |
+          docker run --rm --user root \
+            -e "IPGET_LOG_LEVEL=DEBUG" \
+            -e "IPGET_DB_TYPE=SQLite" \
+            -e "IPGET_SQLITE_DATABASE=:memory:" \
+            ipget:build-test
+
+  publish:
+    # Only publish on tag pushes or manual runs, never from PRs
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     steps:
-      # Get repo, python, and uv
       - name: Checkout the repository
         uses: actions/checkout@v7
 
@@ -51,26 +93,6 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}},enable=${{ !startsWith(github.ref, 'refs/tags/v0.') }}
 
-      - name: Build test image
-        id: docker_build
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          platforms: linux/amd64
-          push: false
-          load: true
-          labels: ${{ steps.meta.outputs.labels }}
-          tags: ${{ env.REGISTRY }}/${{ steps.imagename.outputs.lowercase }}:build-test
-
-      - name: Basic image test
-        id: test_container
-        run: |
-          sudo docker run --user root \
-            -e "IPGET_LOG_LEVEL=DEBUG" \
-            -e "IPGET_DB_TYPE=SQLite" \
-            -e "IPGET_SQLITE_DATABASE=:memory:" \
-            ${{ env.REGISTRY }}/${{ steps.imagename.outputs.lowercase }}:build-test
-
       - name: GitHub Container Registry Login
         uses: docker/login-action@v4
         with:
@@ -85,6 +107,7 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
+          cache-from: type=gha
           labels: |
             ${{ steps.meta.outputs.labels }}
             "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}"
@@ -100,5 +123,6 @@ jobs:
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
+          cache-from: type=gha
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ env.REGISTRY }}/${{ steps.imagename.outputs.lowercase }}:dev
