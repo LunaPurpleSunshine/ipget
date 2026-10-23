@@ -21,7 +21,7 @@ jobs:
     steps:
       # Get repo, python, and uv
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v7
@@ -52,7 +52,7 @@ jobs:
     steps:
       # Get repo, python, and uv
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v7
@@ -79,7 +79,7 @@ jobs:
     steps:
       # Get repo, python, and uv
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v7
