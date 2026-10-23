@@ -1,5 +1,5 @@
 [project]
-requires-python = ">=3.13, <3.14"
+requires-python = ">=3.15, <3.16"
 name = "ipget"
 version = "1.0.0"
 description = "Gets public ip and writes to a database. Optionally notifies on change, and pings healthchecks.io."
