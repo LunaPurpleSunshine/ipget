@@ -1,7 +1,7 @@
 # Some parts of this dockerfile are based on the example uv Python Dockerfile found at
 # https://hynek.me/articles/docker-uv/ (retrieved 2024-10-14)
 
-FROM python:3.15-alpine AS base
+FROM python:3.15-alpine@sha256:d44b1254cb92329418d164b22b20d86bbd3869d48e80e09e476531a409a728bb AS base
 
 # Setup env
 ENV LANG=C.UTF-8
